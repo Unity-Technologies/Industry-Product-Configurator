@@ -1,0 +1,19 @@
+{
+    "name": "Unity.IndustryCSE.ProductConfigurator.ScriptableObject",
+    "rootNamespace": "Unity.IndustryCSE.ProductConfigurator.Editor",
+    "references": [
+        "GUID:022e904f591144689a9e68aeeb0df691",
+        "GUID:c1fad304be4ab4e7692e38336af7496c"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

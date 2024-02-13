@@ -1,0 +1,19 @@
+{
+    "name": "Unity.IndustryCSE.ProductConfigurator.Editor",
+    "rootNamespace": "IndustryCSE.Tool.ProductConfigurator.Editor",
+    "references": [
+        "Unity.IndustryCSE.ProductConfigurator.Attribute",
+        "Unity.IndustryCSE.ProductConfigurator"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
