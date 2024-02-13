@@ -1,0 +1,18 @@
+# For more information about the available options please visit: http://go/backstage (VPN required)
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  annotations:
+    github.com/project-slug: Unity-Technologies/Industry-Product-Configurator
+    backstage.io/techdocs-ref: dir:.
+  name: Industry-Product-Configurator
+  description: "This is a light weight product configurator framework that supports Visibility, Material and transform variants"
+  labels:
+    costcenter: "2105"
+  tags:
+    - planned-public
+    - enterprise
+spec:
+  type: library
+  lifecycle: production
+  owner: unity-technologies/industry-cse
