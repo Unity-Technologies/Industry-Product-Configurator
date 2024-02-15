@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -38,13 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 12
-  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -67,9 +66,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 1
@@ -97,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -195,6 +191,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -277,10 +275,13 @@ MonoBehaviour:
   configuration: {fileID: 11400000, guid: 984f00bb3326a434695a1ef10e77f7a9, type: 2}
   defaultOptionIndex: 0
   hide: 1
+  optionCount: 0
   optionDetails:
-  - configurationOption: {fileID: 11400000, guid: 02dafa1d0389a436c91b3bbb296aac66, type: 2}
+  - configurationOption: {fileID: 11400000, guid: 02dafa1d0389a436c91b3bbb296aac66,
+      type: 2}
     optionGameObject: {fileID: 1933712619}
-  - configurationOption: {fileID: 11400000, guid: 6664ce8a584a04e90bb2f487a0632968, type: 2}
+  - configurationOption: {fileID: 11400000, guid: 6664ce8a584a04e90bb2f487a0632968,
+      type: 2}
     optionGameObject: {fileID: 1791068026}
 --- !u!1 &344973063
 GameObject:
@@ -339,6 +340,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -435,10 +438,13 @@ MonoBehaviour:
   configuration: {fileID: 11400000, guid: 7dc49b958974b49779d7b5bbb8966250, type: 2}
   defaultOptionIndex: 0
   hide: 1
+  optionCount: 0
   optionDetails:
-  - configurationOption: {fileID: 11400000, guid: 07d1e986d8ad140dfac65809648e2561, type: 2}
+  - configurationOption: {fileID: 11400000, guid: 07d1e986d8ad140dfac65809648e2561,
+      type: 2}
     optionMaterial: {fileID: 2100000, guid: 6a2f02f7a8f9b4932834368d29350d09, type: 2}
-  - configurationOption: {fileID: 11400000, guid: 5357ab49c169e4a48a160ee1d29b6538, type: 2}
+  - configurationOption: {fileID: 11400000, guid: 5357ab49c169e4a48a160ee1d29b6538,
+      type: 2}
     optionMaterial: {fileID: 2100000, guid: ab8709a1e1ba24fa6b528cc2da094fe4, type: 2}
   renderersDetails:
   - renderer: {fileID: 1172734831}
@@ -475,11 +481,14 @@ MonoBehaviour:
   configuration: {fileID: 11400000, guid: 7f55b8f9f6648584bae281e388bd6567, type: 2}
   defaultOptionIndex: 0
   hide: 0
+  optionCount: 0
   gameObjectToMove: {fileID: 344973063}
   optionDetails:
-  - configurationOption: {fileID: 11400000, guid: d1a6beb256790854e8c5106bf648aad7, type: 2}
+  - configurationOption: {fileID: 11400000, guid: d1a6beb256790854e8c5106bf648aad7,
+      type: 2}
     optionTransform: {fileID: 910119174}
-  - configurationOption: {fileID: 11400000, guid: c6aaf11cee96a7e4d9dd2d327e25d6e5, type: 2}
+  - configurationOption: {fileID: 11400000, guid: c6aaf11cee96a7e4d9dd2d327e25d6e5,
+      type: 2}
     optionTransform: {fileID: 1435219099}
 --- !u!4 &801537725
 Transform:
@@ -602,6 +611,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -666,7 +677,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PanelSettings: {fileID: 11400000, guid: 9a66b0d29a08d4585851dfba5ce7a8d9, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 22f5ea9f4f4a74c888d912f534770889, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: 22f5ea9f4f4a74c888d912f534770889,
+    type: 3}
   m_SortingOrder: 0
 --- !u!4 &1053832218
 Transform:
@@ -755,6 +767,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -799,6 +813,7 @@ GameObject:
   - component: {fileID: 1180159955}
   - component: {fileID: 1180159954}
   - component: {fileID: 1180159953}
+  - component: {fileID: 1180159956}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -874,12 +889,56 @@ Transform:
   m_GameObject: {fileID: 1180159952}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1180159956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180159952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!1 &1416251013
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,9 +988,8 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416251013}
   m_Enabled: 1
-  serializedVersion: 10
+  serializedVersion: 11
   m_Type: 1
-  m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
@@ -1146,6 +1204,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1227,10 +1287,13 @@ MonoBehaviour:
   configuration: {fileID: 11400000, guid: 7dc49b958974b49779d7b5bbb8966250, type: 2}
   defaultOptionIndex: 0
   hide: 0
+  optionCount: 0
   optionDetails:
-  - configurationOption: {fileID: 11400000, guid: 07d1e986d8ad140dfac65809648e2561, type: 2}
+  - configurationOption: {fileID: 11400000, guid: 07d1e986d8ad140dfac65809648e2561,
+      type: 2}
     optionMaterial: {fileID: 2100000, guid: 6a2f02f7a8f9b4932834368d29350d09, type: 2}
-  - configurationOption: {fileID: 11400000, guid: 5357ab49c169e4a48a160ee1d29b6538, type: 2}
+  - configurationOption: {fileID: 11400000, guid: 5357ab49c169e4a48a160ee1d29b6538,
+      type: 2}
     optionMaterial: {fileID: 2100000, guid: ab8709a1e1ba24fa6b528cc2da094fe4, type: 2}
   renderersDetails:
   - renderer: {fileID: 23455319}
@@ -1307,6 +1370,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1372,10 +1437,13 @@ MonoBehaviour:
   configuration: {fileID: 11400000, guid: 984f00bb3326a434695a1ef10e77f7a9, type: 2}
   defaultOptionIndex: 0
   hide: 0
+  optionCount: 0
   optionDetails:
-  - configurationOption: {fileID: 11400000, guid: 02dafa1d0389a436c91b3bbb296aac66, type: 2}
+  - configurationOption: {fileID: 11400000, guid: 02dafa1d0389a436c91b3bbb296aac66,
+      type: 2}
     optionGameObject: {fileID: 2048084181}
-  - configurationOption: {fileID: 11400000, guid: 6664ce8a584a04e90bb2f487a0632968, type: 2}
+  - configurationOption: {fileID: 11400000, guid: 6664ce8a584a04e90bb2f487a0632968,
+      type: 2}
     optionGameObject: {fileID: 917886936}
 --- !u!4 &1993120870
 Transform:
@@ -1443,12 +1511,15 @@ MonoBehaviour:
   configuration: {fileID: 11400000, guid: e49dacfa587f3405299f94d434bb9ed1, type: 2}
   defaultOptionIndex: 0
   hide: 0
+  optionCount: 0
   configurations:
   - {fileID: 38669326}
   - {fileID: 789860678}
   optionDetails:
-  - configurationOption: {fileID: 11400000, guid: 80fa2e4227459421f8950cd0ba863336, type: 2}
-  - configurationOption: {fileID: 11400000, guid: c8d4e2f78d14d42f4b5e81c061cc7bf6, type: 2}
+  - configurationOption: {fileID: 11400000, guid: 80fa2e4227459421f8950cd0ba863336,
+      type: 2}
+  - configurationOption: {fileID: 11400000, guid: c8d4e2f78d14d42f4b5e81c061cc7bf6,
+      type: 2}
 --- !u!1 &2048084181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1521,6 +1592,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

@@ -11,21 +11,46 @@ using Object = UnityEngine.Object;
 namespace IndustryCSE.Tool.ProductConfigurator.Editor
 {
     [CustomEditor(typeof(MaterialConfiguration))]
-    public class MaterialConfigurationEditor : UnityEditor.Editor
+    public class MaterialConfigurationEditor : CustomConfigurationEditorBase
     {
         private ObjectField materialField;
-        private Slider optionSlider;
         private Material targetMaterial;
         private MaterialConfiguration materialConfiguration;
         private int setIndex;
         private int prevIndex;
-
-        private void OnEnable()
+        
+        protected override void OnEnable()
         {
+            base.OnEnable();
             materialConfiguration = target as MaterialConfiguration;
         }
-
+        
         public override VisualElement CreateInspectorGUI()
+        {
+            var myInspector = base.CreateInspectorGUI();
+            
+            materialField = new ObjectField("Ref. Material")
+            {
+                objectType = typeof(Material)
+            };
+
+            materialField.RegisterValueChangedCallback(OnMaterialValueChanged);
+
+            myInspector.Add(materialField);
+
+            Button captureButton = new Button
+            {
+                text = "Capture MeshRenderers in children with this material"
+            };
+            captureButton.clicked += CaptureButtonOnClicked;
+            
+            myInspector.Add(captureButton);
+            
+            // Return the finished inspector UI
+            return myInspector;
+        }
+
+        /*public override VisualElement CreateInspectorGUI()
         {
             VisualElement myInspector = new VisualElement();
             InspectorElement.FillDefaultInspector(myInspector, serializedObject, this);
@@ -56,23 +81,12 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             
             // Return the finished inspector UI
             return myInspector;
-        }
+        }*/
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             materialField.UnregisterValueChangedCallback(OnMaterialValueChanged);
-            optionSlider.UnregisterValueChangedCallback(OnSliderOptionChanged);
-        }
-
-        private void OnOptionCountChanged(SerializedProperty obj)
-        {
-            optionSlider.highValue = obj.intValue - 1;
-            optionSlider.value = Mathf.Min(optionSlider.value, optionSlider.highValue);
-        }
-
-        private void OnSliderOptionChanged(ChangeEvent<float> evt)
-        {
-            materialConfiguration.SetOption((int)evt.newValue);
         }
 
         private void OnMaterialValueChanged(ChangeEvent<Object> evt)

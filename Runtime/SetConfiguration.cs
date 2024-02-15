@@ -13,16 +13,18 @@ namespace IndustryCSE.Tool.ProductConfigurator
         [SerializeField]
         protected ConfigurationBase[] configurations;
     
-        public OptionDetailBase[] OptionDetails => optionDetails;
+        public List<OptionDetailBase> OptionDetails => optionDetails;
     
         [SerializeField]
-        protected OptionDetailBase[] optionDetails;
+        protected List<OptionDetailBase> optionDetails;
+        
+        public override List<OptionDetailBase> Options => OptionDetails;
 
         protected override void OnOptionChanged(OptionDetailBase optionDetailBase)
         {
             if(!OptionDetails.Contains(optionDetailBase)) return;
             //find index
-            var index = Array.IndexOf(OptionDetails, optionDetailBase);
+            var index = OptionDetails.FindIndex(x => x == optionDetailBase);
             foreach (var option in configurations)
             {
                 option.SetOption(index);

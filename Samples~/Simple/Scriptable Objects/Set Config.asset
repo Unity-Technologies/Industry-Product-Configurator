@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206022e3c4a2d453dab326e738ab59d4, type: 3}
   m_Name: Set Config
   m_EditorClassIdentifier: 
-  configurationName: 
-  uniqueIdString: 
+  configurationName: Set
+  uniqueIdString: 372258a7-b46d-4056-8183-e7cb7a21c020
   hide: 0

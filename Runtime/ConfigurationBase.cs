@@ -1,11 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using UnityEngine;
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
-using UnityEditor;
-using UnityEngine.UIElements;
 
 namespace IndustryCSE.Tool.ProductConfigurator
 {
@@ -21,6 +18,8 @@ namespace IndustryCSE.Tool.ProductConfigurator
         protected int defaultOptionIndex = 0;
     
         public int DefaultOptionIndex => defaultOptionIndex;
+        
+        public abstract List<OptionDetailBase> Options { get; }
 
         public bool Hide => hide;
         [SerializeField] protected bool hide = false;

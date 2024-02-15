@@ -24,6 +24,8 @@ namespace IndustryCSE.Tool.ProductConfigurator
     
         public int CurrentSelectionCost => OptionDetails.First(x => x.optionTransform.position==gameObjectToMove.transform.position).configurationOption.additionalCost;
 
+        public override List<OptionDetailBase> Options => OptionDetails.Cast<OptionDetailBase>().ToList();
+
         protected override void OnOptionChanged(OptionDetailBase optionDetailBase)
         {
             if (optionDetailBase is not TransformOptionDetail featureDetails) return;

@@ -3,7 +3,8 @@
     "rootNamespace": "IndustryCSE.Tool.ProductConfigurator.Editor",
     "references": [
         "Unity.IndustryCSE.ProductConfigurator.Attribute",
-        "Unity.IndustryCSE.ProductConfigurator"
+        "Unity.IndustryCSE.ProductConfigurator",
+        "Unity.IndustryCSE.ProductConfigurator.ScriptableObject"
     ],
     "includePlatforms": [
         "Editor"

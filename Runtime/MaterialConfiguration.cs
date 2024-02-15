@@ -27,6 +27,8 @@ namespace IndustryCSE.Tool.ProductConfigurator
         protected List<MaterialOptionDetail> optionDetails = new ();
     
         [SerializeField] public RendererDetail[] renderersDetails;
+        
+        public override List<OptionDetailBase> Options => OptionDetails.Cast<OptionDetailBase>().ToList();
     
         public RendererDetail[] RenderersDetails
         {

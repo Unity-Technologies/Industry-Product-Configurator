@@ -1,4 +1,7 @@
 # Changelog
+## [1.1.9] - 2024-02-15
+###Added
+- A new button to capture option icons in the inspector.
 
 ## [1.1.1] - 2024-02-13
 ###Added

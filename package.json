@@ -1,7 +1,7 @@
 {
   "name": "com.unity.industrycse.productconfigurator",
   "displayName": "Product Configurator",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "unity": "2019.3",
   "description": "This is a light weight product configurator framework that supports Visibility, Material and transform variants",
   "keywords": [

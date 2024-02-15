@@ -36,66 +36,17 @@ namespace IndustryCSE.Tool.ProductConfigurator.Sample
                 configurationName.style.backgroundColor = new StyleColor(Color.black);
                 configuration.Add(configurationName);
 
-                switch (configurationBase)
+                foreach (var option in configurationBase.Options)
                 {
-                    case GameObjectConfiguration gameObjectConfiguration:
-                        foreach (var gameObjectOptionDetail in gameObjectConfiguration.OptionDetails)
-                        {
-                            var newButton = new Button
-                            {
-                                text = gameObjectOptionDetail.configurationOption.name
-                            };
-                            newButton.clicked += () =>
-                            {
-                                OptionSelected(gameObjectOptionDetail);
-                            };
-                            configuration.Add(newButton);
-                        }
-                        break;
-                    case TransformConfiguration transformConfiguration:
-                        foreach (var transformOptionDetail in transformConfiguration.OptionDetails)
-                        {
-                            var newButton = new Button
-                            {
-                                text = transformOptionDetail.configurationOption.name
-                            };
-                            newButton.clicked += () =>
-                            {
-                                OptionSelected(transformOptionDetail);
-                            };
-                            configuration.Add(newButton);
-                        }
-                        break;
-                    
-                    case MaterialConfiguration materialConfiguration:
-                        foreach (var materialOptionDetail in materialConfiguration.OptionDetails)
-                        {
-                            var newButton = new Button
-                            {
-                                text = materialOptionDetail.configurationOption.name
-                            };
-                            newButton.clicked += () =>
-                            {
-                                OptionSelected(materialOptionDetail);
-                            };
-                            configuration.Add(newButton);
-                        }
-                        break;
-                    
-                    case SetConfiguration setConfiguration:
-                        foreach (var optionDetailBase in setConfiguration.OptionDetails)
-                        {
-                            var newButton = new Button
-                            {
-                                text = optionDetailBase.configurationOption.name
-                            };
-                            newButton.clicked += () =>
-                            {
-                                OptionSelected(optionDetailBase);
-                            };
-                            configuration.Add(newButton);
-                        }
-                        break;
+                    var newButton = new Button
+                    {
+                        text = option.configurationOption.name
+                    };
+                    newButton.clicked += () =>
+                    {
+                        OptionSelected(option);
+                    };
+                    configuration.Add(newButton);
                 }
                 
                 uiDocument.rootVisualElement.Add(configuration);

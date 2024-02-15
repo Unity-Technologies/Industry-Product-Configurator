@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 using UnityEngine;
 
 namespace IndustryCSE.Tool.ProductConfigurator
@@ -22,6 +23,8 @@ namespace IndustryCSE.Tool.ProductConfigurator
         public string CurrentSelectionGuid => OptionDetails.First(x => x.optionGameObject.activeSelf).configurationOption.UniqueIdString;
     
         public int CurrentSelectionCost => OptionDetails.First(x => x.optionGameObject.activeSelf).configurationOption.additionalCost;
+
+        public override List<OptionDetailBase> Options => OptionDetails.Cast<OptionDetailBase>().ToList();
 
         protected override void OnOptionChanged(OptionDetailBase optionDetailBase)
         {
