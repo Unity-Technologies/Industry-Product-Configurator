@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c40ff01e15ffd4c3c921f6b0a94774b9, type: 3}
   m_Name: Tranform Config Option One
   m_EditorClassIdentifier: 
+  uniqueIdString: 70f624b6-2143-4fbb-87ea-0f644b604d2b
+  variantName: Position 1
   icon: {fileID: 0}
-  name: Pos1
   additionalCost: 0
-  uniqueIdString: d413fc14-b161-4cec-8425-9047f88125ee

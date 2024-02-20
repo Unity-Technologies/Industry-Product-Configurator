@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206022e3c4a2d453dab326e738ab59d4, type: 3}
   m_Name: Tranform Config
   m_EditorClassIdentifier: 
-  configurationName: Transform
-  uniqueIdString: bb15f2ab-3771-4c04-9472-3847d2b86172
+  uniqueIdString: 33623405-cb9f-4c8b-97ac-cefcd6ce2d41
+  variantSetName: Transform Variant Set
   hide: 0

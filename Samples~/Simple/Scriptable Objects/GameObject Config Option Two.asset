@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c40ff01e15ffd4c3c921f6b0a94774b9, type: 3}
   m_Name: GameObject Config Option Two
   m_EditorClassIdentifier: 
+  uniqueIdString: 1c0a39cc-ddd4-4a36-8863-0095cc0a05c5
+  variantName: Sphere
   icon: {fileID: 0}
-  name: Sphere
   additionalCost: 0
-  uniqueIdString: 59e7627a-0660-4005-9e5f-3c52c888d250

@@ -18,14 +18,14 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             {
                 if (!asset.EndsWith(".png", StringComparison.OrdinalIgnoreCase)) continue;
                 if (Directory.GetParent(Directory.GetParent(asset).ToString()).ToString() !=
-                    EditorCore.ConfigurationIconPath) continue;
+                    EditorCore.VariantSetIconPath) continue;
                 var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(asset);
                 string fileName = Path.GetFileNameWithoutExtension(asset);
                 string[] split = fileName.Split(" - ");
                 string id = split[1];
-                foreach (var configurationAsset in AssetDatabase.FindAssets($"t:{nameof(ConfigurationOption)}"))
+                foreach (var configurationAsset in AssetDatabase.FindAssets($"t:{nameof(VariantAsset)}"))
                 {
-                    var configurationOption = AssetDatabase.LoadAssetAtPath<ConfigurationOption>(
+                    var configurationOption = AssetDatabase.LoadAssetAtPath<VariantAsset>(
                         AssetDatabase.GUIDToAssetPath(configurationAsset));
                     if (!string.Equals(configurationOption.UniqueIdString, id)) continue;
                     configurationOption.icon = texture;

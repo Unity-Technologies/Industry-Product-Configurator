@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206022e3c4a2d453dab326e738ab59d4, type: 3}
   m_Name: GameObject Config
   m_EditorClassIdentifier: 
-  configurationName: Sample GameObject Config
-  uniqueIdString: fcedd5ee-6df9-4e16-83bc-4ae98a85b621
+  uniqueIdString: a38095c6-34b7-4202-924a-f47a785a871c
+  variantSetName: GameObject Variant Set
   hide: 0

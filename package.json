@@ -1,7 +1,7 @@
 {
   "name": "com.unity.industrycse.productconfigurator",
   "displayName": "Product Configurator",
-  "version": "1.1.9",
+  "version": "1.2.1",
   "unity": "2019.3",
   "description": "This is a light weight product configurator framework that supports Visibility, Material and transform variants",
   "keywords": [
@@ -10,9 +10,22 @@
   ],
   "samples": [
     {
-      "displayName": "Simple Configuration Setup",
-      "description": "Shows how to implement a product configuration in the simplest form",
+      "displayName": "Configuration Setup",
+      "description": "Shows how to implement a product configuration in the simplest form, also it features conditional variant selections.",
       "path": "Samples~/Simple"
+    },
+    {
+      "displayName": "Environment Selection",
+      "description": "Shows how to change the environment of the product configurator at runtime.",
+      "path": "Samples~/Environment Selection"
+    },
+    {
+      "displayName": "Camera Control",
+      "description": "Shows how to implement camera control for the product configurator using Cinemachine.",
+      "path": "Samples~/Camera Control"
     }
-  ]
+  ],
+  "dependencies": {
+    "com.unity.cinemachine": "2.9.7"
+  }
 }

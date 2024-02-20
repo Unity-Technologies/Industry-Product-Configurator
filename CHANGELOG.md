@@ -1,4 +1,8 @@
 # Changelog
+## [1.2.0] - 2024-02-20
+###Added
+- Environment selection sample, camera control sample. Also conditional variant.
+
 ## [1.1.9] - 2024-02-15
 ###Added
 - A new button to capture option icons in the inspector.

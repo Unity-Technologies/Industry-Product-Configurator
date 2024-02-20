@@ -1,9 +1,10 @@
 {
     "name": "Unity.IndustryCSE.ProductConfigurator",
-    "rootNamespace": "",
+    "rootNamespace": "IndustryCSE.Tool.ProductConfigurator",
     "references": [
         "GUID:9d31d55a1fb9041598ad2dd5b3e457f6",
-        "GUID:c1fad304be4ab4e7692e38336af7496c"
+        "GUID:c1fad304be4ab4e7692e38336af7496c",
+        "GUID:4307f53044263cf4b835bd812fc161a4"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c40ff01e15ffd4c3c921f6b0a94774b9, type: 3}
   m_Name: Material Config Option One
   m_EditorClassIdentifier: 
+  uniqueIdString: 67349332-f78b-4a38-9255-b6b79f2fe3fb
+  variantName: Green
   icon: {fileID: 0}
-  name: Green
   additionalCost: 0
-  uniqueIdString: acb72971-9c64-4708-b3a6-0aba279b3565

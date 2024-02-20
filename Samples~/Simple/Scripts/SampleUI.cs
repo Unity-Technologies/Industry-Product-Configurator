@@ -4,52 +4,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace IndustryCSE.Tool.ProductConfigurator.Sample
+namespace IndustryCSE.Tool.ProductConfigurator.Sample.Simple
 {
-    public class SampleUI : ConfigurationControllerBase
+    public class SampleUI : MonoBehaviour
     {
         [SerializeField]
         private UIDocument uiDocument;
         
         private void Start()
         {
-            var allConfigurations = FindObjectsOfType<ConfigurationBase>();
+            var allVariantSets = FindObjectsByType<VariantSetBase>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
 
-            foreach (var configurationBase in allConfigurations)
+            foreach (var variantSetBase in allVariantSets)
             {
-                if(configurationBase.Hide) continue;
-                var configuration = new VisualElement
+                if(variantSetBase.Hide) continue;
+                var variantSetContainer = new VisualElement
                 {
                     style =
                     {
                         flexDirection = FlexDirection.Row,
                         flexWrap = Wrap.Wrap,
                         color = new StyleColor(Color.white)
-
                     }
                 };
-                var configurationName = new Label()
+                
+                var variantSetLabel = new Label
                 {
-                    text = configurationBase.Configuration.ConfigurationName
-                    
+                    text = variantSetBase.VariantSetAsset.VariantSetName,
+                    style =
+                    {
+                        backgroundColor = new StyleColor(Color.black)
+                    }
                 };
-                configurationName.style.backgroundColor = new StyleColor(Color.black);
-                configuration.Add(configurationName);
+                variantSetContainer.Add(variantSetLabel);
 
-                foreach (var option in configurationBase.Options)
+                foreach (var variantBase in variantSetBase.VariantBase)
                 {
                     var newButton = new Button
                     {
-                        text = option.configurationOption.name
+                        text = variantBase.variantAsset.VariantName
                     };
                     newButton.clicked += () =>
                     {
-                        OptionSelected(option);
+                        VariantSetBase.VariantTriggered?.Invoke(variantSetBase.VariantSetAsset, variantBase.variantAsset, true);
                     };
-                    configuration.Add(newButton);
+                    variantSetContainer.Add(newButton);
                 }
                 
-                uiDocument.rootVisualElement.Add(configuration);
+                uiDocument.rootVisualElement.Add(variantSetContainer);
             }
         }
     }

@@ -1,6 +1,6 @@
 {
-    "name": "Unity.IndustryCSE.ProductConfigurator.Sample",
-    "rootNamespace": "",
+    "name": "Unity.IndustryCSE.ProductConfigurator.Sample.Simple",
+    "rootNamespace": "IndustryCSE.Tool.ProductConfigurator.Sample.Simple",
     "references": [
         "GUID:4a0921da496134961b30bbc2ac17857c",
         "GUID:9d31d55a1fb9041598ad2dd5b3e457f6"

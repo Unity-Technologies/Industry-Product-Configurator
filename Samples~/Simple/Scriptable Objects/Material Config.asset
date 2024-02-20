@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206022e3c4a2d453dab326e738ab59d4, type: 3}
   m_Name: Material Config
   m_EditorClassIdentifier: 
-  configurationName: Material Config
-  uniqueIdString: 2c4e636c-ef35-4aaf-ad09-152da0d51e74
+  uniqueIdString: 6baa41d8-2bb6-411b-ac4c-41a163b781a6
+  variantSetName: Material Variant Set
   hide: 0

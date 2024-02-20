@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c40ff01e15ffd4c3c921f6b0a94774b9, type: 3}
   m_Name: GameObject Config Option One
   m_EditorClassIdentifier: 
+  uniqueIdString: 6103e8a5-dadd-4d64-b2ac-017fde552577
+  variantName: Cube
   icon: {fileID: 0}
-  name: Cube
   additionalCost: 0
-  uniqueIdString: 2262050a-8a7a-4a8f-9778-f9c079ebdbfb

@@ -1,0 +1,18 @@
+{
+    "name": "Unity.IndustryCSE.ProductConfigurator.Sample.CameraControl",
+    "rootNamespace": "IndustryCSE.Tool.ProductConfigurator.Sample.CameraControl",
+    "references": [
+        "GUID:4a0921da496134961b30bbc2ac17857c",
+        "GUID:9d31d55a1fb9041598ad2dd5b3e457f6",
+        "GUID:4307f53044263cf4b835bd812fc161a4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
