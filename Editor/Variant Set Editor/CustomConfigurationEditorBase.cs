@@ -8,6 +8,8 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
 {
     public class CustomConfigurationEditorBase : UnityEditor.Editor
     {
+        public VisualElement DefaultInspectorContainer;
+        
         public VisualElement VariantSetContainer;
         public TextField VariantSetNameTextField;
         public Button CreateVariantSetButton;
@@ -22,6 +24,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         public VisualElement CaptureImageContainer;
         public DropdownField CaptureSizeDropdown;
         public Button CaptureImageButton;
+        public Button UsePreviousLocationButton;
 
         protected virtual void OnEnable() {}
 
@@ -30,6 +33,13 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             var myInspector = EditorCore.ReturnCommonInspectorElement(target, this);
             // Return the finished inspector UI
             return myInspector;
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if (Application.isPlaying) return;
+            var variantSetBase = target as VariantSetBase;
+            SceneTracker.CheckVariantSet(variantSetBase);
         }
 
         protected virtual void OnDisable()
@@ -58,6 +68,21 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             {
                 CreateVariantButton.clicked -= OnCreateVariant;
             }
+
+            if (UsePreviousLocationButton != null)
+            {
+                UsePreviousLocationButton.clicked -= OnUsePreviousLocationButtonClicked;
+            }
+        }
+
+        public void OnUsePreviousLocationButtonClicked()
+        {
+            SceneView view = SceneView.lastActiveSceneView;
+            Camera cam = view.camera;
+            var variantSetBase = target as VariantSetBase;
+            if(!variantSetBase.VariantSetAsset.hasStoreCameraPositionAndRotation) return;
+            // Set the SceneView camera position and rotation
+            view.LookAt(variantSetBase.VariantSetAsset.storeCameraPosition, variantSetBase.VariantSetAsset.storeCameraRotation);
         }
 
         public void ShowVariantSetAssetCreationBtn(bool show)
@@ -92,11 +117,13 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         {
             var variantSetBase = target as VariantSetBase;
             var size = EditorCore.IconPresets[CaptureSizeDropdown.index];
+            UsePreviousLocationButton.style.display = DisplayStyle.Flex;
             EditorCore.CaptureOptionImage(variantSetBase, size.Width, size.Height);
         }
 
         public void OnVariantCountChanged(SerializedProperty obj)
         {
+            SceneTracker.CheckVariantSet(target as VariantSetBase);
             VariantSlider.highValue = obj.intValue - 1;
             VariantSlider.value = Mathf.Min(VariantSlider.value, VariantSlider.highValue);
             
@@ -134,7 +161,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             {
                 Directory.CreateDirectory(EditorCore.VariantSetAssetsFolderPath);
             }
-            AssetDatabase.CreateAsset(newVariantSet, Path.Combine(EditorCore.VariantSetAssetsFolderPath, $"{newVariantSet.VariantSetName} - {newVariantSet.UniqueIdString}.asset"));
+            AssetDatabase.CreateAsset(newVariantSet, Path.Combine(EditorCore.VariantSetAssetsFolderPath, $"{newVariantSet.UniqueIdString}.asset"));
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             variantSetBase.SetVariantSetAsset(newVariantSet);
@@ -152,12 +179,12 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             {
                 Directory.CreateDirectory(EditorCore.VariantAssetsFolderPath);
             }
-            var path = Path.Combine(EditorCore.VariantAssetsFolderPath,
-                $"{variantSetBase.VariantSetAsset.VariantSetName} - {variantSetBase.VariantSetAsset.UniqueIdString}", $"{newVariant.VariantName} - {newVariant.UniqueIdString}.asset");
+            var path = Path.Combine(EditorCore.VariantAssetsFolderPath, $"{newVariant.UniqueIdString}.asset");
             if (!Directory.Exists(Path.GetDirectoryName(path)))
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
             }
+            VariantNameTextField.SetValueWithoutNotify("Name your variant here");
             AssetDatabase.CreateAsset(newVariant, path);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

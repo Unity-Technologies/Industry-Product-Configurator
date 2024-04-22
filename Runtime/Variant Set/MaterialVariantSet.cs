@@ -27,19 +27,22 @@ namespace IndustryCSE.Tool.ProductConfigurator
         [SerializeField]
         protected List<MaterialVariant> variants = new ();
     
-        [SerializeField] public RendererDetail[] renderersDetails;
+        [SerializeField]
+        private List<RendererDetail> renderersDetails;
         
         public override List<VariantBase> VariantBase => Variants.Cast<VariantBase>().ToList();
     
-        public RendererDetail[] RenderersDetails
+        public List<RendererDetail> RenderersDetails
         {
             get => renderersDetails;
             set => renderersDetails = value;
         }
+        
+        public override int CurrentSelectionIndex => Variants.FindIndex(x => x.VariantMaterial == renderersDetails[0].renderer.sharedMaterials[renderersDetails[0].materialsSlotIndex]);
 
-        public string CurrentSelectionGuid => variants.FirstOrDefault(x => x.VariantMaterial == renderersDetails[0].renderer.sharedMaterials[renderersDetails[0].materialsSlotIndex])?.variantAsset.UniqueIdString;
+        public override string CurrentSelectionGuid => Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
     
-        public int CurrentSelectionCost => variants.FirstOrDefault(x => x.VariantMaterial == renderersDetails[0].renderer.sharedMaterials[renderersDetails[0].materialsSlotIndex]).variantAsset.additionalCost;
+        public override int CurrentSelectionCost => Variants[CurrentSelectionIndex].variantAsset.additionalCost;
         
         protected override void OnVariantChanged(VariantBase variantBase, bool triggerConditionalVariants)
         {

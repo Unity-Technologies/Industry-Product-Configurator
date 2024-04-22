@@ -20,9 +20,11 @@ namespace IndustryCSE.Tool.ProductConfigurator
         [SerializeField]
         protected List<GameObjectVariant> variants = new ();
 
-        public string CurrentSelectionGuid => Variants.First(x => x.VariantGameObject.activeSelf).variantAsset.UniqueIdString;
+        public override int CurrentSelectionIndex => Variants.FindIndex(x => x.VariantGameObject.activeSelf);
+        
+        public override string CurrentSelectionGuid => Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
     
-        public int CurrentSelectionCost => Variants.First(x => x.VariantGameObject.activeSelf).variantAsset.additionalCost;
+        public override int CurrentSelectionCost => Variants[CurrentSelectionIndex].variantAsset.additionalCost;
 
         public override List<VariantBase> VariantBase => Variants.Cast<VariantBase>().ToList();
 

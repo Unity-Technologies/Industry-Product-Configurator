@@ -20,9 +20,28 @@ namespace IndustryCSE.Tool.ProductConfigurator
         public List<CombinationVariant> Variants => variants;
     
         [SerializeField]
-        protected List<CombinationVariant> variants;
+        protected List<CombinationVariant> variants = new();
         
         public override List<VariantBase> VariantBase => Variants.Cast<VariantBase>().ToList();
+
+        public override int CurrentSelectionIndex
+        {
+            get
+            {
+                if(VariantSets.All(item => item.CurrentSelectionIndex == variantSets[0].CurrentSelectionIndex))
+                {
+                    return variantSets[0].CurrentSelectionIndex;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
+
+        public override string CurrentSelectionGuid => CurrentSelectionIndex == -1 ? string.Empty : Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
+        
+        public override int CurrentSelectionCost => CurrentSelectionIndex == -1 ? 0 : Variants[CurrentSelectionIndex].variantAsset.additionalCost;
 
         protected override void OnVariantChanged(VariantBase variantBase, bool triggerConditionalVariants)
         {

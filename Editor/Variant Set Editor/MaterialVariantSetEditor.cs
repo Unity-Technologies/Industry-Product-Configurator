@@ -13,12 +13,15 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
     [CustomEditor(typeof(MaterialVariantSet))]
     public class MaterialVariantSetEditor : CustomConfigurationEditorBase
     {
-        private ObjectField materialField;
-        private Material targetMaterial;
+        private ObjectField _materialField;
+        private ObjectField _targetParentField;
+        private Button _captureButton;
+        private Material _targetMaterial;
         private MaterialVariantSet _materialVariantSet;
-        private int setIndex;
-        private int prevIndex;
-        private VisualElement materialCaptureContainer;
+        private int _setIndex;
+        private int _prevIndex;
+        private VisualElement _materialCaptureContainer;
+        private GameObject _targetParent;
         
         protected override void OnEnable()
         {
@@ -29,29 +32,57 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         public override VisualElement CreateInspectorGUI()
         {
             var myInspector = base.CreateInspectorGUI();
-            
-            //myInspector.Add(EditorCore.CreateContainer());
 
-            materialCaptureContainer = EditorCore.CreateContainer(EditorCore.TopMargin, 0f);
+            var index = DefaultInspectorContainer.parent.IndexOf(DefaultInspectorContainer);
+
+            _materialCaptureContainer = EditorCore.CreateContainer(EditorCore.TopMargin, 0f);
+
+            Label tipsLabel = new Label("Select a material to capture all MeshRenderers in children from the target parent with this material.")
+                {
+                    style =
+                    {
+                        whiteSpace = WhiteSpace.Normal
+                    }
+                };
+
+            _materialCaptureContainer.Add(tipsLabel);
             
-            materialField = new ObjectField("Ref. Material")
+            _targetParentField = new ObjectField("Target Parent")
+            {
+                objectType = typeof(GameObject),
+                value =_targetParent
+            };
+            
+            _materialCaptureContainer.Add(_targetParentField);
+
+            _targetParentField.RegisterValueChangedCallback(OnTargetParentValueChanged);
+            
+            _materialField = new ObjectField("Ref. Material")
             {
                 objectType = typeof(Material),
+                value = _targetMaterial
             };
 
-            materialField.RegisterValueChangedCallback(OnMaterialValueChanged);
+            _materialField.RegisterValueChangedCallback(OnMaterialValueChanged);
 
-            materialCaptureContainer.Add(materialField);
+            _materialField.style.display = DisplayStyle.None;
 
-            Button captureButton = new Button
+            _materialCaptureContainer.Add(_materialField);
+
+            _captureButton = new Button
             {
                 text = "Capture MeshRenderers in children with this material"
             };
-            captureButton.clicked += CaptureButtonOnClicked;
+            _captureButton.clicked += CaptureButtonOnClicked;
+
+            _captureButton.style.display = DisplayStyle.None;
             
-            materialCaptureContainer.Add(captureButton);
+            _materialCaptureContainer.Add(_captureButton);
             
-            myInspector.Add(materialCaptureContainer);
+            myInspector.Insert(index + 1, _materialCaptureContainer);
+            
+            _materialField.style.display = _targetParentField.value != null ? DisplayStyle.Flex : DisplayStyle.None;
+            _captureButton.style.display = _materialField.value != null && _targetParentField.value != null ? DisplayStyle.Flex : DisplayStyle.None;
             
             // Return the finished inspector UI
             return myInspector;
@@ -60,25 +91,75 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         protected override void OnDisable()
         {
             base.OnDisable();
-            materialField.UnregisterValueChangedCallback(OnMaterialValueChanged);
+            _materialField.UnregisterValueChangedCallback(OnMaterialValueChanged);
+            _targetParentField.UnregisterValueChangedCallback(OnTargetParentValueChanged);
+            if (_captureButton != null)
+            {
+                _captureButton.clicked -= CaptureButtonOnClicked;
+            }
+            _targetMaterial = null;
+            _targetParent = null;
+        }
+
+        private void OnTargetParentValueChanged(ChangeEvent<Object> evt)
+        {
+            _targetParent = evt.newValue as GameObject;
+            _materialField.style.display = evt.newValue != null ? DisplayStyle.Flex : DisplayStyle.None;
+            if (_materialField.style.display == DisplayStyle.None)
+            {
+                _materialField.SetValueWithoutNotify(null);
+            }
         }
 
         private void OnMaterialValueChanged(ChangeEvent<Object> evt)
         {
-            targetMaterial = evt.newValue as Material;
+            _targetMaterial = evt.newValue as Material;
+            _captureButton.style.display = evt.newValue != null ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
         private void CaptureButtonOnClicked()
         {
-            _materialVariantSet.RenderersDetails = GetSameMaterialRenderers(targetMaterial);
+            _materialVariantSet.RenderersDetails ??= new List<RendererDetail>();
+            _materialVariantSet.RenderersDetails.AddRange(GetSameMaterialRenderers(_targetMaterial));
+            _materialVariantSet.RenderersDetails = _materialVariantSet.RenderersDetails.Distinct(new RendererDetailComparer()).ToList();
         }
 
-        private RendererDetail[] GetSameMaterialRenderers(Material material )
+        private class RendererDetailComparer : IEqualityComparer<RendererDetail>
         {
-            _materialVariantSet.RenderersDetails = new RendererDetail[] { };
+            public bool Equals(RendererDetail x, RendererDetail y)
+            {
+                //Check whether the compared objects reference the same data.
+                if (Object.ReferenceEquals(x, y)) return true;
+
+                //Check whether any of the compared objects is null.
+                if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
+                    return false;
+
+                //Check whether the products' properties are equal.
+                return x.materialsSlotIndex == y.materialsSlotIndex && x.renderer == y.renderer;
+            }
+
+            public int GetHashCode(RendererDetail obj)
+            {
+                //Check whether the object is null
+                if (Object.ReferenceEquals(obj, null)) return 0;
+
+                //Get hash code for the Name field if it is not null.
+                int hashProductName = obj.renderer == null ? 0 : obj.renderer.GetHashCode();
+
+                //Get hash code for the Code field.
+                int hashProductCode = obj.materialsSlotIndex.GetHashCode();
+
+                //Calculate the hash code for the product.
+                return hashProductName ^ hashProductCode;
+            }
+        }
+        
+        private List<RendererDetail> GetSameMaterialRenderers(Material material )
+        {
             List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
             List<RendererDetail> rendererDetails = new List<RendererDetail>();
-            meshRenderers = new List<MeshRenderer>(_materialVariantSet.GetComponentsInChildren<MeshRenderer>(true));
+            meshRenderers = new List<MeshRenderer>(_targetParent.GetComponentsInChildren<MeshRenderer>(true));
             for(int i = 0;i<meshRenderers.Count; i++)
             {
                 if (meshRenderers[i].sharedMaterials.Contains(material))
@@ -87,9 +168,11 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                     {
                         if (meshRenderers[i].sharedMaterials[j] == material)
                         {
-                            RendererDetail rendererDetail = new RendererDetail();
-                            rendererDetail.renderer = meshRenderers[i];
-                            rendererDetail.materialsSlotIndex = j;
+                            RendererDetail rendererDetail = new RendererDetail
+                            {
+                                renderer = meshRenderers[i],
+                                materialsSlotIndex = j
+                            };
                             rendererDetails.Add(rendererDetail);
                         }
                     }
@@ -97,7 +180,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                 }
             }
 
-            return rendererDetails.ToArray();
+            return rendererDetails;
         }
     }
 }

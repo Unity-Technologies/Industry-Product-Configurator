@@ -17,12 +17,10 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             foreach (var asset in importedAssets)
             {
                 if (!asset.EndsWith(".png", StringComparison.OrdinalIgnoreCase)) continue;
-                if (Directory.GetParent(Directory.GetParent(asset).ToString()).ToString() !=
+                if (Directory.GetParent(asset).ToString() !=
                     EditorCore.VariantSetIconPath) continue;
                 var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(asset);
-                string fileName = Path.GetFileNameWithoutExtension(asset);
-                string[] split = fileName.Split(" - ");
-                string id = split[1];
+                string id = Path.GetFileNameWithoutExtension(asset);
                 foreach (var configurationAsset in AssetDatabase.FindAssets($"t:{nameof(VariantAsset)}"))
                 {
                     var configurationOption = AssetDatabase.LoadAssetAtPath<VariantAsset>(

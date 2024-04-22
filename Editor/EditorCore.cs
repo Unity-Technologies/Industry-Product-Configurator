@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
@@ -32,22 +31,25 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         public const float TopMargin = 10f;
         public const float BottomMargin = 10f;
         
-        public static string  VariantSetIconPath => Path.Combine(Application.dataPath, "Configuration Data", "Icons");
-        public static string VariantSetAssetsFolderPath => Path.Combine("Assets", "Configuration Data", "Variant Sets Assets");
-        public static string VariantAssetsFolderPath => Path.Combine("Assets", "Configuration Data", "Variant Assets");
+        #if UNITY_EDITOR_OSX
+        public static string  VariantSetIconPath => Path.Combine(Application.dataPath, "Data", "Icons");
+        #elif UNITY_EDITOR_WIN
+        public static string  VariantSetIconPath => Path.Combine(Application.dataPath.Replace("/", "\\"), "Data", "Icons");
+        #endif
+        
+        public static string VariantSetAssetsFolderPath => Path.Combine("Assets", "Data", "Variant Sets Assets");
+        public static string VariantAssetsFolderPath => Path.Combine("Assets", "Data", "Variant Assets");
         
         public static void CaptureOptionImage(VariantSetBase variantSet, int width, int height)
         {
             //Use camera to capture 640 * 640 image and save it in asset folder
-            VariantSetAsset variantSetAssetSo = variantSet.VariantSetAsset;
             List<VariantBase> options = variantSet.VariantBase;
             for (var i = 0; i < options.Count; i++)
             {
                 variantSet.SetVariant(i, false);
                 var option = options[i];
-                string path = Path.Combine(VariantSetIconPath,
-                    $"{variantSetAssetSo.VariantSetName} - {variantSetAssetSo.uniqueId}", $"{option.variantAsset.name} - {option.variantAsset.UniqueIdString}.png");
-
+                string path = Path.Combine(VariantSetIconPath, $"{option.variantAsset.UniqueIdString}.png");
+                //Debug.Log(path);
                 if (!File.Exists(Path.GetDirectoryName(path)))
                 {
                     // Create the directory it does not exist
@@ -68,6 +70,12 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                 byte[] bytes = screenShot.EncodeToPNG();
                 File.WriteAllBytes(path, bytes);
                 cam.targetTexture = null;
+                
+                variantSet.VariantSetAsset.storeCameraPosition = view.pivot;
+                variantSet.VariantSetAsset.storeCameraRotation = view.rotation;
+                variantSet.VariantSetAsset.hasStoreCameraPositionAndRotation = true;
+                
+                EditorUtility.SetDirty(variantSet.VariantSetAsset);
                 
                 AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
                 AssetDatabase.Refresh();
@@ -105,15 +113,16 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             
             var so = new SerializedObject(target);
             
-            VisualElement defaultInspectorContainer = CreateContainer(0f, 0f);
-            InspectorElement.FillDefaultInspector(defaultInspectorContainer, so, editor);
-            myInspector.Add(defaultInspectorContainer);
+            configurationEditorBase.ShowVariantSetAssetCreationBtn(variantSetBase.VariantSetAsset == null);
+            configurationEditorBase.DefaultInspectorContainer = CreateContainer(0f, 0f);
+            InspectorElement.FillDefaultInspector(configurationEditorBase.DefaultInspectorContainer, so, editor);
+            myInspector.Add(configurationEditorBase.DefaultInspectorContainer);
 
-            var objectField = defaultInspectorContainer.Q<PropertyField>("PropertyField:variantSetAsset");
+            var objectField = configurationEditorBase.DefaultInspectorContainer.Q<PropertyField>("PropertyField:variantSetAsset");
             
             objectField.TrackPropertyValue(variantSetAssetProperty, configurationEditorBase.TrackVariantSetAssetProperty);
             
-            var prop = so.FindProperty("variants.Array.size");
+            var variantArraySizeProp = so.FindProperty("variants.Array.size");
             
             #region New Variant Button
             configurationEditorBase.VariantContainer = CreateContainer(TopMargin, 0f);
@@ -135,10 +144,11 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             
             #region Slider
             configurationEditorBase.VariantSliderContainer = CreateContainer(TopMargin, 0f);
+            configurationEditorBase.VariantSliderContainer.Add(new Label("Drag this slider to quickly preview different variants"));
             configurationEditorBase.VariantSliderContainer.style.display = variantSetBase.VariantBase.Count <= 1 ? DisplayStyle.None : DisplayStyle.Flex;
             configurationEditorBase.VariantSlider =
-                new Slider("Variant Slider", 0, prop.intValue - 1, SliderDirection.Horizontal, 1);
-            configurationEditorBase.VariantSlider.TrackPropertyValue(prop, configurationEditorBase.OnVariantCountChanged);
+                new Slider("Variant Slider", 0, variantArraySizeProp.intValue - 1, SliderDirection.Horizontal, 1);
+            configurationEditorBase.VariantSlider.TrackPropertyValue(variantArraySizeProp, configurationEditorBase.OnVariantCountChanged);
             configurationEditorBase.VariantSlider.RegisterValueChangedCallback(configurationEditorBase.OnVariantSliderChanged);
             configurationEditorBase.VariantSliderContainer.Add(configurationEditorBase.VariantSlider);
             myInspector.Add(configurationEditorBase.VariantSliderContainer);
@@ -147,15 +157,36 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             #region Size Dropdown and Capture Button
             
             configurationEditorBase.CaptureImageContainer = CreateContainer(TopMargin, 0f);
+            configurationEditorBase.CaptureImageContainer.Add(new Label("Capture the icon for each variant"));
             configurationEditorBase.CaptureImageContainer.style.display = variantSetBase.VariantBase.Count <= 1 ? DisplayStyle.None : DisplayStyle.Flex;
             var choices = IconPresets.Select(x => x.Name).ToList();
-            configurationEditorBase.CaptureSizeDropdown = new DropdownField("Capture Size", choices, 0);
+            configurationEditorBase.CaptureSizeDropdown = new DropdownField("Icon Size", choices, 0);
             configurationEditorBase.CaptureImageContainer.Add(configurationEditorBase.CaptureSizeDropdown);
+            
+            
+            configurationEditorBase.UsePreviousLocationButton = new Button
+            {
+                text = "Move camera to previous location"
+            };
+                
+            configurationEditorBase.UsePreviousLocationButton.clicked += configurationEditorBase.OnUsePreviousLocationButtonClicked;
+                
+            configurationEditorBase.CaptureImageContainer.Add(configurationEditorBase.UsePreviousLocationButton);
+            
+            if(variantSetBase.VariantSetAsset != null && variantSetBase.VariantSetAsset.hasStoreCameraPositionAndRotation)
+            {
+                configurationEditorBase.UsePreviousLocationButton.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                configurationEditorBase.UsePreviousLocationButton.style.display = DisplayStyle.None;
+            }
             
             configurationEditorBase.CaptureImageButton = new Button
             {
                 text = "Capture Variant Icon"
             };
+            
             configurationEditorBase.CaptureImageButton.clicked += configurationEditorBase.OnCaptureImageButtonClicked;
             configurationEditorBase.CaptureImageContainer.Add(configurationEditorBase.CaptureImageButton);
             myInspector.Add(configurationEditorBase.CaptureImageContainer);

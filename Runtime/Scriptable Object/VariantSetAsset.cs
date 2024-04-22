@@ -7,9 +7,17 @@ namespace IndustryCSE.Tool.ProductConfigurator.ScriptableObjects
         public string VariantSetName => variantSetName;
         [SerializeField]
         private string variantSetName;
+
+        #if UNITY_EDITOR
         
-        public bool Hide => hide;
-        [SerializeField] private bool hide;
+        [HideInInspector]
+        public bool hasStoreCameraPositionAndRotation;
+        [HideInInspector]
+        public Vector3 storeCameraPosition;
+        [HideInInspector]
+        public Quaternion storeCameraRotation;
+        
+        #endif
         
 #if UNITY_EDITOR
         public override void SetName(string value)

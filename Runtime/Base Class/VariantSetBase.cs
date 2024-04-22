@@ -7,6 +7,7 @@ using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 
 namespace IndustryCSE.Tool.ProductConfigurator
 {
+    [ExecuteInEditMode]
     public abstract class VariantSetBase : MonoBehaviour
     {
         public static Action<VariantSetAsset, VariantAsset, bool> VariantTriggered;
@@ -29,6 +30,12 @@ namespace IndustryCSE.Tool.ProductConfigurator
 
         public bool Hide => hide;
         [SerializeField] protected bool hide = false;
+        
+        public abstract int CurrentSelectionIndex { get; }
+        
+        public abstract string CurrentSelectionGuid { get; }
+        
+        public abstract int CurrentSelectionCost { get; }
 
         public CinemachineVirtualCamera FocusCamera => focusCamera;
         [SerializeField]

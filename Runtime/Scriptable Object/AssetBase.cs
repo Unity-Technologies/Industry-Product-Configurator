@@ -8,8 +8,11 @@ namespace IndustryCSE.Tool.ProductConfigurator.ScriptableObjects
     {
         public string UniqueIdString => uniqueIdString;
         [ReadOnly, SerializeField] protected string uniqueIdString;
+        
+        public bool Hide => hide;
+        [SerializeField] private bool hide;
 
-        public Guid uniqueId;
+        private Guid _uniqueId;
         
         private void OnValidate()
         {
@@ -18,11 +21,21 @@ namespace IndustryCSE.Tool.ProductConfigurator.ScriptableObjects
         
         public void NewID()
         {
-            if(uniqueId == Guid.Empty)
+            if(_uniqueId == Guid.Empty && string.IsNullOrEmpty(uniqueIdString))
             {
-                uniqueId = Guid.NewGuid();
+                if (!Guid.TryParse(name, out _uniqueId))
+                {
+                    _uniqueId = Guid.NewGuid();
+                }
+                uniqueIdString = _uniqueId.ToString();
+                
+            } else if (!string.Equals(uniqueIdString, name) && Guid.TryParse(name, out _uniqueId))
+            {
+                uniqueIdString = _uniqueId.ToString();
+            } else if(_uniqueId == Guid.Empty && !string.IsNullOrEmpty(uniqueIdString))
+            {
+                _uniqueId = !Guid.TryParse(uniqueIdString, out _uniqueId) ? Guid.NewGuid() : new Guid(uniqueIdString);
             }
-            uniqueIdString = uniqueId.ToString();
         }
         
 #if UNITY_EDITOR
