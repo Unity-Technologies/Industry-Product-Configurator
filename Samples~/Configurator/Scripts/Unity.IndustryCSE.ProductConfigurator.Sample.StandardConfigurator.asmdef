@@ -1,0 +1,19 @@
+{
+    "name": "Unity.IndustryCSE.ProductConfigurator.Sample.StandardConfigurator",
+    "rootNamespace": "Unity.IndustryCSE.ProductConfigurator.Sample.StandardConfigurator",
+    "references": [
+        "GUID:4a0921da496134961b30bbc2ac17857c",
+        "GUID:9d31d55a1fb9041598ad2dd5b3e457f6",
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
