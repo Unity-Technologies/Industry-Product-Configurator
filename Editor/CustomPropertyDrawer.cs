@@ -134,7 +134,6 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             };
 
             var variantAssetPropertyField = new PropertyField(assetFieldProperty);
-            //variantAssetPropertyField.SetEnabled(false);
             
             variantAssetPropertyContainer.Add(variantAssetPropertyField);
 
