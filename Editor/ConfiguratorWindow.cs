@@ -1,13 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-//using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
-//using System.Reflection;
 using UnityEditor.UIElements;
-//using Assembly = System.Reflection.Assembly;
 using Object = UnityEngine.Object;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Editor
@@ -121,69 +115,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             rootVisualElement.Add(_variantSetScrollView);
             
             RefreshVariantSetScrollView();
-            
-            /*
-            ScrollView addVariantSetScrollView = new ScrollView
-            {
-                horizontalScrollerVisibility = ScrollerVisibility.Hidden,
-                mode = ScrollViewMode.Vertical,
-                style =
-                {
-                    marginBottom = new Length(10f, LengthUnit.Pixel),
-                    marginTop = new Length(10f, LengthUnit.Pixel),
-                    height = new Length(20, LengthUnit.Percent)
-                }
-            };
-            ;
-    
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            var subclasses = new List<Type>();
-            foreach (var assembly in assemblies)
-            {
-                try
-                {
-                    var types = assembly.GetTypes();
-                    var filteredTypes = types.Where(type => type.IsSubclassOf(typeof(VariantSetBase)));
-                    subclasses.AddRange(filteredTypes);
-                }
-                catch (ReflectionTypeLoadException ex)
-                {
-                    // Handle any exceptions that might occur during type loading
-                    foreach (var loaderException in ex.LoaderExceptions)
-                    {
-                        Debug.LogError(loaderException.Message);
-                    }
-                }
-            }
-            
-            foreach (var subclass in subclasses)
-            {
-                Button addVariantSetButton = new Button
-                {
-                    text = $"Create a new {SplitCamelCase(subclass.Name)}",
-                    style =
-                    {
-                        marginTop = new Length(1f, LengthUnit.Pixel),
-                        marginBottom = new Length(1f, LengthUnit.Pixel)
-                    }
-                };
-                addVariantSetScrollView.Add(addVariantSetButton);
-                addVariantSetButton.clicked += () =>
-                {
-                    GameObject newVariantSet = new GameObject(SplitCamelCase(subclass.Name));
-                    newVariantSet.AddComponent(subclass);
-                    Selection.activeObject = newVariantSet;
-                };
-            }
-            
-            rootVisualElement.Add(addVariantSetScrollView);*/
         }
-        
-        //Make a function that return a string that insert a space before each capital letter in the string
-        /*private static string SplitCamelCase(string str)
-        {
-            return System.Text.RegularExpressions.Regex.Replace(str, "([A-Z])", " $1", System.Text.RegularExpressions.RegexOptions.Compiled).Trim();
-        }*/
 
         private void OnDisable()
         {
