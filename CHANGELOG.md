@@ -1,4 +1,12 @@
 # Changelog
+
+## [1.4.0] - 2024-05-08
+###Added
+- Animation Variant Set
+
+###Changed
+- Move Variant Set Asset and Variant Asset creation to variant set base class.
+
 ## [1.2.0] - 2024-02-20
 ###Added
 - Environment selection sample, camera control sample. Also conditional variant.

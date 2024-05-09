@@ -1,3 +1,4 @@
+using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 using UnityEditor;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Editor

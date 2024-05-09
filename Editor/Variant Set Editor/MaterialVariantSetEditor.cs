@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
+using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Editor
 {

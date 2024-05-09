@@ -43,6 +43,12 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             NewVariantSetBase<CombinationVariantSet>();
         }
         
+        [MenuItem("GameObject/Product Configurator/Variant Set/Animation Variant Set")]
+        public static void CreateAnimationVariantSet()
+        {
+            NewVariantSetBase<AnimationVariantSet>();
+        }
+        
         [MenuItem("Window/Product Configurator")]
         public static void ShowWindow()
         {

@@ -2,11 +2,10 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
-using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Editor
 {
-    public class CustomConfigurationEditorBase : UnityEditor.Editor
+    public abstract class CustomConfigurationEditorBase : UnityEditor.Editor
     {
         public VisualElement DefaultInspectorContainer;
         
@@ -154,43 +153,14 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         {
             // Create a new VariantSetAsset
             var variantSetBase = target as VariantSetBase;
-            var newVariantSet = CreateInstance<VariantSetAsset>();
-            newVariantSet.SetName(VariantSetNameTextField.value);
-            newVariantSet.NewID();
-            if (!Directory.Exists(EditorCore.VariantSetAssetsFolderPath))
-            {
-                Directory.CreateDirectory(EditorCore.VariantSetAssetsFolderPath);
-            }
-            AssetDatabase.CreateAsset(newVariantSet, Path.Combine(EditorCore.VariantSetAssetsFolderPath, $"{newVariantSet.UniqueIdString}.asset"));
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-            variantSetBase.SetVariantSetAsset(newVariantSet);
-            EditorUtility.SetDirty(variantSetBase);
-            EditorUtility.SetDirty(newVariantSet);
+            variantSetBase.CreateNewVariantSetAsset(VariantSetNameTextField.value);
         }
         
         public void OnCreateVariant()
         {
             var variantSetBase = target as VariantSetBase;
-            var newVariant = CreateInstance<VariantAsset>();
-            newVariant.SetName(VariantNameTextField.value);
-            newVariant.NewID();
-            if (!Directory.Exists(EditorCore.VariantAssetsFolderPath))
-            {
-                Directory.CreateDirectory(EditorCore.VariantAssetsFolderPath);
-            }
-            var path = Path.Combine(EditorCore.VariantAssetsFolderPath, $"{newVariant.UniqueIdString}.asset");
-            if (!Directory.Exists(Path.GetDirectoryName(path)))
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
-            }
+            variantSetBase.CreateVariantAsset(VariantNameTextField.value);
             VariantNameTextField.SetValueWithoutNotify("Name your variant here");
-            AssetDatabase.CreateAsset(newVariant, path);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-            variantSetBase.AddVariant(newVariant);
-            EditorUtility.SetDirty(variantSetBase);
-            EditorUtility.SetDirty(newVariant);
         }
     }
 }

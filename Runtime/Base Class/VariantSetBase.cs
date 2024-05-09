@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
+#if UNITY_EDITOR
+using UnityEditor;
+using System.IO;
+#endif
 
 namespace IndustryCSE.Tool.ProductConfigurator
 {
@@ -110,12 +114,68 @@ namespace IndustryCSE.Tool.ProductConfigurator
         }
         
 #if UNITY_EDITOR
-        public void SetVariantSetAsset(VariantSetAsset asset)
+        private static string VariantSetAssetsFolderPath => Path.Combine("Assets", "Data", "Variant Sets Assets");
+        private static string VariantAssetsFolderPath => Path.Combine("Assets", "Data", "Variant Assets");
+
+        private AssetBase CreateReturnAsset<T>(string setName)
         {
-            variantSetAsset = asset;
+            AssetBase newAsset = null;
+            if (!Directory.Exists(VariantSetAssetsFolderPath))
+            {
+                Directory.CreateDirectory(VariantSetAssetsFolderPath);
+            }
+            
+            if (typeof(T) == typeof(VariantSetAsset))
+            {
+                newAsset = ScriptableObject.CreateInstance<VariantSetAsset>();
+            }
+            else if (typeof(T) == typeof(VariantAsset))
+            {
+                newAsset = ScriptableObject.CreateInstance<VariantAsset>();
+            }
+            
+            newAsset?.NewID();
+            newAsset?.SetName(setName);
+            if (typeof(T) == typeof(VariantSetAsset))
+            {
+                AssetDatabase.CreateAsset(newAsset, Path.Combine(VariantSetAssetsFolderPath, $"{newAsset.UniqueIdString}.asset"));
+            }
+            else if (typeof(T) == typeof(VariantAsset))
+            {
+                var path = Path.Combine(VariantAssetsFolderPath, $"{((VariantAsset) newAsset).UniqueIdString}.asset");
+                if (!Directory.Exists(Path.GetDirectoryName(path)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                }
+                AssetDatabase.CreateAsset(newAsset, path);
+            }
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            EditorUtility.SetDirty(newAsset);
+            return newAsset;
+        }
+        
+        public VariantSetAsset CreateNewVariantSetAsset(string variantSetName)
+        {
+            var newVariantSet = CreateReturnAsset<VariantSetAsset>(variantSetName) as VariantSetAsset;
+            variantSetAsset = newVariantSet;
+            EditorUtility.SetDirty(this);
+            return newVariantSet;
         }
 
+        public VariantAsset CreateVariantAsset(string variantName)
+        {
+            var newVariant = CreateReturnAsset<VariantAsset>(variantName) as VariantAsset;
+            AddVariant(newVariant);
+            EditorUtility.SetDirty(this);
+            return newVariant;
+        }
+
+        public abstract VariantAsset CreateVariantAsset<T>(string variantName, T variantObject);
+        
         public abstract void AddVariant(VariantAsset variantAsset);
+        
+        public abstract void AddVariant<T>(VariantAsset variantAsset, T variantObject);
 #endif
     }
 }

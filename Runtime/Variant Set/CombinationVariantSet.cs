@@ -66,9 +66,20 @@ namespace IndustryCSE.Tool.ProductConfigurator
         }
 
 #if UNITY_EDITOR
+        public override VariantAsset CreateVariantAsset<T>(string variantName, T variantObject)
+        {
+            var variantAsset = CreateVariantAsset(variantName);
+            return variantAsset;
+        }
+
         public override void AddVariant(VariantAsset variantAsset)
         {
             variants.Add(new CombinationVariant {variantAsset = variantAsset});
+        }
+
+        public override void AddVariant<T>(VariantAsset variantAsset, T variantObject)
+        {
+            AddVariant(variantAsset);
         }
 #endif
     }
