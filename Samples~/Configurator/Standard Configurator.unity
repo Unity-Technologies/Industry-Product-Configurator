@@ -1813,7 +1813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiDocument: {fileID: 1636221759}
-  currencySymbol: 
+  currencySymbol: $
   defaultCost: 0
   variantSetVisualTreeAsset: {fileID: 9197481963319205126, guid: b033f98dafe0d472a9d86db8ed98b02e,
     type: 3}
@@ -1822,11 +1822,11 @@ MonoBehaviour:
   autoLoad: 1
   defaultSceneIndex: 0
   scenes:
-  - SceneName: Construction Day
+  - SceneDisplayName: Construction Day
     Scene:
       sceneAsset: {fileID: 102900000, guid: cc775994224228a42ad9cf526e068ce1, type: 3}
       SceneName: ConstructionSite_URP
-  - SceneName: Construction Night
+  - SceneDisplayName: Construction Night
     Scene:
       sceneAsset: {fileID: 102900000, guid: 3b22e7a5c8844924d89782b929110045, type: 3}
       SceneName: ConstructionSite_URP_Twilight

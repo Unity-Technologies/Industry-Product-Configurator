@@ -1,7 +1,7 @@
 # Industry Product Configurator
-This is a lightweight product configurator framework. It empowers users to effortlessly create their own product configurator experiences within Unity environments. With a set of foundational classes, users can seamlessly expand and customize their configurators to suit their specific needs and preferences.
+This is a lightweight product configurator framework designed for Unity. It empowers users to effortlessly create their own product configurator experiences within Unity environments. With a set of foundational classes, users can seamlessly expand and customize their configurators to suit their specific needs and preferences.
 
-Currently, our framework supports visibility, material, and transform variants. This means users can easily configure product options related to visibility (show/hide), material properties, and transformations (such as position, rotation, and scale). Whether you're building a simple configurator for basic products or a complex one with intricate customization options, our framework provides the flexibility and ease-of-use necessary to bring your vision to life.
+Currently, our framework supports visibility, material, animation and transform variants. This means users can easily configure product options related to visibility (show/hide), material properties, and transformations (such as position, rotation, and scale). Whether you're building a simple configurator for basic products or a complex one with intricate customization options, our framework provides the flexibility and ease-of-use necessary to bring your vision to life.
 
 ## Installation
 For the most up-to-date and reliable installation process, we recommend following the official documentation provided by Unity. The steps outlined in the official documentation ensure a smooth integration and compatibility with your Unity project as they incorporate the latest updates and best practices.

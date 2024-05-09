@@ -37,9 +37,6 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         public static string  VariantSetIconPath => Path.Combine(Application.dataPath.Replace("/", "\\"), "Data", "Icons");
         #endif
         
-        public static string VariantSetAssetsFolderPath => Path.Combine("Assets", "Data", "Variant Sets Assets");
-        public static string VariantAssetsFolderPath => Path.Combine("Assets", "Data", "Variant Assets");
-        
         public static void CaptureOptionImage(VariantSetBase variantSet, int width, int height)
         {
             //Use camera to capture 640 * 640 image and save it in asset folder
@@ -144,6 +141,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             
             #region Slider
             configurationEditorBase.VariantSliderContainer = CreateContainer(TopMargin, 0f);
+            configurationEditorBase.VariantSliderContainer.name = "Variant Slider Container";
             configurationEditorBase.VariantSliderContainer.Add(new Label("Drag this slider to quickly preview different variants"));
             configurationEditorBase.VariantSliderContainer.style.display = variantSetBase.VariantBase.Count <= 1 ? DisplayStyle.None : DisplayStyle.Flex;
             configurationEditorBase.VariantSlider =
@@ -157,6 +155,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             #region Size Dropdown and Capture Button
             
             configurationEditorBase.CaptureImageContainer = CreateContainer(TopMargin, 0f);
+            configurationEditorBase.CaptureImageContainer.name = "Capture Image Container";
             configurationEditorBase.CaptureImageContainer.Add(new Label("Capture the icon for each variant"));
             configurationEditorBase.CaptureImageContainer.style.display = variantSetBase.VariantBase.Count <= 1 ? DisplayStyle.None : DisplayStyle.Flex;
             var choices = IconPresets.Select(x => x.Name).ToList();

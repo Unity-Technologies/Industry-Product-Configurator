@@ -174,6 +174,20 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         }
     }
     
+    [CustomPropertyDrawer(typeof(AnimationVariant))]
+    public class AnimationVariantCustomPropertyDrawer : VariantBaseCustomPropertyDrawer
+    {
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            var container = base.CreatePropertyGUI(property);
+            
+            Foldout.Add(new PropertyField(property.FindPropertyRelative("VariantState")));
+            Foldout.Add(ConditionalVariantSetContainer(property));
+            
+            return container;
+        }
+    }
+    
     [CustomPropertyDrawer(typeof(GameObjectVariant))]
     public class GameObjectVariantCustomPropertyDrawer : VariantBaseCustomPropertyDrawer
     {

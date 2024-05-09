@@ -72,9 +72,68 @@ namespace IndustryCSE.Tool.ProductConfigurator
         }
         
 #if UNITY_EDITOR
+        /// <summary>
+        /// Create Variant for MaterialVariantSet
+        /// </summary>
+        /// <param name="variantName">Variant Name</param>
+        /// <param name="variantObject">Assign Material</param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public override VariantAsset CreateVariantAsset<T>(string variantName, T variantObject)
+        {
+            if (variantObject == null)
+            {
+                throw new ArgumentException("variantObject cannot be null");
+            }
+            
+            if (!(variantObject is Material))
+            {
+                throw new ArgumentException("variantObject must be a Material");
+            }
+            
+            var variantAsset = CreateVariantAsset(variantName);
+            AssignVariantObject(variantAsset.UniqueIdString, variantObject as Material);
+            
+            return variantAsset;
+        }
+
         public override void AddVariant(VariantAsset variantAsset)
         {
             variants.Add(new MaterialVariant {variantAsset = variantAsset});
+        }
+
+        /// <summary>
+        /// Add Variant for MaterialVariantSet
+        /// </summary>
+        /// <param name="variantName">Variant Name</param>
+        /// <param name="variantObject">Assign Material</param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public override void AddVariant<T>(VariantAsset variantAsset, T variantObject)
+        {
+            if (variantObject == null)
+            {
+                throw new ArgumentException("variantObject cannot be null");
+            }
+            
+            if (!(variantObject is Material))
+            {
+                throw new ArgumentException("variantObject must be a Material");
+            }
+            
+            AddVariant(variantAsset);
+            AssignVariantObject(variantAsset.UniqueIdString, variantObject as Material);
+        }
+        
+        private void AssignVariantObject(string id, Material targetMaterial)
+        {
+            var targetVariant = VariantBase.Find(x => string.Equals(x.variantAsset.UniqueIdString, id));
+            if (targetVariant != null)
+            {
+                ((MaterialVariant)targetVariant).VariantMaterial = targetMaterial;
+            }
         }
 #endif
     }

@@ -44,9 +44,68 @@ namespace IndustryCSE.Tool.ProductConfigurator
         }
         
 #if UNITY_EDITOR
+        /// <summary>
+        /// Create a new variant with a Transform object
+        /// </summary>
+        /// <param name="variantName">Variant Name</param>
+        /// <param name="variantObject">Assign Transform</param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public override VariantAsset CreateVariantAsset<T>(string variantName, T variantObject)
+        {
+            if (variantObject == null)
+            {
+                throw new ArgumentException("variantObject cannot be null");
+            }
+            
+            if (!(variantObject is Transform))
+            {
+                throw new ArgumentException("variantObject must be a Transform");
+            }
+            
+            var variantAsset = CreateVariantAsset(variantName);
+            AssignVariantObject(variantAsset.UniqueIdString, variantObject as Transform);
+
+            return variantAsset;
+        }
+
         public override void AddVariant(VariantAsset variantAsset)
         {
             variants.Add(new TransformVariant {variantAsset = variantAsset});
+        }
+
+        /// <summary>
+        /// Add a new variant with a Transform object
+        /// </summary>
+        /// <param name="variantName">Variant Name</param>
+        /// <param name="variantObject">Assign Transform</param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public override void AddVariant<T>(VariantAsset variantAsset, T variantObject)
+        {
+            if (variantObject == null)
+            {
+                throw new ArgumentException("variantObject cannot be null");
+            }
+            
+            if (!(variantObject is Transform))
+            {
+                throw new ArgumentException("variantObject must be a Transform");
+            }
+            
+            AddVariant(variantAsset);
+            AssignVariantObject(variantAsset.UniqueIdString, variantObject as Transform);
+        }
+
+        private void AssignVariantObject(string id, Transform targetTransform)
+        {
+            var targetVariant = VariantBase.Find(x => string.Equals(x.variantAsset.UniqueIdString, id));
+            if (targetVariant != null)
+            {
+                ((TransformVariant)targetVariant).VariantTransform = targetTransform;
+            }
         }
 #endif
     }

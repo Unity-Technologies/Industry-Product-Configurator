@@ -315,6 +315,14 @@ namespace IndustryCSE.Tool.ProductConfigurator.Sample.StandardConfigurator
             SceneManager.sceneUnloaded += OnSceneUnloaded;
             SceneManager.activeSceneChanged += OnActiveSceneChanged;
             
+            for(var i = 0; i < scenes.Length; i++)
+            {
+                if (string.IsNullOrEmpty(scenes[i].SceneDisplayName))
+                {
+                    scenes[i].SceneDisplayName = $"Sample Scene {i + 1}";
+                }
+            }
+            
             var allScenes = scenes.Select(x => x.SceneDisplayName).ToList();
             _environmentDropdown.choices = allScenes;
             
