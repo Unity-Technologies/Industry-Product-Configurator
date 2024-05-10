@@ -1,3 +1,6 @@
+![2024-05-09 10-26-30_trimmed_high](https://github.com/Unity-Technologies/Industry-Product-Configurator/assets/89197200/0ac38309-6113-45a9-a32a-dba085205a97)
+
+
 # Industry Product Configurator
 This is a lightweight product configurator framework designed for Unity. It empowers users to effortlessly create their own product configurator experiences within Unity environments. With a set of foundational classes, users can seamlessly expand and customize their configurators to suit their specific needs and preferences.
 
