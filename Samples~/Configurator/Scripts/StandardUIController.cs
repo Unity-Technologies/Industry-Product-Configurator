@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
+using IndustryCSE.Tool.ProductConfigurator.Runtime;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Sample.StandardConfigurator
 {

@@ -72,3 +72,18 @@ There is a tool available that facilitates the capture of icons for each variant
 <img width="480" alt="Screenshot 2024-05-03 at 13 37 48" src="https://github.com/Unity-Technologies/Industry-Product-Configurator/assets/89197200/90b7ff3a-63fc-42c4-8216-35c8111d8510">
 
 When utilizing the Material Variant Set, a tool is available to streamline the process. By inputting the parent object and a target material, this tool iterates through all child objects equipped with a MeshRenderer component. It identifies all instances where the material matches the target material, collecting the necessary indices and information. This enables seamless material changes when switching variants.
+
+### Package Settings
+A new settings page to make the package even more customizable. You can find it under "Edit" > "Project Settings" > "Product Configurator". Inside this settings page, there are various options that you can modify to better suit your specific needs. Explore these settings to fine-tune the configurator to your exact requirements.
+
+### Advanced Mode
+Within the settings page, there is a toggle to allow users to turn on "Advanced Mode". The difference between Basic Mode and Advanced Mode is as follows:
+
+Basic Mode: Hides many fields in the inspector to provide a cleaner, simpler interface for users who do not need advanced customization options.
+Advanced Mode: Exposes more fields in the inspector, giving advanced users greater control and flexibility to modify settings and configurations.
+Explore these settings to fine-tune the configurator to your exact requirements.
+
+### VariantSelect Component
+The package includes a "VariantSelect" component that generates a dropdown menu of the existing variant sets. This feature is designed for non-developers to easily pick variant sets in the scene. The same functionality applies to the Variant field.
+
+Additionally, there's a new "Variant Select" public function that users can invoke using UnityEvent. This is particularly useful for users who utilize the uGUI solution, allowing them to directly assign the component to the "OnClick" event.

@@ -1,0 +1,18 @@
+{
+    "name": "IndustryCSE.ProductConfigurator.Settings.Editor",
+    "rootNamespace": "IndustryCSE.ProductConfigurator.Settings.Editor",
+    "references": [
+        "GUID:9d31d55a1fb9041598ad2dd5b3e457f6"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

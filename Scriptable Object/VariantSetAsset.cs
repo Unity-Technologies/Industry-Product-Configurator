@@ -16,6 +16,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.ScriptableObjects
         public Vector3 storeCameraPosition;
         [HideInInspector]
         public Quaternion storeCameraRotation;
+
+        [HideInInspector]
+        public float storeCameraDistance;
         
         #endif
         

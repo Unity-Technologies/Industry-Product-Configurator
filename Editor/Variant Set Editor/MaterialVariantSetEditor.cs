@@ -7,7 +7,8 @@ using System.Linq;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
-using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
+using IndustryCSE.Tool.ProductConfigurator.Settings.Editor;
+using IndustryCSE.Tool.ProductConfigurator.Runtime;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Editor
 {
@@ -33,10 +34,16 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         public override VisualElement CreateInspectorGUI()
         {
             var myInspector = base.CreateInspectorGUI();
+            
+            var renderersDetails = myInspector.Q<PropertyField>("PropertyField:renderersDetails");
+            if (renderersDetails != null && !PackageSettingsController.Settings.UseAdvancedSettings)
+            {
+                renderersDetails.SetEnabled(false);
+            }
 
             var index = DefaultInspectorContainer.parent.IndexOf(DefaultInspectorContainer);
 
-            _materialCaptureContainer = EditorCore.CreateContainer(EditorCore.TopMargin, 0f);
+            _materialCaptureContainer = EditorCore.CreateContainer(0f, EditorCore.BottomMargin);
 
             Label tipsLabel = new Label("Select a material to capture all MeshRenderers in children from the target parent with this material.")
                 {
@@ -85,6 +92,8 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             _materialField.style.display = _targetParentField.value != null ? DisplayStyle.Flex : DisplayStyle.None;
             _captureButton.style.display = _materialField.value != null && _targetParentField.value != null ? DisplayStyle.Flex : DisplayStyle.None;
             
+            _materialCaptureContainer.style.display = _materialVariantSet.VariantSetAsset == null ? DisplayStyle.None : DisplayStyle.Flex;
+            
             // Return the finished inspector UI
             return myInspector;
         }
@@ -123,6 +132,12 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             _materialVariantSet.RenderersDetails ??= new List<RendererDetail>();
             _materialVariantSet.RenderersDetails.AddRange(GetSameMaterialRenderers(_targetMaterial));
             _materialVariantSet.RenderersDetails = _materialVariantSet.RenderersDetails.Distinct(new RendererDetailComparer()).ToList();
+        }
+
+        public override void OnCreateNewVariantSetAsset()
+        {
+            base.OnCreateNewVariantSetAsset();
+            _materialCaptureContainer.style.display = DisplayStyle.Flex;
         }
 
         private class RendererDetailComparer : IEqualityComparer<RendererDetail>
