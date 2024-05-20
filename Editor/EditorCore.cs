@@ -8,6 +8,9 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using Object = UnityEngine.Object;
+using IndustryCSE.Tool.ProductConfigurator.Runtime;
+using IndustryCSE.Tool.ProductConfigurator.Settings.Editor;
+using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Editor
 {
@@ -32,10 +35,90 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         public const float BottomMargin = 10f;
         
         #if UNITY_EDITOR_OSX
-        public static string  VariantSetIconPath => Path.Combine(Application.dataPath, "Data", "Icons");
+        public static string  VariantSetIconPath => PackageSettingsController.Settings.VariantIconPath.Replace("\\", "/");
+        private static string VariantSetAssetsFolderPath => PackageSettingsController.Settings.VariantSetAssetPath.Replace("\\", "/");
+        private static string VariantAssetsFolderPath => PackageSettingsController.Settings.VariantAssetPath.Replace("\\", "/");
         #elif UNITY_EDITOR_WIN
-        public static string  VariantSetIconPath => Path.Combine(Application.dataPath.Replace("/", "\\"), "Data", "Icons");
+        public static string  VariantSetIconPath => PackageSettingsController.Settings.VariantIconPath.Replace("/", "\\");
+        private static string VariantSetAssetsFolderPath => PackageSettingsController.Settings.VariantSetAssetPath.Replace("/", "\\");
+        private static string VariantAssetsFolderPath => PackageSettingsController.Settings.VariantAssetPath.Replace("/", "\\");
         #endif
+        
+        public static AssetBase CreateReturnAsset<T>(string setName)
+        {
+            AssetBase newAsset = null;
+            if (!Directory.Exists(VariantSetAssetsFolderPath))
+            {
+                Directory.CreateDirectory(VariantSetAssetsFolderPath);
+            }
+            
+            if (typeof(T) == typeof(VariantSetAsset))
+            {
+                newAsset = ScriptableObject.CreateInstance<VariantSetAsset>();
+            }
+            else if (typeof(T) == typeof(VariantAsset))
+            {
+                newAsset = ScriptableObject.CreateInstance<VariantAsset>();
+            }
+            
+            newAsset?.NewID();
+            newAsset?.SetName(setName);
+            if (typeof(T) == typeof(VariantSetAsset))
+            {
+                AssetDatabase.CreateAsset(newAsset, Path.Combine(VariantSetAssetsFolderPath, $"{newAsset.UniqueIdString}.asset"));
+            }
+            else if (typeof(T) == typeof(VariantAsset))
+            {
+                var path = Path.Combine(VariantAssetsFolderPath, $"{((VariantAsset) newAsset).UniqueIdString}.asset");
+                if (!Directory.Exists(Path.GetDirectoryName(path)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                }
+                AssetDatabase.CreateAsset(newAsset, path);
+            }
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            EditorUtility.SetDirty(newAsset);
+            return newAsset;
+        }
+
+        public static VariantSetAsset CreateNewVariantSetAsset(VariantSetBase variantSetBase, string variantSetName)
+        {
+            var newVariantSet = CreateReturnAsset<VariantSetAsset>(variantSetName) as VariantSetAsset;
+            variantSetBase.SetVariantSetAsset(newVariantSet);
+            EditorUtility.SetDirty(variantSetBase);
+            return newVariantSet;
+        }
+        
+        public static VariantAsset CreateVariantAsset(VariantSetBase variantSetBase, string variantName)
+        {
+            var newVariant = CreateReturnAsset<VariantAsset>(variantName) as VariantAsset;
+            variantSetBase.AddVariant(newVariant);
+            EditorUtility.SetDirty(variantSetBase);
+            return newVariant;
+        }
+        
+        public static void AddVariantToVariantSet(VariantSetBase variantSetAsset, VariantAsset variantAsset)
+        {
+            variantSetAsset.AddVariant(variantAsset);
+            EditorUtility.SetDirty(variantSetAsset);
+        }
+
+        /// <summary>
+        /// Create Variant for MaterialVariantSet
+        /// </summary>
+        /// <param name="variantName">Variant Name</param>
+        /// <param name="variantObject">Assign object</param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static VariantAsset CreateVariantAsset<T>(VariantSetBase variantSetBase, string variantName,
+            T variantObject)
+        {
+            var newVariant = CreateVariantAsset(variantSetBase, variantName);
+            variantSetBase.AssignVariantObject(newVariant.UniqueIdString, variantObject);
+            return newVariant;
+        }
         
         public static void CaptureOptionImage(VariantSetBase variantSet, int width, int height)
         {
@@ -68,8 +151,10 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                 File.WriteAllBytes(path, bytes);
                 cam.targetTexture = null;
                 
-                variantSet.VariantSetAsset.storeCameraPosition = view.pivot;
-                variantSet.VariantSetAsset.storeCameraRotation = view.rotation;
+                variantSet.VariantSetAsset.storeCameraPosition = view.camera.transform.position;
+                variantSet.VariantSetAsset.storeCameraRotation = view.camera.transform.rotation;
+                variantSet.VariantSetAsset.storeCameraDistance =
+                    Vector3.Distance(view.camera.transform.position, view.pivot);
                 variantSet.VariantSetAsset.hasStoreCameraPositionAndRotation = true;
                 
                 EditorUtility.SetDirty(variantSet.VariantSetAsset);
@@ -89,7 +174,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             var configurationEditorBase = (editor as CustomConfigurationEditorBase);
 
             configurationEditorBase.VariantSetContainer = CreateContainer(0f, BottomMargin);
-            
+            configurationEditorBase.VariantSetContainer.name = "Variant Set Container";
             configurationEditorBase.VariantSetNameTextField = new TextField("Variant Set Name");
             configurationEditorBase.VariantSetNameTextField.value = variantSetBase.VariantSetAsset == null? "Name your variant set here" : variantSetBase.VariantSetAsset.VariantSetName;
             configurationEditorBase.VariantSetNameTextField.RegisterValueChangedCallback(configurationEditorBase.OnVariantSetTextFieldChange);
@@ -111,18 +196,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             var so = new SerializedObject(target);
             
             configurationEditorBase.ShowVariantSetAssetCreationBtn(variantSetBase.VariantSetAsset == null);
-            configurationEditorBase.DefaultInspectorContainer = CreateContainer(0f, 0f);
-            InspectorElement.FillDefaultInspector(configurationEditorBase.DefaultInspectorContainer, so, editor);
-            myInspector.Add(configurationEditorBase.DefaultInspectorContainer);
-
-            var objectField = configurationEditorBase.DefaultInspectorContainer.Q<PropertyField>("PropertyField:variantSetAsset");
-            
-            objectField.TrackPropertyValue(variantSetAssetProperty, configurationEditorBase.TrackVariantSetAssetProperty);
-            
-            var variantArraySizeProp = so.FindProperty("variants.Array.size");
             
             #region New Variant Button
-            configurationEditorBase.VariantContainer = CreateContainer(TopMargin, 0f);
+            configurationEditorBase.VariantContainer = CreateContainer(0f, BottomMargin);
             myInspector.Add(configurationEditorBase.VariantContainer);
             configurationEditorBase.VariantNameTextField = new TextField("New Variant Name")
             {
@@ -138,9 +214,56 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             configurationEditorBase.CreateVariantButton.clicked += configurationEditorBase.OnCreateVariant;
             configurationEditorBase.VariantContainer.Add(configurationEditorBase.CreateVariantButton);
             #endregion
+
+            #region Draw Default Inspector
+
+            configurationEditorBase.DefaultInspectorContainer = CreateContainer(0f, BottomMargin);
+            InspectorElement.FillDefaultInspector(configurationEditorBase.DefaultInspectorContainer, so, editor);
+            myInspector.Add(configurationEditorBase.DefaultInspectorContainer);
+            if (PackageSettingsController.Settings.UseAdvancedSettings)
+            {
+                configurationEditorBase.DefaultInspectorContainer.style.display = DisplayStyle.Flex;
+            }
+            else if(!PackageSettingsController.Settings.UseAdvancedSettings && variantSetBase.VariantSetAsset != null)
+            {
+                configurationEditorBase.DefaultInspectorContainer.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                configurationEditorBase.DefaultInspectorContainer.style.display = DisplayStyle.None;
+            }
+
+            if (!PackageSettingsController.Settings.UseAdvancedSettings)
+            {
+                var variantSetAssetObjectField = configurationEditorBase.DefaultInspectorContainer.Q<PropertyField>("PropertyField:variantSetAsset");
+                if (variantSetAssetObjectField != null)
+                {
+                    variantSetAssetObjectField.style.display = DisplayStyle.None;
+                }
+                
+                var variantsObjectField = configurationEditorBase.DefaultInspectorContainer.Q<PropertyField>("PropertyField:variants");
+                if (variantsObjectField != null)
+                {
+                    variantsObjectField.name = "VariantsList";
+                    var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(
+                        "Packages/com.unity.industrycse.productconfigurator/Editor/Resources/VariantBaseInspectorStyle.uss");
+                    if (styleSheet != null)
+                    {
+                        myInspector.styleSheets.Add(styleSheet);
+                    }
+                }
+            }
+
+            #endregion
+
+            var objectField = configurationEditorBase.DefaultInspectorContainer.Q<PropertyField>("PropertyField:variantSetAsset");
+            
+            objectField.TrackPropertyValue(variantSetAssetProperty, configurationEditorBase.TrackVariantSetAssetProperty);
+            
+            var variantArraySizeProp = so.FindProperty("variants.Array.size");
             
             #region Slider
-            configurationEditorBase.VariantSliderContainer = CreateContainer(TopMargin, 0f);
+            configurationEditorBase.VariantSliderContainer = CreateContainer(0f, BottomMargin);
             configurationEditorBase.VariantSliderContainer.name = "Variant Slider Container";
             configurationEditorBase.VariantSliderContainer.Add(new Label("Drag this slider to quickly preview different variants"));
             configurationEditorBase.VariantSliderContainer.style.display = variantSetBase.VariantBase.Count <= 1 ? DisplayStyle.None : DisplayStyle.Flex;
@@ -154,7 +277,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             
             #region Size Dropdown and Capture Button
             
-            configurationEditorBase.CaptureImageContainer = CreateContainer(TopMargin, 0f);
+            configurationEditorBase.CaptureImageContainer = CreateContainer(0f, BottomMargin);
             configurationEditorBase.CaptureImageContainer.name = "Capture Image Container";
             configurationEditorBase.CaptureImageContainer.Add(new Label("Capture the icon for each variant"));
             configurationEditorBase.CaptureImageContainer.style.display = variantSetBase.VariantBase.Count <= 1 ? DisplayStyle.None : DisplayStyle.Flex;

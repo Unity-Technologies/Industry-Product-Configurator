@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 
-namespace IndustryCSE.Tool.ProductConfigurator
+namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 {
     [Serializable]
     public class GameObjectVariant : VariantBase
@@ -45,36 +45,15 @@ namespace IndustryCSE.Tool.ProductConfigurator
             variants[value].VariantGameObject.SetActive(true);
             base.SetVariant(value, triggerConditionalVariants);
         }
-        
-#if UNITY_EDITOR
-        /// <summary>
-        /// Create a new variant with the given name and object
-        /// </summary>
-        /// <param name="variantName">Variant Name</param>
-        /// <param name="variantObject">Assign GameObject</param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public override VariantAsset CreateVariantAsset<T>(string variantName, T variantObject)
-        {
-            if (variantObject == null)
-            {
-                throw new ArgumentException("variantObject cannot be null");
-            }
-            
-            if (!(variantObject is GameObject))
-            {
-                throw new ArgumentException("variantObject must be a GameObject");
-            }
-            
-            var variantAsset = CreateVariantAsset(variantName);
-            AssignVariantObject(variantAsset.UniqueIdString, variantObject as GameObject);
-            return variantAsset;
-        }
 
         public override void AddVariant(VariantAsset variantAsset)
         {
-            variants.Add(new GameObjectVariant {variantAsset = variantAsset});
+            var newVariant = new GameObjectVariant
+            {
+                variantAsset = variantAsset,
+                VariantGameObject = null
+            };
+            variants.Add(newVariant);
         }
 
         /// <summary>
@@ -101,15 +80,24 @@ namespace IndustryCSE.Tool.ProductConfigurator
             AssignVariantObject(variantAsset.UniqueIdString, variantObject as GameObject);
         }
         
-        private void AssignVariantObject(string id, GameObject targetGameObject)
+        public override void AssignVariantObject<T>(string id, T targetGameObject)
         {
+            if (targetGameObject == null)
+            {
+                throw new ArgumentException("targetGameObject cannot be null");
+            }
+            
+            if (!(targetGameObject is GameObject))
+            {
+                throw new ArgumentException("targetGameObject must be a GameObject");
+            }
+            
             var targetVariant = VariantBase.Find(x => string.Equals(x.variantAsset.UniqueIdString, id));
             if (targetVariant != null)
             {
-                ((GameObjectVariant)targetVariant).VariantGameObject = targetGameObject;
+                ((GameObjectVariant)targetVariant).VariantGameObject = targetGameObject as GameObject;
             }
         }
-#endif
     }
 }
 

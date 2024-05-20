@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 
-namespace IndustryCSE.Tool.ProductConfigurator
+namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 {
     [Serializable]
     public class TransformVariant : VariantBase
@@ -42,37 +42,15 @@ namespace IndustryCSE.Tool.ProductConfigurator
             gameObjectToMove.transform.SetPositionAndRotation(variants[value].VariantTransform.position, variants[value].VariantTransform.rotation);
             base.SetVariant(value, triggerConditionalVariants);
         }
-        
-#if UNITY_EDITOR
-        /// <summary>
-        /// Create a new variant with a Transform object
-        /// </summary>
-        /// <param name="variantName">Variant Name</param>
-        /// <param name="variantObject">Assign Transform</param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public override VariantAsset CreateVariantAsset<T>(string variantName, T variantObject)
-        {
-            if (variantObject == null)
-            {
-                throw new ArgumentException("variantObject cannot be null");
-            }
-            
-            if (!(variantObject is Transform))
-            {
-                throw new ArgumentException("variantObject must be a Transform");
-            }
-            
-            var variantAsset = CreateVariantAsset(variantName);
-            AssignVariantObject(variantAsset.UniqueIdString, variantObject as Transform);
-
-            return variantAsset;
-        }
 
         public override void AddVariant(VariantAsset variantAsset)
         {
-            variants.Add(new TransformVariant {variantAsset = variantAsset});
+            var newVariant = new TransformVariant
+            {
+                variantAsset = variantAsset,
+                VariantTransform = null
+            };
+            variants.Add(newVariant);
         }
 
         /// <summary>
@@ -98,16 +76,25 @@ namespace IndustryCSE.Tool.ProductConfigurator
             AddVariant(variantAsset);
             AssignVariantObject(variantAsset.UniqueIdString, variantObject as Transform);
         }
-
-        private void AssignVariantObject(string id, Transform targetTransform)
+        
+        public override void AssignVariantObject<T>(string id, T targetTransform)
         {
+            if (targetTransform == null)
+            {
+                throw new ArgumentException("targetTransform cannot be null");
+            }
+            
+            if (!(targetTransform is Transform))
+            {
+                throw new ArgumentException("targetTransform must be a Transform");
+            }
+            
             var targetVariant = VariantBase.Find(x => string.Equals(x.variantAsset.UniqueIdString, id));
             if (targetVariant != null)
             {
-                ((TransformVariant)targetVariant).VariantTransform = targetTransform;
+                ((TransformVariant)targetVariant).VariantTransform = targetTransform as Transform;
             }
         }
-#endif
     }
 }
 

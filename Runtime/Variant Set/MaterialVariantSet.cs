@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Linq;
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 
-namespace IndustryCSE.Tool.ProductConfigurator
+namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 {
     [Serializable]
     public class MaterialVariant : VariantBase
@@ -70,37 +70,14 @@ namespace IndustryCSE.Tool.ProductConfigurator
             }
             base.SetVariant(value, triggerConditionalVariants);
         }
-        
-#if UNITY_EDITOR
-        /// <summary>
-        /// Create Variant for MaterialVariantSet
-        /// </summary>
-        /// <param name="variantName">Variant Name</param>
-        /// <param name="variantObject">Assign Material</param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public override VariantAsset CreateVariantAsset<T>(string variantName, T variantObject)
-        {
-            if (variantObject == null)
-            {
-                throw new ArgumentException("variantObject cannot be null");
-            }
-            
-            if (!(variantObject is Material))
-            {
-                throw new ArgumentException("variantObject must be a Material");
-            }
-            
-            var variantAsset = CreateVariantAsset(variantName);
-            AssignVariantObject(variantAsset.UniqueIdString, variantObject as Material);
-            
-            return variantAsset;
-        }
 
         public override void AddVariant(VariantAsset variantAsset)
         {
-            variants.Add(new MaterialVariant {variantAsset = variantAsset});
+            var newVariant = new MaterialVariant
+            {
+                variantAsset = variantAsset
+            };
+            Variants.Add(newVariant);
         }
 
         /// <summary>
@@ -127,14 +104,22 @@ namespace IndustryCSE.Tool.ProductConfigurator
             AssignVariantObject(variantAsset.UniqueIdString, variantObject as Material);
         }
         
-        private void AssignVariantObject(string id, Material targetMaterial)
+        public override void AssignVariantObject<T>(string id, T targetMaterial)
         {
+            if (targetMaterial == null)
+            {
+                throw new ArgumentException("targetMaterial cannot be null");
+            }
+            
+            if (!(targetMaterial is Material))
+            {
+                throw new ArgumentException("targetMaterial must be a Material");
+            }
             var targetVariant = VariantBase.Find(x => string.Equals(x.variantAsset.UniqueIdString, id));
             if (targetVariant != null)
             {
-                ((MaterialVariant)targetVariant).VariantMaterial = targetMaterial;
+                ((MaterialVariant)targetVariant).VariantMaterial = targetMaterial as Material;
             }
         }
-#endif
     }
 }

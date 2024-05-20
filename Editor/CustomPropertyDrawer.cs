@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
+using IndustryCSE.Tool.ProductConfigurator.Runtime;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using IndustryCSE.Tool.ProductConfigurator.Settings.Editor;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Editor
 {
@@ -97,15 +99,26 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         {
             var container = new VisualElement();
             Foldout = new Foldout();
+            
             var assetFieldProperty = property.FindPropertyRelative("variantAsset");
+            var variantFoldout = property.FindPropertyRelative("FoldoutInspector");
+            if (variantFoldout != null)
+            {
+                Foldout.RegisterValueChangedCallback(evt =>
+                {
+                    variantFoldout.boolValue = evt.newValue;
+                    variantFoldout.serializedObject.ApplyModifiedProperties();
+                });
+            }
             
             if (assetFieldProperty == null) return null;
+            
             var variantAssetObject = assetFieldProperty.objectReferenceValue;
             if (variantAssetObject != null)
             {
                 //create a foldout for showing variant name, asset
                 Foldout.text = ((VariantAsset) variantAssetObject).VariantName;
-                Foldout.value = false;
+                Foldout.value = variantFoldout.boolValue;
                 
                 var variantNameProperty = new SerializedObject(variantAssetObject).FindProperty("variantName");
                 if (variantNameProperty != null)
@@ -123,6 +136,72 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                     });
                     Foldout.Add(variantNameField);
                 }
+                
+                var variantIconProperty = new SerializedObject(variantAssetObject).FindProperty("icon");
+                if(variantIconProperty != null){
+                    var iconObjectField = new ObjectField
+                    {
+                        label = "Variant Icon",
+                        objectType = typeof(Texture2D),
+                        value = (Texture2D)variantIconProperty.objectReferenceValue,
+                        allowSceneObjects = false
+                    };
+                    
+                    iconObjectField.RegisterValueChangedCallback(evt =>
+                    {
+                        variantIconProperty.objectReferenceValue = (Texture2D)evt.newValue;
+                        variantIconProperty.serializedObject.ApplyModifiedProperties();
+                        EditorUtility.SetDirty(variantAssetObject);
+                    });
+
+                    if (PackageSettingsController.Settings.UseAdvancedSettings)
+                    {
+                        iconObjectField.style.display = DisplayStyle.None;
+                    }
+                    
+                    Foldout.Add(iconObjectField);
+                }
+            } else if (variantAssetObject == null)
+            {
+                if (!PackageSettingsController.Settings.UseAdvancedSettings)
+                {
+                    var label = new Label("No Variant Asset found, you can turn on \"Advanced Mode\" in settings to assign Variant Asset.")
+                    {
+                        style =
+                        {
+                            whiteSpace = WhiteSpace.Normal,
+                            color = Color.red,
+                            marginBottom = new Length(10f, LengthUnit.Pixel),
+                            marginTop = new Length(10f, LengthUnit.Pixel)
+                        }
+                    };
+                    Foldout.Add(label);
+                }
+                
+                var createAssetButton = new Button()
+                {
+                    text = "Create Variant Asset",
+                    style =
+                    {
+                        marginBottom = new Length(10f, LengthUnit.Pixel)
+                    }
+                };
+                createAssetButton.clicked += () =>
+                {
+                    var newVariantAsset = EditorCore.CreateReturnAsset<VariantAsset>("New Variant");
+                    variantAssetObject = newVariantAsset;
+                    assetFieldProperty.objectReferenceValue = newVariantAsset;
+                    assetFieldProperty.serializedObject.ApplyModifiedProperties();
+                    variantFoldout.boolValue = true;
+                    var selectedObject = Selection.activeGameObject;
+                    EditorUtility.SetDirty(selectedObject);
+                    Selection.activeGameObject = null;
+                    EditorApplication.delayCall += () =>
+                    {
+                        Selection.activeGameObject = selectedObject;
+                    };
+                };
+                Foldout.Add(createAssetButton);
             }
 
             VisualElement variantAssetPropertyContainer = new VisualElement
@@ -150,6 +229,11 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             
             variantAssetPropertyContainer.Add(selectButton);
             
+            if (!PackageSettingsController.Settings.UseAdvancedSettings)
+            {
+                variantAssetPropertyContainer.style.display = DisplayStyle.None;
+            }
+            
             Foldout.Add(variantAssetPropertyContainer);
             container.Add(Foldout);
             return container;
@@ -169,6 +253,11 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             
             boxContainer.Add(toolTip);
             boxContainer.Add(new PropertyField(property.FindPropertyRelative("conditionalVariants")));
+
+            if (!PackageSettingsController.Settings.UseAdvancedSettings)
+            {
+                boxContainer.style.display = DisplayStyle.None;
+            }
             
             return boxContainer;
         }

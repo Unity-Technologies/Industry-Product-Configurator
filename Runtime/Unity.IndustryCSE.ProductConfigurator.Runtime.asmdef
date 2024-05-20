@@ -1,6 +1,6 @@
 {
-    "name": "Unity.IndustryCSE.ProductConfigurator",
-    "rootNamespace": "IndustryCSE.Tool.ProductConfigurator",
+    "name": "Unity.IndustryCSE.ProductConfigurator.Runtime",
+    "rootNamespace": "IndustryCSE.Tool.ProductConfigurator.Runtime",
     "references": [
         "GUID:9d31d55a1fb9041598ad2dd5b3e457f6",
         "GUID:c1fad304be4ab4e7692e38336af7496c",

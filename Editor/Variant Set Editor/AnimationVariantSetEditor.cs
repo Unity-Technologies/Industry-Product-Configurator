@@ -2,6 +2,7 @@ using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using IndustryCSE.Tool.ProductConfigurator.Runtime;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Editor
 {

@@ -1,7 +1,13 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
+using UnityEditor.UIElements;
+using IndustryCSE.Tool.ProductConfigurator.Runtime;
+using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
+using IndustryCSE.Tool.ProductConfigurator.Settings.Editor;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Editor
 {
@@ -24,8 +30,14 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         public DropdownField CaptureSizeDropdown;
         public Button CaptureImageButton;
         public Button UsePreviousLocationButton;
+        
+        protected List<VariantBase> m_OriginalVariants;
 
-        protected virtual void OnEnable() {}
+        protected virtual void OnEnable()
+        {
+            var variantSetBase = target as VariantSetBase;
+            m_OriginalVariants = new List<VariantBase>(variantSetBase.VariantBase);
+        }
 
         public override VisualElement CreateInspectorGUI()
         {
@@ -72,16 +84,20 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             {
                 UsePreviousLocationButton.clicked -= OnUsePreviousLocationButtonClicked;
             }
+
+            if (target != null) return;
+            var variantSetBase = target as VariantSetBase;
+            AssetRemoveConfirmation.RemoveAssetConfirmation(variantSetBase.VariantSetAsset, 
+                variantSetBase.VariantBase.Select(x => x.variantAsset).ToList());
         }
 
         public void OnUsePreviousLocationButtonClicked()
         {
             SceneView view = SceneView.lastActiveSceneView;
-            Camera cam = view.camera;
             var variantSetBase = target as VariantSetBase;
             if(!variantSetBase.VariantSetAsset.hasStoreCameraPositionAndRotation) return;
             // Set the SceneView camera position and rotation
-            view.LookAt(variantSetBase.VariantSetAsset.storeCameraPosition, variantSetBase.VariantSetAsset.storeCameraRotation);
+            view.LookAt(variantSetBase.VariantSetAsset.storeCameraPosition, variantSetBase.VariantSetAsset.storeCameraRotation, variantSetBase.VariantSetAsset.storeCameraDistance * 0.01f);
         }
 
         public void ShowVariantSetAssetCreationBtn(bool show)
@@ -118,11 +134,63 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             var size = EditorCore.IconPresets[CaptureSizeDropdown.index];
             UsePreviousLocationButton.style.display = DisplayStyle.Flex;
             EditorCore.CaptureOptionImage(variantSetBase, size.Width, size.Height);
+            if (Selection.activeGameObject != variantSetBase.gameObject) return;
+            Selection.activeGameObject = null;
+            EditorUtility.SetDirty(variantSetBase.gameObject);
+            EditorApplication.delayCall += () => Selection.activeGameObject = variantSetBase.gameObject;
         }
 
         public void OnVariantCountChanged(SerializedProperty obj)
         {
-            SceneTracker.CheckVariantSet(target as VariantSetBase);
+            var variantSetBase = target as VariantSetBase;
+            
+            if (m_OriginalVariants.Count != obj.intValue)
+            {
+                if (m_OriginalVariants.Count > obj.intValue)
+                {
+                    //A variant has removed find the removed variant
+                    List<VariantAsset> removedVariant = new List<VariantAsset>();
+                    foreach (var variantBase in m_OriginalVariants)
+                    {
+                        if(variantSetBase.VariantBase.Any(x => string.Equals(x.variantAsset.UniqueIdString, variantBase.variantAsset.UniqueIdString))) continue;
+                        removedVariant.Add(variantBase.variantAsset);
+                    }
+
+                    if (removedVariant.Count > 0)
+                    {
+                        AssetRemoveConfirmation.RemoveAssetConfirmation(removedVariant);
+                    }
+                }
+                else
+                {
+                    foreach (var variantBase in variantSetBase.VariantBase)
+                    {
+                        if (variantBase.variantAsset == null)
+                        {
+                            EditorApplication.delayCall += () =>
+                            {
+                                // Show a dialog box asking the user if they want to remove the assets
+                                var result = EditorUtility.DisplayDialog("Adding Variant Asset",
+                                    "There is no Variant Asset found in your variant, do you want to create one?", "Yes", "No");
+                                if (result)
+                                {
+                                    var newVariant = EditorCore.CreateReturnAsset<VariantAsset>("Variant");
+                                    variantBase.variantAsset = newVariant as VariantAsset;
+                                    variantBase.FoldoutInspector = true;
+                                    EditorUtility.SetDirty(variantSetBase);
+                                    var selectedObject = Selection.activeGameObject;
+                                    Selection.activeGameObject = null;
+                                    EditorApplication.delayCall += () => Selection.activeGameObject = selectedObject;
+                                }
+                            };
+                        }
+                    }
+                }
+                m_OriginalVariants = new List<VariantBase>(variantSetBase.VariantBase);
+            }
+            
+            
+            SceneTracker.CheckVariantSet(variantSetBase);
             VariantSlider.highValue = obj.intValue - 1;
             VariantSlider.value = Mathf.Min(VariantSlider.value, VariantSlider.highValue);
             
@@ -149,18 +217,29 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             EditorUtility.SetDirty(variantSetBase.VariantSetAsset);
         }
 
-        public void OnCreateNewVariantSetAsset()
+        public virtual void OnCreateNewVariantSetAsset()
         {
             // Create a new VariantSetAsset
             var variantSetBase = target as VariantSetBase;
-            variantSetBase.CreateNewVariantSetAsset(VariantSetNameTextField.value);
+            EditorCore.CreateNewVariantSetAsset(variantSetBase, VariantSetNameTextField.value);
+            DefaultInspectorContainer.style.display = DisplayStyle.Flex;
         }
         
         public void OnCreateVariant()
         {
             var variantSetBase = target as VariantSetBase;
-            variantSetBase.CreateVariantAsset(VariantNameTextField.value);
+            EditorCore.CreateVariantAsset(variantSetBase, VariantNameTextField.value);
             VariantNameTextField.SetValueWithoutNotify("Name your variant here");
+            
+            var variantsObjectField = DefaultInspectorContainer.Q("VariantsList");
+            if (variantsObjectField != null)
+            {
+                var foldOut = variantsObjectField.Q<Foldout>("unity-list-view__foldout-header");
+                if (foldOut != null)
+                {
+                    foldOut.value = true;
+                }
+            }
         }
     }
 }

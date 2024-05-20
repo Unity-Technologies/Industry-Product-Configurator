@@ -5,7 +5,7 @@ using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 using UnityEngine;
 using System.Linq;
 
-namespace IndustryCSE.Tool.ProductConfigurator
+namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 {
     [Serializable]
     public class CombinationVariant : VariantBase {}
@@ -65,22 +65,20 @@ namespace IndustryCSE.Tool.ProductConfigurator
             base.SetVariant(value, triggerConditionalVariants);
         }
 
-#if UNITY_EDITOR
-        public override VariantAsset CreateVariantAsset<T>(string variantName, T variantObject)
-        {
-            var variantAsset = CreateVariantAsset(variantName);
-            return variantAsset;
-        }
-
         public override void AddVariant(VariantAsset variantAsset)
         {
-            variants.Add(new CombinationVariant {variantAsset = variantAsset});
+            var newVariant = new CombinationVariant
+            {
+                variantAsset = variantAsset
+            };
+            variants.Add(newVariant);
         }
 
         public override void AddVariant<T>(VariantAsset variantAsset, T variantObject)
         {
             AddVariant(variantAsset);
         }
-#endif
+        
+        public override void AssignVariantObject<T>(string variantGuid, T variantObject) {}
     }
 }

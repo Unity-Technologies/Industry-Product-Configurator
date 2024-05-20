@@ -1,0 +1,3 @@
+#VariantsList > * > * > * > * > #unity-list-view__add-button{
+    display: none;
+}

@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 
-namespace IndustryCSE.Tool.ProductConfigurator
+namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 {
     [Serializable]
     public class AnimationVariant : VariantBase
@@ -44,36 +44,15 @@ namespace IndustryCSE.Tool.ProductConfigurator
             animator.Play(variants[value].Hash);
             base.SetVariant(value, triggerConditionalVariants);
         }
-        
-#if UNITY_EDITOR
-        /// <summary>
-        /// Create a new variant asset
-        /// </summary>
-        /// <param name="variantName">Variant Name</param>
-        /// <param name="variantObject">Assign Animator State - must be a string</param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public override VariantAsset CreateVariantAsset<T>(string variantName, T variantObject)
-        {
-            if (variantObject == null)
-            {
-                throw new ArgumentException("variantObject cannot be null");
-            }
-            
-            if (!(variantObject is string))
-            {
-                throw new ArgumentException("variantObject must be a string");
-            }
-            
-            var variantAsset = CreateVariantAsset(variantName);
-            AssignVariantObject(variantAsset.UniqueIdString, variantObject as string);
-            return variantAsset;
-        }
 
         public override void AddVariant(VariantAsset variantAsset)
         {
-            variants.Add(new AnimationVariant {variantAsset = variantAsset});
+            var newVariant = new AnimationVariant
+            {
+                variantAsset = variantAsset,
+                VariantState = string.Empty
+            };
+            variants.Add(newVariant);
         }
 
         public override void AddVariant<T>(VariantAsset variantAsset, T variantObject)
@@ -93,22 +72,23 @@ namespace IndustryCSE.Tool.ProductConfigurator
             AssignVariantObject(variantAsset.UniqueIdString, variantObject as string);
         }
         
-        /// <summary>
-        /// Add a new variant asset
-        /// </summary>
-        /// <param name="variantName">Variant Name</param>
-        /// <param name="variantObject">Assign Animator State - must be a string</param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        private void AssignVariantObject(string id, string targetState)
+        public override void AssignVariantObject<T>(string id, T targetState)
         {
+            if (targetState == null)
+            {
+                throw new ArgumentException("targetState cannot be null");
+            }
+            
+            if (!(targetState is string))
+            {
+                throw new ArgumentException("targetState must be a string");
+            }
+            
             var targetVariant = VariantBase.Find(x => string.Equals(x.variantAsset.UniqueIdString, id));
             if (targetVariant != null)
             {
-                ((AnimationVariant)targetVariant).VariantState = targetState;
+                ((AnimationVariant)targetVariant).VariantState = targetState as string;
             }
         }
-#endif
     }
 }

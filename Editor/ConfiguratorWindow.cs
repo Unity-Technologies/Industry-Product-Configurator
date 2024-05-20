@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using Object = UnityEngine.Object;
+using IndustryCSE.Tool.ProductConfigurator.Runtime;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Editor
 {
