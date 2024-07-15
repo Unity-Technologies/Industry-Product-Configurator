@@ -4,18 +4,34 @@ using System.Collections.Generic;
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Serialization;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 {
+    
     [Serializable]
-    public class CombinationVariant : VariantBase {}
+    public class SerializableKeyValuePair
+    {
+        public string Key;
+        public string Value;
+    }
+    
+    [Serializable]
+    public class SerializableDictionary
+    {
+        public List<SerializableKeyValuePair> KeyValuePairs = new List<SerializableKeyValuePair>();
+    }
+    
+    [Serializable]
+    public class CombinationVariant : VariantBase
+    {
+        public SerializableDictionary CombinationList = new();
+    }
     
     public class CombinationVariantSet : VariantSetBase
     {
-        public VariantSetBase[] VariantSets => variantSets;
-    
-        [SerializeField]
-        protected VariantSetBase[] variantSets;
+        [SerializeField, FormerlySerializedAs("variantSets")]
+        public List<VariantSetBase> VariantSets = new();
     
         public List<CombinationVariant> Variants => variants;
     
@@ -28,9 +44,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         {
             get
             {
-                if(VariantSets.All(item => item.CurrentSelectionIndex == variantSets[0].CurrentSelectionIndex))
+                if(VariantSets.All(item => item.CurrentSelectionIndex == VariantSets[0].CurrentSelectionIndex))
                 {
-                    return variantSets[0].CurrentSelectionIndex;
+                    return VariantSets[0].CurrentSelectionIndex;
                 }
                 else
                 {
@@ -46,11 +62,21 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         protected override void OnVariantChanged(VariantBase variantBase, bool triggerConditionalVariants)
         {
             if(!Variants.Contains(variantBase)) return;
-            //find index
-            var index = Variants.FindIndex(x => x == variantBase);
-            foreach (var variantSet in variantSets)
+            foreach (var variantSet in VariantSets)
             {
-                variantSet.SetVariant(index, triggerConditionalVariants);
+                var combinationVariant = (variantBase as CombinationVariant);
+                if (!combinationVariant.CombinationList.KeyValuePairs.Any(x =>
+                        string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)))
+                {
+                    Debug.Log("Variant Set not found in Combination List");
+                    continue;
+                }
+                {
+                    var variantID = combinationVariant.CombinationList.KeyValuePairs.Find(x =>
+                        string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)).Value;
+                    var index = variantSet.VariantBase.FindIndex(x => string.Equals(x.variantAsset.UniqueIdString, variantID));
+                    variantSet.SetVariant(index, triggerConditionalVariants);
+                }
             }
             base.OnVariantChanged(variantBase, triggerConditionalVariants);
         }
@@ -58,9 +84,21 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         public override void SetVariant(int value, bool triggerConditionalVariants)
         {
             if(value < 0 || value >= Variants.Count) return;
-            foreach (var variantSet in variantSets)
+            foreach (var variantSet in VariantSets)
             {
-                variantSet.SetVariant(value, triggerConditionalVariants);
+                var combinationVariant = (VariantBase[value] as CombinationVariant);
+                if (!combinationVariant.CombinationList.KeyValuePairs.Any(x =>
+                        string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)))
+                {
+                    Debug.Log("Variant Set not found in Combination List");
+                    continue;
+                }
+                {
+                    var variantID = combinationVariant.CombinationList.KeyValuePairs.Find(x =>
+                        string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)).Value;
+                    var index = variantSet.VariantBase.FindIndex(x => string.Equals(x.variantAsset.UniqueIdString, variantID));
+                    variantSet.SetVariant(index, triggerConditionalVariants);
+                }
             }
             base.SetVariant(value, triggerConditionalVariants);
         }

@@ -178,6 +178,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             configurationEditorBase.VariantSetNameTextField = new TextField("Variant Set Name");
             configurationEditorBase.VariantSetNameTextField.value = variantSetBase.VariantSetAsset == null? "Name your variant set here" : variantSetBase.VariantSetAsset.VariantSetName;
             configurationEditorBase.VariantSetNameTextField.RegisterValueChangedCallback(configurationEditorBase.OnVariantSetTextFieldChange);
+            configurationEditorBase.VariantSetNameTextField.RegisterCallback<KeyDownEvent>(configurationEditorBase.OnVariantSetTextFieldKeyDown);
             
             configurationEditorBase.VariantSetContainer.Add(configurationEditorBase.VariantSetNameTextField);
             
@@ -204,6 +205,8 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             {
                 value = "Name your new variant here",
             };
+            
+            configurationEditorBase.VariantNameTextField.RegisterCallback<KeyDownEvent>(configurationEditorBase.OnVariantTextFieldKeyDown);
 
             configurationEditorBase.VariantContainer.Add(configurationEditorBase.VariantNameTextField);
             
@@ -325,20 +328,13 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             {
                 style =
                 {
-                    borderBottomLeftRadius = 2.5f,
-                    borderBottomRightRadius = 2.5f,
-                    borderTopLeftRadius = 2.5f,
-                    borderTopRightRadius = 2.5f,
+                    borderBottomLeftRadius = 5f,
+                    borderBottomRightRadius = 5f,
+                    borderTopLeftRadius = 5f,
+                    borderTopRightRadius = 5f,
                     marginTop = new Length(topMargin, LengthUnit.Pixel),
                     marginBottom = new Length(bottomMargin, LengthUnit.Pixel),
-                    borderTopWidth = 1f,
-                    borderTopColor = Color.grey,
-                    borderBottomColor = Color.grey,
-                    borderBottomWidth = 1f,
-                    borderLeftColor = Color.grey,
-                    borderLeftWidth = 1f,
-                    borderRightColor = Color.grey,
-                    borderRightWidth = 1f,
+                    backgroundColor = Color.black,
                     paddingLeft = new Length(5f, LengthUnit.Pixel),
                     paddingRight = new Length(5f, LengthUnit.Pixel),
                     paddingTop = new Length(5f, LengthUnit.Pixel),

@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.1] - 2024-07-15
+###Changed
+- Update Sample to have a zoom in and out camera action
+- Update TransformVariantSet to have an option to lerp to variant transform position, rotation and scale
+- Update to be able to hit "Enter" to confirm variant name
+- Update CombinationVariantSet to allow user to pick different variant in a combination.
+
+
 ## [1.5.0] - 2024-05-17
 ###Added
 - Package Settings page, you can modify some settings under "Edit" > "Project Settings" > "Product Configurator"

@@ -11,6 +11,8 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
     public class TransformVariant : VariantBase
     {
         public Transform VariantTransform;
+        public bool InstantChange = true;
+        public float LerpTime = 1f;
     }
 
     public class TransformVariantSet : VariantSetBase
@@ -28,19 +30,62 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         public override int CurrentSelectionCost => Variants[CurrentSelectionIndex].variantAsset.additionalCost;
 
         public override List<VariantBase> VariantBase => Variants.Cast<VariantBase>().ToList();
+        
+        Coroutine lerpCoroutine;
 
         protected override void OnVariantChanged(VariantBase variantBase, bool triggerConditionalVariants)
         {
             if (variantBase is not TransformVariant featureDetails) return;
-            gameObjectToMove.transform.SetPositionAndRotation(featureDetails.VariantTransform.position, featureDetails.VariantTransform.rotation);
+            TransformVariant(featureDetails);
             base.OnVariantChanged(variantBase, triggerConditionalVariants);
         }
     
         public override void SetVariant(int value, bool triggerConditionalVariants)
         {
             if(value < 0 || value >= Variants.Count) return;
+            
             gameObjectToMove.transform.SetPositionAndRotation(variants[value].VariantTransform.position, variants[value].VariantTransform.rotation);
+            gameObjectToMove.transform.localScale = variants[value].VariantTransform.localScale;
             base.SetVariant(value, triggerConditionalVariants);
+        }
+
+        private void TransformVariant(TransformVariant targetTransform)
+        {
+            if (targetTransform.InstantChange)
+            {
+                gameObjectToMove.transform.SetPositionAndRotation(targetTransform.VariantTransform.position, targetTransform.VariantTransform.rotation);
+                gameObjectToMove.transform.localScale = targetTransform.VariantTransform.localScale;
+            }
+            else
+            {
+                if(gameObjectToMove.transform.position != targetTransform.VariantTransform.position || gameObjectToMove.transform.rotation != targetTransform.VariantTransform.rotation || gameObjectToMove.transform.localScale != targetTransform.VariantTransform.localScale)
+                {
+                    if (lerpCoroutine != null)
+                    {
+                        StopCoroutine(lerpCoroutine);
+                    }
+                    lerpCoroutine = StartCoroutine(LerpTransform(targetTransform.VariantTransform.position, targetTransform.VariantTransform.rotation, targetTransform.VariantTransform.localScale, targetTransform.LerpTime));
+                }
+            }
+        }
+
+        private IEnumerator LerpTransform(Vector3 variantTransformPosition, Quaternion variantTransformRotation, Vector3 variantTransformLocalScale, float lerpTime)
+        {
+            float timeElapsed = 0;
+            Vector3 startPosition = gameObjectToMove.transform.position;
+            Quaternion startRotation = gameObjectToMove.transform.rotation;
+            Vector3 startScale = gameObjectToMove.transform.localScale;
+            while (timeElapsed < lerpTime)
+            {
+                gameObjectToMove.transform.position = Vector3.Lerp(startPosition, variantTransformPosition, timeElapsed / lerpTime);
+                gameObjectToMove.transform.rotation = Quaternion.Lerp(startRotation, variantTransformRotation, timeElapsed / lerpTime);
+                gameObjectToMove.transform.localScale = Vector3.Lerp(startScale, variantTransformLocalScale, timeElapsed / lerpTime);
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+            gameObjectToMove.transform.position = variantTransformPosition;
+            gameObjectToMove.transform.rotation = variantTransformRotation;
+            gameObjectToMove.transform.localScale = variantTransformLocalScale;
         }
 
         public override void AddVariant(VariantAsset variantAsset)
