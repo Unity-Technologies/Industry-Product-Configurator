@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
-using UnityEditor.UIElements;
 using IndustryCSE.Tool.ProductConfigurator.Runtime;
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 using IndustryCSE.Tool.ProductConfigurator.Settings.Editor;
@@ -73,6 +72,12 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             if (VariantSetNameTextField != null)
             {
                 VariantSetNameTextField.UnregisterValueChangedCallback(OnVariantSetTextFieldChange);
+                VariantSetNameTextField.UnregisterCallback<KeyDownEvent>(OnVariantSetTextFieldKeyDown);
+            }
+
+            if (VariantNameTextField != null)
+            {
+                VariantNameTextField.UnregisterCallback<KeyDownEvent>(OnVariantTextFieldKeyDown);
             }
 
             if (CreateVariantButton != null)
@@ -89,6 +94,22 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             var variantSetBase = target as VariantSetBase;
             AssetRemoveConfirmation.RemoveAssetConfirmation(variantSetBase.VariantSetAsset, 
                 variantSetBase.VariantBase.Select(x => x.variantAsset).ToList());
+        }
+
+        public void OnVariantTextFieldKeyDown(KeyDownEvent evt)
+        {
+            if (evt.keyCode is KeyCode.Return or KeyCode.KeypadEnter)
+            {
+                OnCreateVariant();
+            }
+        }
+
+        public void OnVariantSetTextFieldKeyDown(KeyDownEvent evt)
+        {
+            if(evt.keyCode is KeyCode.Return or KeyCode.KeypadEnter)
+            {
+                OnCreateNewVariantSetAsset();
+            }
         }
 
         public void OnUsePreviousLocationButtonClicked()
@@ -220,6 +241,11 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         public virtual void OnCreateNewVariantSetAsset()
         {
             // Create a new VariantSetAsset
+            if (string.IsNullOrEmpty(VariantSetNameTextField.value))
+            {
+                EditorUtility.DisplayDialog("Warning", "You must enter a name for the variant set.", "OK");
+                return;
+            }
             var variantSetBase = target as VariantSetBase;
             EditorCore.CreateNewVariantSetAsset(variantSetBase, VariantSetNameTextField.value);
             DefaultInspectorContainer.style.display = DisplayStyle.Flex;
@@ -227,6 +253,12 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         
         public void OnCreateVariant()
         {
+            if (string.IsNullOrEmpty(VariantNameTextField.value))
+            {
+                EditorUtility.DisplayDialog("Warning", "You must enter a name for the variant.", "OK");
+                return;
+            }
+            
             var variantSetBase = target as VariantSetBase;
             EditorCore.CreateVariantAsset(variantSetBase, VariantNameTextField.value);
             VariantNameTextField.SetValueWithoutNotify("Name your variant here");

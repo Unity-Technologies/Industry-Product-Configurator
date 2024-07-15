@@ -98,16 +98,17 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             var container = new VisualElement();
+            var variantFoldout = property.FindPropertyRelative("FoldoutInspector");
             Foldout = new Foldout();
             
             var assetFieldProperty = property.FindPropertyRelative("variantAsset");
-            var variantFoldout = property.FindPropertyRelative("FoldoutInspector");
             if (variantFoldout != null)
             {
                 Foldout.RegisterValueChangedCallback(evt =>
                 {
                     variantFoldout.boolValue = evt.newValue;
                     variantFoldout.serializedObject.ApplyModifiedProperties();
+                    property.serializedObject.ApplyModifiedProperties();
                 });
             }
             
@@ -133,6 +134,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                         variantNameProperty.stringValue = evt.newValue;
                         variantNameProperty.serializedObject.ApplyModifiedProperties();
                         EditorUtility.SetDirty(variantAssetObject);
+                        property.serializedObject.ApplyModifiedProperties();
                     });
                     Foldout.Add(variantNameField);
                 }
@@ -236,6 +238,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             
             Foldout.Add(variantAssetPropertyContainer);
             container.Add(Foldout);
+            
             return container;
         }
 
@@ -310,6 +313,41 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         {
             var container = base.CreatePropertyGUI(property);
             Foldout.Add(new PropertyField(property.FindPropertyRelative("VariantTransform")));
+            
+            var instantChangeProperty = property.FindPropertyRelative("InstantChange");
+            var toggleField = new Toggle("Instant Change")
+            {
+                value = instantChangeProperty.boolValue
+            };
+            
+            Foldout.Add(toggleField);
+            
+            VisualElement animationContainer = new VisualElement();
+            
+            toggleField.RegisterValueChangedCallback(evt =>
+            {
+                // Update the value of the InstantChange property
+                instantChangeProperty.boolValue = evt.newValue;
+                animationContainer.style.display = evt.newValue ? DisplayStyle.None : DisplayStyle.Flex;
+                instantChangeProperty.serializedObject.ApplyModifiedProperties();
+            });
+
+            var lerpTimeProperty = property.FindPropertyRelative("LerpTime");
+            
+            var lerpTimeField = new FloatField("Lerp Time")
+            {
+                value = lerpTimeProperty.floatValue
+            };
+            
+            animationContainer.Add(lerpTimeField);
+            
+            lerpTimeField.RegisterValueChangedCallback(evt =>
+            {
+                // Update the value of the LerpTime property
+                lerpTimeProperty.floatValue = evt.newValue;
+                lerpTimeProperty.serializedObject.ApplyModifiedProperties();
+            });
+            Foldout.Add(animationContainer);
             Foldout.Add(ConditionalVariantSetContainer(property));
             return container;
         }
@@ -321,8 +359,89 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             var container = base.CreatePropertyGUI(property);
+
+            var listProperty = property.FindPropertyRelative("CombinationList").FindPropertyRelative("KeyValuePairs");
+            
+            CombinationVariantSet combinationVariantSet = (CombinationVariantSet) property.serializedObject.targetObject;
+            Dictionary<string, string> combinationList = new Dictionary<string, string>();
+            
+            foreach (var variantSet in combinationVariantSet.VariantSets)
+            {
+                var defaultVariant = ReturnDefaultValueOfDropDown(variantSet);
+                
+                DropdownField dropdownField = new DropdownField(variantSet.VariantSetAsset.VariantSetName)
+                {
+                    choices = variantSet.VariantBase.Select(x => x.variantAsset.VariantName).ToList(),
+                    value = defaultVariant.VariantName
+                };
+                if (combinationList.ContainsKey(variantSet.VariantSetAsset.UniqueIdString))
+                {
+                    continue;
+                }
+                combinationList.Add(variantSet.VariantSetAsset.UniqueIdString, defaultVariant.UniqueIdString);
+                dropdownField.RegisterValueChangedCallback(evt =>
+                {
+                    var variantBase = variantSet.VariantBase.FirstOrDefault(x =>
+                        string.Equals(x.variantAsset.VariantName, evt.newValue));
+                    
+                    combinationList[variantSet.VariantSetAsset.UniqueIdString] = variantBase.variantAsset.UniqueIdString;
+                    
+                    while(listProperty.arraySize > 0)
+                    {
+                        listProperty.DeleteArrayElementAtIndex(0);
+                    }
+                    
+                    // Update the listProperty with the new values from combinationList
+                    foreach (KeyValuePair<string, string> pair in combinationList)
+                    {
+                        listProperty.arraySize++;
+                        SerializedProperty entry = listProperty.GetArrayElementAtIndex(listProperty.arraySize - 1);
+                        entry.FindPropertyRelative("Key").stringValue = pair.Key;
+                        entry.FindPropertyRelative("Value").stringValue = pair.Value;
+                    }
+                    
+                    property.serializedObject.ApplyModifiedProperties();
+                });
+                Foldout.Add(dropdownField);
+            }
+            
+            while(listProperty.arraySize > 0)
+            {
+                listProperty.DeleteArrayElementAtIndex(0);
+            }
+                    
+            // Update the listProperty with the new values from combinationList
+            foreach (KeyValuePair<string, string> pair in combinationList)
+            {
+                listProperty.arraySize++;
+                SerializedProperty entry = listProperty.GetArrayElementAtIndex(listProperty.arraySize - 1);
+                entry.FindPropertyRelative("Key").stringValue = pair.Key;
+                entry.FindPropertyRelative("Value").stringValue = pair.Value;
+            }
+            
+            property.serializedObject.ApplyModifiedProperties();
+            
             Foldout.Add(ConditionalVariantSetContainer(property));
             return container;
+
+            VariantAsset ReturnDefaultValueOfDropDown(VariantSetBase variantSet)
+            {
+                for(var i = 0; i < listProperty.arraySize; i++)
+                {
+                    var entry = listProperty.GetArrayElementAtIndex(i);
+                    if (entry.FindPropertyRelative("Key").stringValue == variantSet.VariantSetAsset.UniqueIdString)
+                    {
+                        foreach (var variantBase in variantSet.VariantBase)
+                        {
+                            if(string.Equals(variantBase.variantAsset.UniqueIdString, entry.FindPropertyRelative("Value").stringValue))
+                            {
+                                return variantBase.variantAsset;
+                            }
+                        }
+                    }
+                }
+                return variantSet.VariantBase.FirstOrDefault().variantAsset;
+            }
         }
     }
     

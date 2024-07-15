@@ -398,21 +398,27 @@ MonoBehaviour:
   variants:
   - variantAsset: {fileID: 11400000, guid: 63d060fa76ebd431889ed214fdc419ed, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantMaterial: {fileID: 2100000, guid: 0b13cf370407c354b99ff72a0ed430de, type: 2}
   - variantAsset: {fileID: 11400000, guid: 22392220b64f94134a59243fec36f52c, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantMaterial: {fileID: 2100000, guid: dfd987d9da0cf874094808728bff88f3, type: 2}
   - variantAsset: {fileID: 11400000, guid: d305c027d98314c2fac183649d583e48, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantMaterial: {fileID: 2100000, guid: e0a34760876cee94b975e6d6fc3f2d11, type: 2}
   - variantAsset: {fileID: 11400000, guid: 1c48c117af7f64311a21685c4dab7365, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantMaterial: {fileID: 2100000, guid: 64cd0d0e2d6383d49b36ecef9341e01c, type: 2}
   - variantAsset: {fileID: 11400000, guid: decd0f27f889f43a69b5bbd61ee6501e, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantMaterial: {fileID: 2100000, guid: 78c5b563c9b479347b6c40cd015740b3, type: 2}
   - variantAsset: {fileID: 11400000, guid: 6732f8e8633224df9b558d5ce3c82f86, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantMaterial: {fileID: 2100000, guid: ae0376061c9ddc44bb64cd3b756debf6, type: 2}
   renderersDetails:
   - renderer: {fileID: 7358969808888601481}
@@ -517,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad980451443d70438faac0bc6c235a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 0.7, z: -0.5}
+  m_TrackedObjectOffset: {x: 0, y: 0.7, z: 0.5}
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
@@ -527,7 +533,7 @@ MonoBehaviour:
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_CameraDistance: 5
+  m_CameraDistance: 3
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
@@ -659,21 +665,27 @@ MonoBehaviour:
   variants:
   - variantAsset: {fileID: 11400000, guid: 58a8a9e7904204a5f8705806f3e0d06d, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: 0b13cf370407c354b99ff72a0ed430de, type: 2}
   - variantAsset: {fileID: 11400000, guid: bbed0219dee4448e79e3bfc9c67315b0, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: dfd987d9da0cf874094808728bff88f3, type: 2}
   - variantAsset: {fileID: 11400000, guid: e4cfef77ec1094992a2077331770b670, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: e0a34760876cee94b975e6d6fc3f2d11, type: 2}
   - variantAsset: {fileID: 11400000, guid: e214a8cacd0784d20a167a47cdc91b06, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: 64cd0d0e2d6383d49b36ecef9341e01c, type: 2}
   - variantAsset: {fileID: 11400000, guid: cba1462586af041e9a907872d93088af, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: 78c5b563c9b479347b6c40cd015740b3, type: 2}
   - variantAsset: {fileID: 11400000, guid: 6cdd0e32cec4f4dd49f0f1ed958ff8a6, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: ae0376061c9ddc44bb64cd3b756debf6, type: 2}
   renderersDetails:
   - renderer: {fileID: 7535889544036666241}
@@ -1046,7 +1058,7 @@ Transform:
   m_GameObject: {fileID: 682052416}
   serializedVersion: 2
   m_LocalRotation: {x: 0.14852498, y: 0.8225052, z: -0.24989618, w: 0.48885328}
-  m_LocalPosition: {x: -3.6496847, y: 3.481478, z: 2.4857433}
+  m_LocalPosition: {x: -2.1898108, y: 2.3688867, z: 0.6914462}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1282,21 +1294,27 @@ MonoBehaviour:
   variants:
   - variantAsset: {fileID: 11400000, guid: 6fce9145d73a347399b4b1b2a8aa30ca, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: 0b13cf370407c354b99ff72a0ed430de, type: 2}
   - variantAsset: {fileID: 11400000, guid: 0bfae3d993937441f8138fd437027fc9, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: dfd987d9da0cf874094808728bff88f3, type: 2}
   - variantAsset: {fileID: 11400000, guid: 80f741784e0834913b4c28d2c450f705, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: e0a34760876cee94b975e6d6fc3f2d11, type: 2}
   - variantAsset: {fileID: 11400000, guid: ff9e1c17b682e48a792516e629e4d8ee, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: 64cd0d0e2d6383d49b36ecef9341e01c, type: 2}
   - variantAsset: {fileID: 11400000, guid: e31679a9fb9d94e92a62feb61402c5c2, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: 78c5b563c9b479347b6c40cd015740b3, type: 2}
   - variantAsset: {fileID: 11400000, guid: 05b0fc63da0c74c78971c7c053d00813, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: ae0376061c9ddc44bb64cd3b756debf6, type: 2}
   renderersDetails:
   - renderer: {fileID: 668388746492497771}
@@ -1559,16 +1577,94 @@ MonoBehaviour:
   variants:
   - variantAsset: {fileID: 11400000, guid: e6f0b49fff185407fa2e320df763f954, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
+    CombinationList:
+      KeyValuePairs:
+      - Key: c0092114-f2fd-4dd3-9c33-dafe3afd549b
+        Value: 6b81514e-e35e-4193-b7cb-931e3716f1e3
+      - Key: c93cdd3e-74dd-461c-a7ec-797efbf0eca3
+        Value: 6c0c2589-e1ab-40fd-ae17-362bfe6fb165
+      - Key: cf624472-4bb4-4af2-9185-f0cc29357fd6
+        Value: d8aa5a93-6647-40da-8214-23bc5d47f6fc
+      - Key: 8ba4af78-ffd8-4164-91bd-9efe20d9a795
+        Value: fdf32595-3b8c-4a88-8118-c807359b19d0
+      - Key: 306f37b1-046b-4834-bcc6-32126dd10e94
+        Value: 100505ee-79ae-42dd-a07b-d0a551ad5f96
   - variantAsset: {fileID: 11400000, guid: 9018283c1bcc3419b8537d79e2c70c0d, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
+    CombinationList:
+      KeyValuePairs:
+      - Key: c0092114-f2fd-4dd3-9c33-dafe3afd549b
+        Value: a7277e17-5b2a-498e-a8e9-087eee5700b9
+      - Key: c93cdd3e-74dd-461c-a7ec-797efbf0eca3
+        Value: 29738d71-e46a-4bd2-b6db-b24d5fbd6f20
+      - Key: cf624472-4bb4-4af2-9185-f0cc29357fd6
+        Value: 1cadf8bd-892e-4732-850f-6e194727fbe9
+      - Key: 8ba4af78-ffd8-4164-91bd-9efe20d9a795
+        Value: 81777fc8-1542-4f16-9fff-92cb1d2b98d7
+      - Key: 306f37b1-046b-4834-bcc6-32126dd10e94
+        Value: be1fc1a5-249e-422a-ab5b-1b207519b129
   - variantAsset: {fileID: 11400000, guid: c6b837bfdc02f4592862d70decd4d6e6, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
+    CombinationList:
+      KeyValuePairs:
+      - Key: c0092114-f2fd-4dd3-9c33-dafe3afd549b
+        Value: bce3d4a5-76cd-4d7a-8e2f-1796eaebd6b3
+      - Key: c93cdd3e-74dd-461c-a7ec-797efbf0eca3
+        Value: 9083b78b-dbd6-471a-bb94-c2e0b7fd4b5f
+      - Key: cf624472-4bb4-4af2-9185-f0cc29357fd6
+        Value: 40b08888-310c-4f18-b43f-339cb9c4e2d4
+      - Key: 8ba4af78-ffd8-4164-91bd-9efe20d9a795
+        Value: 0c08eb91-402b-471a-8677-980f33d8360d
+      - Key: 306f37b1-046b-4834-bcc6-32126dd10e94
+        Value: a351831f-8b9b-43f8-9d5a-4cb4e4d90c64
   - variantAsset: {fileID: 11400000, guid: 3a38c8196babc47f6b6da1ace8b9f0e8, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
+    CombinationList:
+      KeyValuePairs:
+      - Key: c0092114-f2fd-4dd3-9c33-dafe3afd549b
+        Value: 7ec69c7f-c4be-4521-8f0f-bc829310fec2
+      - Key: c93cdd3e-74dd-461c-a7ec-797efbf0eca3
+        Value: 6baef5bb-c413-4977-8865-e492da550d40
+      - Key: cf624472-4bb4-4af2-9185-f0cc29357fd6
+        Value: 9c3670f7-b540-4120-b510-c9246e07b75f
+      - Key: 8ba4af78-ffd8-4164-91bd-9efe20d9a795
+        Value: 43f4ee98-afa4-4265-8139-e310e524f9ee
+      - Key: 306f37b1-046b-4834-bcc6-32126dd10e94
+        Value: 4398b879-c25d-4f87-8c21-2615671e4e13
   - variantAsset: {fileID: 11400000, guid: 9a28d52bed7bc4eaf9b45fb4277ecc60, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
+    CombinationList:
+      KeyValuePairs:
+      - Key: c0092114-f2fd-4dd3-9c33-dafe3afd549b
+        Value: aab3d9c2-acd7-4c52-9ac8-7b5895b476b8
+      - Key: c93cdd3e-74dd-461c-a7ec-797efbf0eca3
+        Value: 9fc5224f-f571-4666-8cb6-21fabe444b26
+      - Key: cf624472-4bb4-4af2-9185-f0cc29357fd6
+        Value: f93bf63c-4ae6-4837-96c8-14a4e6a06649
+      - Key: 8ba4af78-ffd8-4164-91bd-9efe20d9a795
+        Value: f4c13509-765f-44d7-a363-e6808258dff4
+      - Key: 306f37b1-046b-4834-bcc6-32126dd10e94
+        Value: 814e012e-89de-4c5f-abc8-dec6976dda03
   - variantAsset: {fileID: 11400000, guid: e23b41127d49f4ed28c2028fad3d914e, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
+    CombinationList:
+      KeyValuePairs:
+      - Key: c0092114-f2fd-4dd3-9c33-dafe3afd549b
+        Value: a0cea8d1-b5a1-4e4c-9f8b-702bf40e5461
+      - Key: c93cdd3e-74dd-461c-a7ec-797efbf0eca3
+        Value: 1e4188dc-b73a-4cdf-aa97-87bb7c0a3b9f
+      - Key: cf624472-4bb4-4af2-9185-f0cc29357fd6
+        Value: 50be7ca3-326a-48a1-a787-f00726c38719
+      - Key: 8ba4af78-ffd8-4164-91bd-9efe20d9a795
+        Value: 630ecc58-7d52-48db-b86d-9bf7cd260657
+      - Key: 306f37b1-046b-4834-bcc6-32126dd10e94
+        Value: 778141e1-8c41-4613-b49a-d393a2594b61
 --- !u!1 &1345979132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1820,7 +1916,7 @@ MonoBehaviour:
   variantButtonVisualTreeAsset: {fileID: 9197481963319205126, guid: 378c25aedade544f5999466c2f4980ad,
     type: 3}
   autoLoad: 1
-  defaultSceneIndex: 0
+  defaultSceneIndex: 1
   scenes:
   - SceneDisplayName: Construction Day
     Scene:
@@ -1964,21 +2060,27 @@ MonoBehaviour:
   variants:
   - variantAsset: {fileID: 11400000, guid: cf70a0568fab74adfa794c7b12e177ef, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantMaterial: {fileID: 2100000, guid: 0b13cf370407c354b99ff72a0ed430de, type: 2}
   - variantAsset: {fileID: 11400000, guid: 55e255c5bb8ed416988085a1ef939f9d, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantMaterial: {fileID: 2100000, guid: dfd987d9da0cf874094808728bff88f3, type: 2}
   - variantAsset: {fileID: 11400000, guid: fe7e629e9d0fc463ba2690f12f94dadf, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantMaterial: {fileID: 2100000, guid: e0a34760876cee94b975e6d6fc3f2d11, type: 2}
   - variantAsset: {fileID: 11400000, guid: c445e75397b77426ba171d3fbb9f7943, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantMaterial: {fileID: 2100000, guid: 64cd0d0e2d6383d49b36ecef9341e01c, type: 2}
   - variantAsset: {fileID: 11400000, guid: 5efa0729a55754a54a0130233f6b8d8b, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantMaterial: {fileID: 2100000, guid: 78c5b563c9b479347b6c40cd015740b3, type: 2}
   - variantAsset: {fileID: 11400000, guid: 6df1f46fbd8a641bbab979ee1a6e56cc, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantMaterial: {fileID: 2100000, guid: ae0376061c9ddc44bb64cd3b756debf6, type: 2}
   renderersDetails:
   - renderer: {fileID: 7520103199357625388}
@@ -2037,15 +2139,19 @@ MonoBehaviour:
   variants:
   - variantAsset: {fileID: 11400000, guid: 5458a898f53d541ae852450b07e581bd, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantGameObject: {fileID: 35193481950334013}
   - variantAsset: {fileID: 11400000, guid: 55622d9ca023a47cc84ca1e4be4b5ec9, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantGameObject: {fileID: 6172915852275054102}
   - variantAsset: {fileID: 11400000, guid: 7381aacecfe6c4ec2bf6ed94bea7b167, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantGameObject: {fileID: 3333604288998086909}
   - variantAsset: {fileID: 11400000, guid: 7c0927a6d190244a891165aea4e67125, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantGameObject: {fileID: 991901472546311884}
 --- !u!1 &1636221758
 GameObject:
@@ -2108,6 +2214,7 @@ GameObject:
   - component: {fileID: 1820005111}
   - component: {fileID: 1820005110}
   - component: {fileID: 1820005113}
+  - component: {fileID: 1820005114}
   m_Layer: 0
   m_Name: Free Look Camera
   m_TagString: Untagged
@@ -2179,7 +2286,7 @@ Transform:
   m_GameObject: {fileID: 1820005109}
   serializedVersion: 2
   m_LocalRotation: {x: 0.14852498, y: 0.8225052, z: -0.24989618, w: 0.48885328}
-  m_LocalPosition: {x: -3.6496847, y: 3.481478, z: 2.4857433}
+  m_LocalPosition: {x: -2.1898108, y: 2.3688867, z: 0.6914462}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2199,6 +2306,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cinemachineInputProvider: {fileID: 1820005110}
+--- !u!114 &1820005114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820005109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b009025028c8947b28c73b2e1ddab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoomSpeed: 1
+  minCameraDistance: 0.25
+  maxCameraDistance: 7
+  zoomActionReference: {fileID: -1802043378510527056, guid: d77cd2e423f904964a8b9961c6cd6130,
+    type: 3}
 --- !u!1 &1943680278
 GameObject:
   m_ObjectHideFlags: 0
@@ -2251,21 +2375,27 @@ MonoBehaviour:
   variants:
   - variantAsset: {fileID: 11400000, guid: 62a34ef1f9ff147c995e91a90fc78679, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: 0b13cf370407c354b99ff72a0ed430de, type: 2}
   - variantAsset: {fileID: 11400000, guid: 440320da7ec6a47e48fa05fb69bff761, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: dfd987d9da0cf874094808728bff88f3, type: 2}
   - variantAsset: {fileID: 11400000, guid: 9e3f408505b55464382a8ddbce884cf2, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: e0a34760876cee94b975e6d6fc3f2d11, type: 2}
   - variantAsset: {fileID: 11400000, guid: 48e1faacdc82646cbb566451a978024c, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: 64cd0d0e2d6383d49b36ecef9341e01c, type: 2}
   - variantAsset: {fileID: 11400000, guid: 288b53fbdc7454ff78955c3254b9d791, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: 78c5b563c9b479347b6c40cd015740b3, type: 2}
   - variantAsset: {fileID: 11400000, guid: 284d4ac93aa234ad4baeee2b56e653d4, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 0
     VariantMaterial: {fileID: 2100000, guid: ae0376061c9ddc44bb64cd3b756debf6, type: 2}
   renderersDetails:
   - renderer: {fileID: 2634574554954524602}
@@ -2332,9 +2462,11 @@ MonoBehaviour:
   variants:
   - variantAsset: {fileID: 11400000, guid: ce0d99c353a324581b5d8f2a0488b400, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantGameObject: {fileID: 4592770976579124180}
   - variantAsset: {fileID: 11400000, guid: 1dacb469c17a7487d80160e0fb6c41dc, type: 2}
     conditionalVariants: []
+    FoldoutInspector: 1
     VariantGameObject: {fileID: 2263294114688518224}
 --- !u!1 &35193481950334013 stripped
 GameObject:
