@@ -1,6 +1,5 @@
 using UnityEditor;
 using IndustryCSE.Tool.ProductConfigurator.Runtime;
-using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System.Collections.Generic;
@@ -29,7 +28,13 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         public override VisualElement CreateInspectorGUI()
         {
             CombinationVariantSet combinationVariantSet = (CombinationVariantSet)target;
-            combinationVariantSet.VariantSets.ForEach(x => originalList.Add(x.VariantSetAsset.UniqueIdString));
+            
+            foreach (var combinationVariant in combinationVariantSet.Variants)
+            {
+                if(combinationVariant == null) continue;
+                originalList.Add(combinationVariant.variantAsset.UniqueIdString);
+            }
+            
             defaultInspector = base.CreateInspectorGUI();
             
             var so = new SerializedObject(target);
@@ -49,7 +54,13 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             if (listProperty.arraySize == originalVariantSetsCount)
             {
                 var currentList = new List<string>();
-                combinationVariantSet.VariantSets.ToList().ForEach(x => currentList.Add(x.VariantSetAsset.UniqueIdString));
+
+                foreach (var variantSetBase in combinationVariantSet.VariantSets)
+                {
+                    if(variantSetBase == null) continue;
+                    currentList.Add(variantSetBase.VariantSetAsset.UniqueIdString);
+                }
+                
                 currentList.Sort();
                 originalList.Sort();
                 if (!currentList.SequenceEqual(originalList))
@@ -60,16 +71,28 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                 return;
             }
             originalList.Clear();
-            combinationVariantSet.Variants.ForEach(x => originalList.Add(x.variantAsset.UniqueIdString));
+            
+            foreach (var combinationVariant in combinationVariantSet.Variants)
+            {
+                if(combinationVariant == null) continue;
+                originalList.Add(combinationVariant.variantAsset.UniqueIdString);
+            }
+            
             if (originalVariantSetsCount > listProperty.arraySize)
             {
                 //Remove unused elements
                 
                 var currentList = new List<string>();
-                combinationVariantSet.VariantSets.ToList().ForEach(x => currentList.Add(x.VariantSetAsset.UniqueIdString));
+
+                foreach (var variantSet in combinationVariantSet.VariantSets)
+                {
+                    if(variantSet == null) continue;
+                    currentList.Add(variantSet.VariantSetAsset.UniqueIdString);
+                }
                 
                 foreach (var variant in combinationVariantSet.Variants)
                 {
+                    if(variant == null) continue;
                     variant.CombinationList.KeyValuePairs.RemoveAll(x => !currentList.Contains(x.Key));
                 }
             }
