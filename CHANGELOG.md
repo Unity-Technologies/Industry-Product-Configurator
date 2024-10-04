@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.5.3] - 2024-09-17
+###Added
+- Added a Variant Drop-down to the inspector to allow users to preview a variant from the drop-down list.
+
+## [1.5.2] - 2024-09-03
+###Changed
+- Fixed issue that adding a new variant on combination variant set causes unexpected behavior on inspector.
+
+
 ## [1.5.1] - 2024-07-15
 ###Changed
 - Update Sample to have a zoom in and out camera action
