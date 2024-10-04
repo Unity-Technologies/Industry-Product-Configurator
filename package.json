@@ -1,7 +1,7 @@
 {
   "name": "com.unity.industrycse.productconfigurator",
   "displayName": "Product Configurator",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "unity": "2019.3",
   "description": "This is a lightweight product configurator framework designed for Unity.\nIt empowers users to effortlessly create their own product configurator experiences within Unity environments. With a set of foundational classes, users can seamlessly expand and customize their configurators to suit their specific needs and preferences.\n\nCurrently, our framework supports visibility, material, and transform variants.\nThis means users can easily configure product options related to visibility (show/hide), material properties, and transformations (such as position, rotation, and scale). Whether you're building a simple configurator for basic products or a complex one with intricate customization options, our framework provides the flexibility and ease-of-use necessary to bring your vision to life",
   "keywords": [

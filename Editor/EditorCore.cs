@@ -278,6 +278,13 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             myInspector.Add(configurationEditorBase.VariantSliderContainer);
             #endregion
             
+            #region Variant Drop-down
+            var variantChoice = variantSetBase.VariantBase.Select(x => x.variantAsset.VariantName).ToList();
+            configurationEditorBase.VariantDropdown = new DropdownField("Variant Dropdown", variantChoice, variantSetBase.CurrentSelectionIndex);
+            configurationEditorBase.VariantDropdown.RegisterValueChangedCallback(configurationEditorBase.OnVariantDropdownChanged);
+            configurationEditorBase.VariantSliderContainer.Add(configurationEditorBase.VariantDropdown);
+            #endregion
+            
             #region Size Dropdown and Capture Button
             
             configurationEditorBase.CaptureImageContainer = CreateContainer(0f, BottomMargin);

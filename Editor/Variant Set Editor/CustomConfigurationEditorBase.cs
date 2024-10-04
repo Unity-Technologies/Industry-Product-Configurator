@@ -24,6 +24,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         
         public VisualElement VariantSliderContainer;
         public Slider VariantSlider;
+        public DropdownField VariantDropdown;
         
         public VisualElement CaptureImageContainer;
         public DropdownField CaptureSizeDropdown;
@@ -210,10 +211,11 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                 m_OriginalVariants = new List<VariantBase>(variantSetBase.VariantBase);
             }
             
-            
             SceneTracker.CheckVariantSet(variantSetBase);
             VariantSlider.highValue = obj.intValue - 1;
             VariantSlider.value = Mathf.Min(VariantSlider.value, VariantSlider.highValue);
+            
+            VariantDropdown.choices = variantSetBase.VariantBase.Select(x => x.variantAsset.VariantName).ToList();
             
             if (VariantSlider.highValue < 1)
             {
@@ -228,6 +230,8 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         public void OnVariantSliderChanged(ChangeEvent<float> evt)
         {
             (target as VariantSetBase).SetVariant((int)evt.newValue, false);
+            string variantName = (target as VariantSetBase).VariantBase[(int)evt.newValue].variantAsset.VariantName;
+            VariantDropdown.SetValueWithoutNotify(variantName);
         }
         
         public void OnVariantSetTextFieldChange(ChangeEvent<string> evt)
@@ -272,6 +276,14 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                     foldOut.value = true;
                 }
             }
+        }
+
+        public void OnVariantDropdownChanged(ChangeEvent<string> evt)
+        {
+            var variantSetBase = target as VariantSetBase;
+            var variantIndex = variantSetBase.VariantBase.FindIndex(x => string.Equals(x.variantAsset.VariantName, evt.newValue));
+            VariantSlider.SetValueWithoutNotify(variantIndex);
+            variantSetBase.SetVariant(variantIndex, false);
         }
     }
 }
