@@ -3,6 +3,7 @@
 ## [1.5.4] - 2025-01-06
 ###Added
 - Added variant description field to the variant inspector.
+- Added support on Cinemachine version 3 and upward.
 
 ###Changed
 - Fixed issue that variant set UI misbehaves when there is no variant in the variant set.

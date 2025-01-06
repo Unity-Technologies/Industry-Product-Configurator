@@ -2,7 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if CINEMACHINE_2
 using Cinemachine;
+#else
+using Unity.Cinemachine;
+#endif
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Runtime
