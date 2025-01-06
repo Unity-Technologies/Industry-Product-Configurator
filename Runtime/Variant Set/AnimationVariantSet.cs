@@ -23,7 +23,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         [SerializeField]
         protected List<AnimationVariant> variants = new ();
         
-        public override int CurrentSelectionIndex => Variants.FindIndex(x => x.Hash == animator.GetCurrentAnimatorStateInfo(0).fullPathHash);
+        public override int CurrentSelectionIndex => animator != null? Variants.FindIndex(x => x.Hash == animator.GetCurrentAnimatorStateInfo(0).fullPathHash) : -1;
         
         public override string CurrentSelectionGuid => Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
     

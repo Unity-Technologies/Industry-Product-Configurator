@@ -23,7 +23,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         [SerializeField]
         protected List<TransformVariant> variants = new ();
         
-        public override int CurrentSelectionIndex => Variants.FindIndex(x => x.VariantTransform.position==gameObjectToMove.transform.position && x.VariantTransform.rotation == gameObjectToMove.transform.rotation);
+        public override int CurrentSelectionIndex => Variants.All(x => x.VariantTransform != null) ? Variants.FindIndex(x => x.VariantTransform.position==gameObjectToMove.transform.position && x.VariantTransform.rotation == gameObjectToMove.transform.rotation) : -1;
 
         public override string CurrentSelectionGuid => Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
     

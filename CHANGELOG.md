@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.4] - 2025-01-06
+###Added
+- Added variant description field to the variant inspector.
+
+###Changed
+- Fixed issue that variant set UI misbehaves when there is no variant in the variant set.
+
 ## [1.5.3] - 2024-09-17
 ###Added
 - Added a Variant Drop-down to the inspector to allow users to preview a variant from the drop-down list.

@@ -20,7 +20,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         [SerializeField]
         protected List<GameObjectVariant> variants = new ();
 
-        public override int CurrentSelectionIndex => Variants.FindIndex(x => x.VariantGameObject.activeSelf);
+        public override int CurrentSelectionIndex => Variants.All(x => x.VariantGameObject != null)? Variants.FindIndex(x => x.VariantGameObject.activeSelf) : -1;
         
         public override string CurrentSelectionGuid => Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
     

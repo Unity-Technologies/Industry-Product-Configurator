@@ -10,6 +10,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.ScriptableObjects
         
         public Texture2D icon;
         public int additionalCost;
+        public string description;
 
 #if UNITY_EDITOR
         public override void SetName(string value)
