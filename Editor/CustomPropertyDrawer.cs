@@ -163,6 +163,24 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                     
                     Foldout.Add(iconObjectField);
                 }
+                
+                var variantDescriptionProperty = new SerializedObject(variantAssetObject).FindProperty("description");
+                if (variantDescriptionProperty != null)
+                {
+                    TextField variantDescriptionField = new TextField("Variant Description")
+                    {
+                        value = variantDescriptionProperty.stringValue,
+                        name = "VariantDescriptionField"
+                    };
+                    variantDescriptionField.RegisterValueChangedCallback(evt =>
+                    {
+                        variantDescriptionProperty.stringValue = evt.newValue;
+                        variantDescriptionProperty.serializedObject.ApplyModifiedProperties();
+                        EditorUtility.SetDirty(variantAssetObject);
+                        property.serializedObject.ApplyModifiedProperties();
+                    });
+                    Foldout.Add(variantDescriptionField);
+                }
             } else if (variantAssetObject == null)
             {
                 if (!PackageSettingsController.Settings.UseAdvancedSettings)
