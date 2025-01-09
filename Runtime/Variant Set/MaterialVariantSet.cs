@@ -38,7 +38,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
             set => renderersDetails = value;
         }
         
-        public override int CurrentSelectionIndex => Variants.All(x => x.VariantMaterial != null) ? Variants.FindIndex(x => x.VariantMaterial == renderersDetails[0].renderer.sharedMaterials[renderersDetails[0].materialsSlotIndex]) : -1;
+        public override int CurrentSelectionIndex => Variants.All(x => x.VariantMaterial != null) && renderersDetails.All(x => x.renderer != null) ? Variants.FindIndex(x => x.VariantMaterial == renderersDetails[0].renderer.sharedMaterials[renderersDetails[0].materialsSlotIndex]) : -1;
 
         public override string CurrentSelectionGuid => Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
     

@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.5.5] - 2025-01-09
+###Changed
+- Fixed issue that variant set UI misbehaves when there is no renders in the Material variant set component.
+
+
 ## [1.5.4] - 2025-01-06
 ###Added
 - Added variant description field to the variant inspector.
