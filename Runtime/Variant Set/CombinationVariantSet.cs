@@ -44,7 +44,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         {
             get
             {
-                if(VariantSets.Count == 0) return -1;
+                if(VariantSets == null || VariantSets.Count == 0 || VariantSets.All(x => x == null)) return -1;
                 
                 if(VariantSets.All(item => item.CurrentSelectionIndex == VariantSets[0].CurrentSelectionIndex))
                 {
