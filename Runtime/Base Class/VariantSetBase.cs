@@ -1,12 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if CINEMACHINE_2
-using Cinemachine;
-#else
 using Unity.Cinemachine;
-#endif
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Runtime
@@ -41,9 +36,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         
         public abstract int CurrentSelectionCost { get; }
 
-        public CinemachineVirtualCamera FocusCamera => focusCamera;
+        public CinemachineCamera FocusCamera => focusCamera;
         [SerializeField]
-        private CinemachineVirtualCamera focusCamera;
+        private CinemachineCamera focusCamera;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void Init()
