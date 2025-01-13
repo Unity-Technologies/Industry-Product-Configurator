@@ -222,6 +222,41 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
 
             configurationEditorBase.DefaultInspectorContainer = CreateContainer(0f, BottomMargin);
             InspectorElement.FillDefaultInspector(configurationEditorBase.DefaultInspectorContainer, so, editor);
+            
+            var useDefaultVariantIndexProperty = so.FindProperty("useDefaultVariantIndex");
+            var useDefaultVariantIndexPropertyField = configurationEditorBase.DefaultInspectorContainer.Q<PropertyField>("PropertyField:useDefaultVariantIndex");
+            
+            var defaultVariantIndexProperty = so.FindProperty("defaultVariantIndex");
+            var defaultVariantIndexPropertyField = configurationEditorBase.DefaultInspectorContainer.Q<PropertyField>("PropertyField:defaultVariantIndex");
+            var defaultIndexSlider = new Slider(0, variantSetBase.VariantBase.Count - 1, SliderDirection.Horizontal, 1);
+            defaultIndexSlider.SetValueWithoutNotify(variantSetBase.DefaultVariantIndex);
+            
+            var index = configurationEditorBase.DefaultInspectorContainer.IndexOf(defaultVariantIndexPropertyField);
+            defaultVariantIndexPropertyField.style.display = DisplayStyle.None;
+            configurationEditorBase.DefaultInspectorContainer.Insert( index, defaultIndexSlider);
+            
+            var defaultVariantIndexText = new Label(variantSetBase.VariantBase != null && variantSetBase.VariantBase.Count > 0 && variantSetBase.VariantBase.All(x => x.variantAsset != null) ? $"Default Variant Index: {variantSetBase.DefaultVariantIndex} - {variantSetBase.VariantBase[variantSetBase.DefaultVariantIndex].variantAsset.VariantName}" : string.Empty);
+            configurationEditorBase.DefaultInspectorContainer.Insert(index + 2, defaultVariantIndexText);
+            useDefaultVariantIndexPropertyField.TrackPropertyValue(useDefaultVariantIndexProperty, property =>
+            {
+                if (defaultVariantIndexPropertyField != null)
+                {
+                    defaultIndexSlider.style.display = variantSetBase.UseDefaultVariantIndex? DisplayStyle.Flex : DisplayStyle.None;
+                    defaultVariantIndexText.style.display = variantSetBase.UseDefaultVariantIndex? DisplayStyle.Flex : DisplayStyle.None;
+                }
+            });
+            
+            defaultIndexSlider.RegisterValueChangedCallback(evt =>
+            {
+                defaultVariantIndexProperty.intValue = (int) evt.newValue; 
+                so.ApplyModifiedProperties();
+                so.Update();
+                defaultVariantIndexText.text = $"Default Variant Index: {variantSetBase.DefaultVariantIndex} - {variantSetBase.VariantBase[variantSetBase.DefaultVariantIndex].variantAsset.VariantName}";
+            });
+            
+            defaultIndexSlider.style.display = variantSetBase.UseDefaultVariantIndex? DisplayStyle.Flex : DisplayStyle.None;
+            defaultVariantIndexText.style.display = variantSetBase.UseDefaultVariantIndex? DisplayStyle.Flex : DisplayStyle.None;
+            
             myInspector.Add(configurationEditorBase.DefaultInspectorContainer);
             if (PackageSettingsController.Settings.UseAdvancedSettings)
             {
@@ -279,10 +314,13 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             #endregion
             
             #region Variant Drop-down
-            var variantChoice = variantSetBase.VariantBase.Select(x => x.variantAsset.VariantName).ToList();
-            configurationEditorBase.VariantDropdown = new DropdownField("Variant Dropdown", variantChoice, variantSetBase.CurrentSelectionIndex);
-            configurationEditorBase.VariantDropdown.RegisterValueChangedCallback(configurationEditorBase.OnVariantDropdownChanged);
-            configurationEditorBase.VariantSliderContainer.Add(configurationEditorBase.VariantDropdown);
+            if (variantSetBase.VariantBase.All(x => x.variantAsset != null))
+            {
+                var variantChoice = variantSetBase.VariantBase.Select(x => x.variantAsset.VariantName).ToList();
+                configurationEditorBase.VariantDropdown = new DropdownField("Variant Dropdown", variantChoice, variantSetBase.CurrentSelectionIndex);
+                configurationEditorBase.VariantDropdown.RegisterValueChangedCallback(configurationEditorBase.OnVariantDropdownChanged);
+                configurationEditorBase.VariantSliderContainer.Add(configurationEditorBase.VariantDropdown);
+            }
             #endregion
             
             #region Size Dropdown and Capture Button

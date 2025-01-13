@@ -94,6 +94,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
     public class VariantBaseCustomPropertyDrawer : PropertyDrawer
     {
         protected Foldout Foldout;
+        protected Button createAssetButton;
         
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
@@ -198,7 +199,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                     Foldout.Add(label);
                 }
                 
-                var createAssetButton = new Button()
+                createAssetButton  = new Button()
                 {
                     text = "Create Variant Asset",
                     style =
@@ -235,19 +236,35 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             var variantAssetPropertyField = new PropertyField(assetFieldProperty);
             
             variantAssetPropertyContainer.Add(variantAssetPropertyField);
-
-            var selectButton = new Button
-            {
-                text = "Select"
-            };
-            selectButton.clicked += () =>
-            {
-                if(assetFieldProperty.objectReferenceValue == null) return;
-                EditorGUIUtility.PingObject(assetFieldProperty.objectReferenceValue);
-                Selection.activeObject = assetFieldProperty.objectReferenceValue;
-            };
             
-            variantAssetPropertyContainer.Add(selectButton);
+            variantAssetPropertyField.TrackPropertyValue(assetFieldProperty, serializedProperty =>
+            {
+                assetFieldProperty.serializedObject.ApplyModifiedProperties();
+                var variantSet = assetFieldProperty.serializedObject.targetObject as VariantSetBase;
+                if (Selection.activeGameObject != variantSet.gameObject) return;
+                EditorUtility.SetDirty(assetFieldProperty.serializedObject.targetObject);
+                GameObject selectedObject = Selection.activeGameObject;
+                // Deselect the object
+                Selection.activeGameObject = null;
+                // Reselect the object after a short delay
+                EditorApplication.delayCall += () => Selection.activeGameObject = selectedObject;
+            });
+
+            if (variantAssetObject != null)
+            {
+                var selectButton = new Button
+                {
+                    text = "Select"
+                };
+                selectButton.clicked += () =>
+                {
+                    if(assetFieldProperty.objectReferenceValue == null) return;
+                    EditorGUIUtility.PingObject(assetFieldProperty.objectReferenceValue);
+                    Selection.activeObject = assetFieldProperty.objectReferenceValue;
+                };
+            
+                variantAssetPropertyContainer.Add(selectButton);
+            }
             
             if (!PackageSettingsController.Settings.UseAdvancedSettings)
             {
@@ -381,6 +398,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             var listProperty = property.FindPropertyRelative("CombinationList").FindPropertyRelative("KeyValuePairs");
             
             CombinationVariantSet combinationVariantSet = (CombinationVariantSet) property.serializedObject.targetObject;
+
+            if (combinationVariantSet.VariantSets.Any(x => x == null)) return container;
+            
             Dictionary<string, string> combinationList = new Dictionary<string, string>();
             
             foreach (var variantSet in combinationVariantSet.VariantSets)

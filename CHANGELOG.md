@@ -1,4 +1,8 @@
 # Changelog
+## [1.5.10] - 2025-01-10
+###Changed
+- Fixed issue that variant set UI misbehaviour.
+- Some UI improvement.
 
 ## [1.5.9] - 2025-01-10
 ###Changed
