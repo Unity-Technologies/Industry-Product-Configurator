@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
-using Cinemachine;
+using Unity.Cinemachine;
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 using IndustryCSE.Tool.ProductConfigurator.Runtime;
 
@@ -21,7 +21,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Sample.StandardConfigurator
     public struct CameraData
     {
         public string CameraName;
-        public CinemachineVirtualCamera VirtualCamera;
+        public CinemachineCamera VirtualCamera;
     }
     
     public class StandardUIController : MonoBehaviour
@@ -66,10 +66,10 @@ namespace IndustryCSE.Tool.ProductConfigurator.Sample.StandardConfigurator
         [Header("Camera")]
         [SerializeField]
         private CameraData[] cameras;
-        private CinemachineVirtualCamera _currentCamera;
+        private CinemachineCamera _currentCamera;
         private DropdownField _cameraDropdown;
         [SerializeField]
-        private CinemachineVirtualCamera defaultCamera;
+        private CinemachineCamera defaultCamera;
         
         #if UNITY_EDITOR
         
@@ -87,7 +87,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Sample.StandardConfigurator
         private void Awake()
         {
             _defaultSceneName = SceneManager.GetActiveScene().name;
-            foreach (var virtualCamera in FindObjectsByType<CinemachineVirtualCamera>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+            foreach (var virtualCamera in FindObjectsByType<CinemachineCamera>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
             {
                 virtualCamera.Priority = 0;
             }
@@ -379,7 +379,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Sample.StandardConfigurator
         
         #region Camera
         
-        private void SwitchCamera(CinemachineVirtualCamera toCamera)
+        private void SwitchCamera(CinemachineCamera toCamera)
         {
             if(toCamera == null) return;
             if(_currentCamera != null && _currentCamera == toCamera) return;

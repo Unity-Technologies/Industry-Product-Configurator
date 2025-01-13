@@ -1,8 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
+using Unity.Cinemachine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
@@ -11,7 +9,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Sample.StandardConfigurator
     public class CustomCinemachineInputProvider : MonoBehaviour
     {
         [SerializeField]
-        private CinemachineInputProvider cinemachineInputProvider;
+        private CinemachineInputAxisController cinemachineInputProvider;
 
         private void Update()
         {
