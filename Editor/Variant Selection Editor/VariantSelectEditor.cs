@@ -10,7 +10,7 @@ using UnityEditor.UIElements;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Editor
 {
-    [CustomEditor(typeof(VariantSelect))]
+    [CustomEditor(typeof(VariantSelect)), CanEditMultipleObjects]
     public class VariantSelectEditor : UnityEditor.Editor
     {
         private DropdownField variantDropDown;
@@ -25,8 +25,8 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             variantSetPropertyField.style.display = DisplayStyle.None;
             var index = myInspector.IndexOf(variantSetPropertyField);
             
-            var variantBases = Object.FindObjectsByType<VariantSetBase>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            DropdownField variantSetDropdown = new DropdownField("Selected Variant Set", variantBases.Select(x => x.VariantSetAsset.VariantSetName).ToList(), 0)
+            var variantBases = Object.FindObjectsByType<VariantSetBase>(FindObjectsInactive.Include, FindObjectsSortMode.None).Where(x => x.VariantSetAsset != null).ToArray();
+            DropdownField variantSetDropdown = new DropdownField("Selected Variant Set", variantBases.Select(x => x.VariantSetAsset.VariantSetName).ToList(), -1)
                 {
                     userData = variantBases,
                 };
@@ -56,6 +56,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                     : string.Empty);
             }
             variantDropDown.RegisterValueChangedCallback(OnVariantDropDownChanged);
+            
             myInspector.Insert(index, variantDropDown);
             
             var triggerConditionalVariantsPropertyField = myInspector.Q<PropertyField>("PropertyField:triggerConditionalVariants");
@@ -69,6 +70,11 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             var variantSelect = target as VariantSelect;
             var allVariants = variantSelect.VariantSet.VariantBase;
             var allOptions = allVariants.Select(x => x.variantAsset.VariantName).ToList();
+            for (var i = 0; i < allOptions.Count; i++)
+            {
+                allOptions[i] = "Index: " + i + " - " + allOptions[i];
+            }
+            
             variantDropDown.choices = allOptions;
             variantDropDown.userData = allVariants;
         }
@@ -80,7 +86,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             var variantSet = (dropdown.userData as VariantSetBase[])[dropdown.index];
             var variantSelect = target as VariantSelect;
             if (variantSelect.VariantSet != null && variantSelect.VariantSet == variantSet) return;
-            variantSelect.VariantSet = variantSet;
+            variantSelect.VariantSet = variantSet;                           
             if(variantSelect.VariantSet == null) return;
             AssignVariantOption();
             variantDropDown.style.display = DisplayStyle.Flex;

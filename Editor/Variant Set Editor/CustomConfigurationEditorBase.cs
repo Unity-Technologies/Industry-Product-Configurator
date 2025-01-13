@@ -215,7 +215,10 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             VariantSlider.highValue = obj.intValue - 1;
             VariantSlider.value = Mathf.Min(VariantSlider.value, VariantSlider.highValue);
             
-            VariantDropdown.choices = variantSetBase.VariantBase.Select(x => x.variantAsset.VariantName).ToList();
+            if(variantSetBase.VariantBase.Count > 0 && variantSetBase.VariantBase.All(x => x.variantAsset != null))
+            {
+                VariantDropdown.choices = variantSetBase.VariantBase.Select(x => x.variantAsset.VariantName).ToList();
+            }
             
             if (VariantSlider.highValue < 1)
             {
@@ -229,9 +232,14 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
 
         public void OnVariantSliderChanged(ChangeEvent<float> evt)
         {
-            (target as VariantSetBase).SetVariant((int)evt.newValue, false);
-            string variantName = (target as VariantSetBase).VariantBase[(int)evt.newValue].variantAsset.VariantName;
-            VariantDropdown.SetValueWithoutNotify(variantName);
+            var variantSetBase = target as VariantSetBase;
+            if((int)evt.newValue < 0 || (int)evt.newValue >= variantSetBase.VariantBase.Count) return;
+            if ((target as VariantSetBase).VariantBase.All(x => x.variantAsset != null))
+            {
+                (target as VariantSetBase).SetVariant((int)evt.newValue, false);
+                string variantName = (target as VariantSetBase).VariantBase[(int)evt.newValue].variantAsset.VariantName;
+                VariantDropdown.SetValueWithoutNotify(variantName);
+            }
         }
         
         public void OnVariantSetTextFieldChange(ChangeEvent<string> evt)
