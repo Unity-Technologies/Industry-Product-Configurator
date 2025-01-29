@@ -12,6 +12,8 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         public static Action<VariantSetAsset, VariantAsset, bool> VariantTriggered;
         private static int _triggerChangeCounter = 0;
         
+        public Action<VariantBase> VariantChanged;
+        
         public VariantSetAsset VariantSetAsset => variantSetAsset;
         
         [SerializeField]
@@ -35,10 +37,16 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         public abstract string CurrentSelectionGuid { get; }
         
         public abstract int CurrentSelectionCost { get; }
-
+        
+#if CINEMACHINE_2
+        public CinemachineVirtualCamera FocusCamera => focusCamera;
+        [SerializeField]
+        private CinemachineVirtualCamera focusCamera;
+#else
         public CinemachineCamera FocusCamera => focusCamera;
         [SerializeField]
         private CinemachineCamera focusCamera;
+#endif
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void Init()
@@ -87,6 +95,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 
         protected virtual void OnVariantChanged(VariantBase obj, bool triggerConditionalVariants)
         {
+            VariantChanged?.Invoke(obj);
             if(!triggerConditionalVariants) return;
             foreach (var conditionalVariant in obj.conditionalVariants)
             {
@@ -96,6 +105,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 
         public virtual void SetVariant(int value, bool triggerConditionalVariants)
         {
+            VariantChanged?.Invoke(VariantBase[value]);
             if(!triggerConditionalVariants) return;
             foreach (var conditionalVariant in VariantBase[value].conditionalVariants)
             {
