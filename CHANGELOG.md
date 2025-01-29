@@ -1,4 +1,12 @@
 # Changelog
+## [1.5.11] - 2025-01-28
+###Changed
+- Change to support Cinemachine below version 3.
+
+###Added
+- VariantSetBase class to support Cinemachine type for Focus Camera field when using Cinemachine 3 or above.
+- VariantSetBase class now has an event which will trigger when a variant change.
+
 ## [1.5.10] - 2025-01-10
 ###Changed
 - Fixed issue that variant set UI misbehaviour.
