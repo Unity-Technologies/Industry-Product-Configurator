@@ -21,7 +21,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Sample.StandardConfigurator
     public struct CameraData
     {
         public string CameraName;
-        public CinemachineCamera VirtualCamera;
+        public CinemachineVirtualCameraBase VirtualCamera;
     }
     
     public class StandardUIController : MonoBehaviour
@@ -66,10 +66,10 @@ namespace IndustryCSE.Tool.ProductConfigurator.Sample.StandardConfigurator
         [Header("Camera")]
         [SerializeField]
         private CameraData[] cameras;
-        private CinemachineCamera _currentCamera;
+        private CinemachineVirtualCameraBase _currentCamera;
         private DropdownField _cameraDropdown;
         [SerializeField]
-        private CinemachineCamera defaultCamera;
+        private CinemachineVirtualCameraBase defaultCamera;
         
         #if UNITY_EDITOR
         
@@ -87,7 +87,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Sample.StandardConfigurator
         private void Awake()
         {
             _defaultSceneName = SceneManager.GetActiveScene().name;
-            foreach (var virtualCamera in FindObjectsByType<CinemachineCamera>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+            foreach (var virtualCamera in FindObjectsByType<CinemachineVirtualCamera>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
             {
                 virtualCamera.Priority = 0;
             }
@@ -379,7 +379,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Sample.StandardConfigurator
         
         #region Camera
         
-        private void SwitchCamera(CinemachineCamera toCamera)
+        private void SwitchCamera(CinemachineVirtualCameraBase toCamera)
         {
             if(toCamera == null) return;
             if(_currentCamera != null && _currentCamera == toCamera) return;

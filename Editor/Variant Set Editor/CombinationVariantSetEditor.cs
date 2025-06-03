@@ -42,7 +42,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             variantSetsProperty ??= so.FindProperty("VariantSets.Array");
             
             var objectField = defaultInspector.Q<PropertyField>("PropertyField:VariantSets");
-            
+            objectField.name = "VariantSets";
             objectField.TrackPropertyValue(variantSetsProperty, OnVariantSetsListChanged);
             
             return defaultInspector;

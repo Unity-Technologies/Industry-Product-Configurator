@@ -38,6 +38,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             var renderersDetails = myInspector.Q<PropertyField>("PropertyField:renderersDetails");
             if (renderersDetails != null && !PackageSettingsController.Settings.UseAdvancedSettings)
             {
+                renderersDetails.name = "Renderers-Details";
                 renderersDetails.SetEnabled(false);
             }
 
