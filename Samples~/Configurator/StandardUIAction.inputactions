@@ -8,7 +8,7 @@
                 {
                     "name": "Look",
                     "type": "Value",
-                    "id": "d2965d4d-176f-4886-8443-316fadc45013",
+                    "id": "0bb91935-a2ac-4340-858f-11d8e04b6562",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -27,29 +27,18 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "546c329c-bd55-4df2-a704-a61455e2bcfc",
+                    "id": "db3990c7-d4d8-4336-851b-5ca39d1c612a",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6b77b1e1-4318-4b4f-a78e-19eb06e3b65c",
-                    "path": "<Joystick>/{Hatswitch}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
+                    "processors": "ScaleVector2(x=100,y=100)",
+                    "groups": ";Gamepad",
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "Delta [Press+Pointer]",
-                    "id": "01281982-f8c6-4d64-9e15-e5119d4bcf62",
+                    "id": "21c360f3-8b05-428b-94c4-e62c38811563",
                     "path": "OneModifier",
                     "interactions": "",
                     "processors": "",
@@ -60,7 +49,7 @@
                 },
                 {
                     "name": "modifier",
-                    "id": "158ded9d-64d4-45ab-96ae-dd441b465325",
+                    "id": "a606850c-842b-48b0-9e09-cbc2c4873565",
                     "path": "<Pointer>/press",
                     "interactions": "",
                     "processors": "",
@@ -71,7 +60,7 @@
                 },
                 {
                     "name": "binding",
-                    "id": "55330f43-9d7d-42b3-a40a-b145f3993d30",
+                    "id": "11a85805-ff56-4272-abfb-7e5a19e5e6b6",
                     "path": "<Pointer>/delta",
                     "interactions": "",
                     "processors": "",

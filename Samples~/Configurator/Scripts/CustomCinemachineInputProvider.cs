@@ -10,6 +10,14 @@ namespace IndustryCSE.Tool.ProductConfigurator.Sample.StandardConfigurator
     {
         [SerializeField]
         private CinemachineInputAxisController cinemachineInputProvider;
+        
+        private void Awake()
+        {
+            if (cinemachineInputProvider == null)
+            {
+                cinemachineInputProvider = GetComponent<CinemachineInputAxisController>();
+            }
+        }
 
         private void Update()
         {

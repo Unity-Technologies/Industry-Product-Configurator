@@ -50,11 +50,11 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             NewVariantSetBase<AnimationVariantSet>();
         }
         
-        [MenuItem("Window/Product Configurator")]
+        [MenuItem("Window/Product Configurator/Configurator in scene")]
         public static void ShowWindow()
         {
             EditorWindow wnd = GetWindow<ConfiguratorWindow>();
-            wnd.titleContent = new GUIContent("Configurator Window");
+            wnd.titleContent = new GUIContent("Configurator in scene");
         }
         
         private void OnEnable()
