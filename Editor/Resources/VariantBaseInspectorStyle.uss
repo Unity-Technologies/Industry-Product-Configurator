@@ -1,3 +1,15 @@
 #VariantsList > * > * > * > * > #unity-list-view__add-button{
     display: none;
 }
+
+#VariantsList .unity-toggle {
+    margin-left: 0px;
+}
+
+#Renderers-Details .unity-toggle {
+    margin-left: 0px;
+}
+
+#VariantSets .unity-toggle {
+    margin-left: 0px;
+}

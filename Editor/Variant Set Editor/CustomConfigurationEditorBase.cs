@@ -90,11 +90,6 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             {
                 UsePreviousLocationButton.clicked -= OnUsePreviousLocationButtonClicked;
             }
-
-            if (target != null) return;
-            var variantSetBase = target as VariantSetBase;
-            AssetRemoveConfirmation.RemoveAssetConfirmation(variantSetBase.VariantSetAsset, 
-                variantSetBase.VariantBase.Select(x => x.variantAsset).ToList());
         }
 
         public void OnVariantTextFieldKeyDown(KeyDownEvent evt)
@@ -176,11 +171,6 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                     {
                         if(variantSetBase.VariantBase.Any(x => string.Equals(x.variantAsset.UniqueIdString, variantBase.variantAsset.UniqueIdString))) continue;
                         removedVariant.Add(variantBase.variantAsset);
-                    }
-
-                    if (removedVariant.Count > 0)
-                    {
-                        AssetRemoveConfirmation.RemoveAssetConfirmation(removedVariant);
                     }
                 }
                 else
