@@ -1,4 +1,16 @@
 # Changelog
+
+## [1.6.0] - 2025-06-03
+###Changed
+- Upgrade using Cinemachine to v3.x
+- Upgrade the sample scene to use Cinemachine v3.x
+
+###Added
+- Dependencies cleaner editor window
+
+###Removed
+- The pop-up that ask users to remove dependencies
+
 ## [1.5.11] - 2025-01-28
 ###Changed
 - Change to support Cinemachine below version 3.
