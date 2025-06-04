@@ -1,0 +1,16 @@
+{
+    "name": "Unity.IndustryCSE.ProductConfigurator.Sample.StandardConfigurator.Editor",
+    "rootNamespace": "Unity.IndustryCSE.ProductConfigurator.Sample.StandardConfigurator.Editor",
+    "references": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
