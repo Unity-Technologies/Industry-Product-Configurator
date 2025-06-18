@@ -5,3 +5,7 @@
 #Default-Inspector-Container .unity-list-view .unity-toggle {
     margin-left: 0px;
 }
+
+#Default-Inspector-Container .unity-list-view__reorderable-item .unity-toggle{
+    margin-left: -12px;
+}
