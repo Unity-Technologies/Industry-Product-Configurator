@@ -2,14 +2,6 @@
     display: none;
 }
 
-#VariantsList .unity-toggle {
-    margin-left: 0px;
-}
-
-#Renderers-Details .unity-toggle {
-    margin-left: 0px;
-}
-
-#VariantSets .unity-toggle {
+#Default-Inspector-Container .unity-list-view .unity-toggle {
     margin-left: 0px;
 }

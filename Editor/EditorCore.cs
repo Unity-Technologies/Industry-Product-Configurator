@@ -218,8 +218,19 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             #endregion
 
             #region Draw Default Inspector
+            
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(
+                "Packages/com.unity.industrycse.productconfigurator/Editor/Resources/VariantBaseInspectorStyle.uss");
+            if (styleSheet != null)
+            {
+                if (!myInspector.styleSheets.Contains(styleSheet))
+                {
+                    myInspector.styleSheets.Add(styleSheet);
+                }
+            }
 
             configurationEditorBase.DefaultInspectorContainer = CreateContainer(0f, BottomMargin);
+            configurationEditorBase.DefaultInspectorContainer.name = "Default-Inspector-Container";
             InspectorElement.FillDefaultInspector(configurationEditorBase.DefaultInspectorContainer, so, editor);
             
             var useDefaultVariantIndexProperty = so.FindProperty("useDefaultVariantIndex");
@@ -269,25 +280,13 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             {
                 configurationEditorBase.DefaultInspectorContainer.style.display = DisplayStyle.None;
             }
-
+            
             if (!PackageSettingsController.Settings.UseAdvancedSettings)
             {
                 var variantSetAssetObjectField = configurationEditorBase.DefaultInspectorContainer.Q<PropertyField>("PropertyField:variantSetAsset");
                 if (variantSetAssetObjectField != null)
                 {
                     variantSetAssetObjectField.style.display = DisplayStyle.None;
-                }
-                
-                var variantsObjectField = configurationEditorBase.DefaultInspectorContainer.Q<PropertyField>("PropertyField:variants");
-                if (variantsObjectField != null)
-                {
-                    variantsObjectField.name = "VariantsList";
-                    var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(
-                        "Packages/com.unity.industrycse.productconfigurator/Editor/Resources/VariantBaseInspectorStyle.uss");
-                    if (styleSheet != null)
-                    {
-                        myInspector.styleSheets.Add(styleSheet);
-                    }
                 }
             }
 
