@@ -1,0 +1,65 @@
+#Close-Menu-Button > #appui-button__leadingcontainer > #appui-button__leadingicon {
+    background-image: url("ArrowLineLeft.png");
+}
+
+#Open-Menu-Button > #appui-button__leadingcontainer > #appui-button__leadingicon {
+    background-image: url("ArrowLineRight.png");
+}
+
+.appui-button.appui-button--quiet:hover {
+    background-color: rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.variant--button {
+    padding-left: 32px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+}
+
+.variant--button .appui-icon {
+    display: none;
+}
+
+.variant-set--button {
+    padding: 8px;
+}
+
+.variant-set--button .appui-icon {
+    display: flex;
+}
+
+.Menu-Default {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    bottom: 20px;
+    transition-timing-function: ease-out-back;
+}
+
+.Close-Menu {
+    position: absolute;
+    left: -450px;
+    top: 20px;
+    bottom: 20px;
+    transition-timing-function: ease-in-back;
+}
+
+.Closed #ArrowIcon {
+    rotate: 0;
+}
+
+.Opened #ArrowIcon {
+    rotate: 180deg;
+}
+
+.ContainerClosed {
+    height: 0%;
+}
+
+.ContainerOpened {
+    height: 100%;
+    transition-duration: 1s;
+    transition-property: height;
+}

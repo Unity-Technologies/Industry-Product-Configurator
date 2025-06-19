@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206022e3c4a2d453dab326e738ab59d4, type: 3}
+  m_Name: 20742afb-272f-46ba-99c6-fe9c3c6d9a56
+  m_EditorClassIdentifier: 
+  uniqueIdString: 20742afb-272f-46ba-99c6-fe9c3c6d9a56
+  hide: 0
+  variantSetName: Chair Type
+  hasStoreCameraPositionAndRotation: 1
+  storeCameraPosition: {x: -0.7317313, y: 0.7260467, z: 0.39170372}
+  storeCameraRotation: {x: -0.056958593, y: -0.93257993, z: 0.16938005, w: -0.3136254}
+  storeCameraDistance: 1.6248108

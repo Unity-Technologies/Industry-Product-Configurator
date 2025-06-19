@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206022e3c4a2d453dab326e738ab59d4, type: 3}
+  m_Name: 2f4adc45-51af-4175-b1c5-19cddb196fa7
+  m_EditorClassIdentifier: 
+  uniqueIdString: 2f4adc45-51af-4175-b1c5-19cddb196fa7
+  hide: 0
+  variantSetName: Linen Material
+  hasStoreCameraPositionAndRotation: 1
+  storeCameraPosition: {x: -0.45501086, y: 0.5957988, z: 1.3474152}
+  storeCameraRotation: {x: -0.044449706, y: -0.9515405, z: 0.16575521, w: -0.25518656}
+  storeCameraDistance: 0.013466617

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40ff01e15ffd4c3c921f6b0a94774b9, type: 3}
+  m_Name: c34f7962-2c82-4b1b-9f01-4a651873fac3
+  m_EditorClassIdentifier: 
+  uniqueIdString: c34f7962-2c82-4b1b-9f01-4a651873fac3
+  hide: 0
+  variantName: Italian Turin Leather Cocoa
+  icon: {fileID: 2800000, guid: cfeda776ef8a6dc4cb8def5e59641a7f, type: 3}
+  additionalCost: 0
+  description: 

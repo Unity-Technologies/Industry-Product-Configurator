@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40ff01e15ffd4c3c921f6b0a94774b9, type: 3}
+  m_Name: f0c0be59-960e-46ca-bb1e-5240681d8bbb
+  m_EditorClassIdentifier: 
+  uniqueIdString: f0c0be59-960e-46ca-bb1e-5240681d8bbb
+  hide: 0
+  variantName: Stainless Gold
+  icon: {fileID: 2800000, guid: c9ecbec0be47af245b91f4c11dd6240a, type: 3}
+  additionalCost: 0
+  description: 
