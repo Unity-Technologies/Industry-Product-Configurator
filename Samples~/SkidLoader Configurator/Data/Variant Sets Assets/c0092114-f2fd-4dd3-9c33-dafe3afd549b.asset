@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206022e3c4a2d453dab326e738ab59d4, type: 3}
+  m_Name: c0092114-f2fd-4dd3-9c33-dafe3afd549b
+  m_EditorClassIdentifier: 
+  uniqueIdString: c0092114-f2fd-4dd3-9c33-dafe3afd549b
+  hide: 0
+  variantSetName: Body Colour
+  hasStoreCameraPositionAndRotation: 1
+  storeCameraPosition: {x: -1.9996524, y: 1.2219737, z: 2.4297924}
+  storeCameraRotation: {x: 0.027094426, y: 0.94391286, z: -0.08004853, w: 0.31919706}
+  storeCameraDistance: 0.07401621

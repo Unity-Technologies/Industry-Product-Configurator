@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40ff01e15ffd4c3c921f6b0a94774b9, type: 3}
+  m_Name: b8414d98-ca47-44c8-a47b-247d3ba32b2e
+  m_EditorClassIdentifier: 
+  uniqueIdString: b8414d98-ca47-44c8-a47b-247d3ba32b2e
+  hide: 0
+  variantName: Two Tone Linen Indigo
+  icon: {fileID: 2800000, guid: 43a3bc081d2bc4d4199faab96728bb1f, type: 3}
+  additionalCost: 0
+  description: 

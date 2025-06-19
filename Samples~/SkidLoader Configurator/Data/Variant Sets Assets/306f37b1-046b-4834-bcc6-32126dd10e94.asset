@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206022e3c4a2d453dab326e738ab59d4, type: 3}
+  m_Name: 306f37b1-046b-4834-bcc6-32126dd10e94
+  m_EditorClassIdentifier: 
+  uniqueIdString: 306f37b1-046b-4834-bcc6-32126dd10e94
+  hide: 0
+  variantSetName: Cabin Colour
+  hasStoreCameraPositionAndRotation: 1
+  storeCameraPosition: {x: 1.1640829, y: 1.4531794, z: 0.8961017}
+  storeCameraRotation: {x: -0.02937135, y: 0.90576404, z: -0.06370834, w: -0.41793558}
+  storeCameraDistance: 2.2893724

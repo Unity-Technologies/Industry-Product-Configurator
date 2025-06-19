@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40ff01e15ffd4c3c921f6b0a94774b9, type: 3}
+  m_Name: 71c540d0-1edb-4563-be81-65e888d3dc0f
+  m_EditorClassIdentifier: 
+  uniqueIdString: 71c540d0-1edb-4563-be81-65e888d3dc0f
+  hide: 0
+  variantName: Yellow
+  icon: {fileID: 2800000, guid: 54fca2d1cd3f87f46b0b4afcbce9c737, type: 3}
+  additionalCost: 0
+  description: 
