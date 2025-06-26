@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.0] - 2025-06-26
+###Changed
+- Updated new Ski Loader Sample
+
+###Added
+- Added Talia Chair Sample
+- Added a new shared folder to share resources between samples
+
 ## [1.6.0] - 2025-06-03
 ###Changed
 - Upgrade using Cinemachine to v3.x
