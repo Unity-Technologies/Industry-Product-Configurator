@@ -1,0 +1,13 @@
+{
+  "SharedAssetDependencies": [
+    "Shared"
+  ],
+  "SampleEntries": [
+    {
+      "Path": "SkidLoader Configurator"
+    },
+    {
+      "Path": "Talia Configurator"
+    }
+  ]
+}

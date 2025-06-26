@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40ff01e15ffd4c3c921f6b0a94774b9, type: 3}
+  m_Name: 1cadf8bd-892e-4732-850f-6e194727fbe9
+  m_EditorClassIdentifier: 
+  uniqueIdString: 1cadf8bd-892e-4732-850f-6e194727fbe9
+  hide: 0
+  variantName: Blue
+  icon: {fileID: 2800000, guid: 41ae7ba6c3852ff4cab6f66283bcc1a6, type: 3}
+  additionalCost: 0
+  description: 
