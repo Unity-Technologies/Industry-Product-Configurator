@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40ff01e15ffd4c3c921f6b0a94774b9, type: 3}
+  m_Name: 86971482-96b9-4010-9a62-e0eab67a8cb1
+  m_EditorClassIdentifier: 
+  uniqueIdString: 86971482-96b9-4010-9a62-e0eab67a8cb1
+  hide: 0
+  variantName: Stainless Black
+  icon: {fileID: 2800000, guid: cedb4a223d72517429458cbe5d76fee4, type: 3}
+  additionalCost: 0
+  description: 

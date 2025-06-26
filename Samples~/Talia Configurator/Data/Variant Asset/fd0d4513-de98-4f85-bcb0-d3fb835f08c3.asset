@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40ff01e15ffd4c3c921f6b0a94774b9, type: 3}
+  m_Name: fd0d4513-de98-4f85-bcb0-d3fb835f08c3
+  m_EditorClassIdentifier: 
+  uniqueIdString: fd0d4513-de98-4f85-bcb0-d3fb835f08c3
+  hide: 0
+  variantName: Two Tone Linen Cactus
+  icon: {fileID: 2800000, guid: a9eb44aef6e58b549b664dac25f52ce9, type: 3}
+  additionalCost: 0
+  description: 

@@ -1,9 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Cinemachine;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 {
@@ -15,6 +14,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         
         [SerializeField, Tooltip("Will add listener if detected button or toggle component")]
         private bool autoInitialise = true;
+
+        [SerializeField]
+        private bool triggerVariantSetCinemachineCamera;
         
         [SerializeField]
         private bool triggerConditionalVariants = true;
@@ -50,12 +52,31 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         {
             if (VariantSet == null || VariantAsset == null) return;
             VariantSetBase.VariantTriggered?.Invoke(VariantSet.VariantSetAsset, VariantAsset, triggerConditionalVariants);
+            if (triggerVariantSetCinemachineCamera)
+            {
+                SwitchCamera();
+            }
         }
 
         public virtual void SelectVariant(bool selected)
         {
             if(!selected) return;
             SelectVariant();
+        }
+
+        public virtual void SwitchCamera()
+        {
+            if (VariantSet.FocusCamera != null)
+            {
+                var allCameras = FindObjectsByType<CinemachineCamera>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
+                    .Where(x => x != VariantSet.FocusCamera);
+                foreach (var cinemachineCamera in allCameras)
+                {
+                    cinemachineCamera.Priority = 0;
+                }
+
+                VariantSet.FocusCamera.Priority = 1;
+            }
         }
     }
 }

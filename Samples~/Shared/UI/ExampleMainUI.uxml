@@ -1,0 +1,30 @@
+<ui:UXML xmlns:appui="Unity.AppUI.UI" xmlns:ui="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="ConfiguratorUIStyle.uss"/>
+    <appui:Panel name="root-panel" picking-mode="Ignore" style="flex-grow: 1; background-color: rgba(29, 29, 29, 0);">
+        <ui:VisualElement name="root-main" picking-mode="Ignore" style="flex-grow: 1;">
+            <ui:VisualElement name="Menu-Panel" class="Menu-Default" style="flex-grow: 1; width: 420px; border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-bottom-left-radius: 12px; background-color: rgba(19, 19, 19, 0.9); transition-duration: 1s; transition-property: left;">
+                <ui:VisualElement name="Header" style="flex-grow: 1; height: 80px; padding-top: 16px; padding-right: 121px; padding-bottom: 16px; padding-left: 8px; flex-direction: row; border-bottom-color: rgb(48, 48, 48); border-bottom-width: 1px; max-height: 80px; min-height: 80px;">
+                    <appui:IconButton quiet="true" name="Close-Menu-Button" icon="arrow-line-left" style="width: 48px; height: 48px; margin-right: 25px;" />
+                    <appui:Text name="Product-Name" style="color: rgb(255, 255, 255); margin-left: 25px; font-size: 28px; white-space: nowrap; overflow: hidden;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Cost-Container" style="flex-grow: 1; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px; flex-direction: row; border-bottom-width: 1px; border-bottom-color: rgb(48, 48, 48); height: 62px; max-height: 62px; display: flex; min-height: 62px;">
+                    <appui:Text text="Total Cost:" style="width: 120px; max-width: 120px; height: 24px; max-height: 24px; font-size: 18px; color: rgb(255, 255, 255); padding-right: 3px;" />
+                    <appui:Text name="Total-Cost" style="padding-left: 3px; flex-grow: 1; height: 24px; max-height: 24px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Environment-Container" style="flex-grow: 1; justify-content: space-around; height: 102px; max-height: 102px; border-bottom-color: rgb(48, 48, 48); border-bottom-width: 1px; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px; min-height: 102px;">
+                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; height: 30px; max-height: 30px;">
+                        <appui:Text text="Environment" style="width: 120px; max-width: 120px; height: 30px; max-height: 30px; font-size: 18px; color: rgb(255, 255, 255);" />
+                        <appui:Dropdown name="Environment-Dropdown" style="flex-grow: 1;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; height: 30px; max-height: 30px;">
+                        <appui:Text text="Camera" style="width: 120px; max-width: 120px; height: 30px; max-height: 30px; font-size: 18px; color: rgb(255, 255, 255);" />
+                        <appui:Dropdown name="Camera-Dropdown" style="flex-grow: 1;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:ScrollView name="VariantSetList" style="flex-grow: 1;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 1; position: absolute; bottom: 20px; right: 20px; width: 208px; height: 70px; background-image: url('U_Logo_Small_White_RGB.png');" />
+            <appui:IconButton quiet="false" name="Open-Menu-Button" icon="arrow-line-right" style="width: 48px; height: 48px; position: absolute; top: 20px; left: 20px; display: none;" />
+        </ui:VisualElement>
+    </appui:Panel>
+</ui:UXML>
