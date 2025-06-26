@@ -276,8 +276,9 @@ MonoBehaviour:
       Owner: {fileID: 7324036592960535621}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-        Gain: 10
+        InputAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b,
+          type: 3}
+        Gain: 100
         LegacyInput: 
         LegacyGain: 200
         CancelDeltaTime: 0
@@ -289,8 +290,9 @@ MonoBehaviour:
       Owner: {fileID: 7324036592960535621}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-        Gain: -10
+        InputAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b,
+          type: 3}
+        Gain: -100
         LegacyInput: 
         LegacyGain: -200
         CancelDeltaTime: 0
@@ -302,7 +304,8 @@ MonoBehaviour:
       Owner: {fileID: 7324036592960535621}
       Enabled: 1
       Input:
-        InputAction: {fileID: 6240969308177333660, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+        InputAction: {fileID: -8405435413616113560, guid: 052faaac586de48259a63d0c4782560b,
+          type: 3}
         Gain: -10
         LegacyInput: 
         LegacyGain: 200
@@ -355,9 +358,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d68b59be4e922a4380a19c90b3ba426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doubleClickAction: {fileID: 3568101337271613987, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  panAction: {fileID: 5076047172293201770, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  orbitAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  doubleClickAction: {fileID: 3568101337271613987, guid: 052faaac586de48259a63d0c4782560b,
+    type: 3}
+  panAction: {fileID: 5076047172293201770, guid: 052faaac586de48259a63d0c4782560b,
+    type: 3}
+  orbitAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b,
+    type: 3}
+  zoomAction: {fileID: -8405435413616113560, guid: 052faaac586de48259a63d0c4782560b,
+    type: 3}
+  cinemachineOrbitalFollow: {fileID: 7324036592960535621}
   target: {fileID: 4462836680881186572}
   moveSpeed: 0
   scale: -1
