@@ -6,6 +6,12 @@ This is a lightweight product configurator framework designed for Unity. It empo
 
 Currently, our framework supports visibility, material, animation and transform variants. This means users can easily configure product options related to visibility (show/hide), material properties, and transformations (such as position, rotation, and scale). Whether you're building a simple configurator for basic products or a complex one with intricate customization options, our framework provides the flexibility and ease-of-use necessary to bring your vision to life.
 
+## 🌐 WebGPU Sample Demos
+Try out live WebGPU demos built with this package:
+
+- [🛻 TIMI SkidLoader WebGPU Sample](https://play.unity.com/en/games/5576756f-e93e-4df4-9163-c32a6195a752/timi-skidloader-web-gpu)
+- [🪑 TALIA Chair WebGPU Sample](https://play.unity.com/en/games/56bd3abf-e7b2-4428-992a-f8b3ec8400e4/talia-chair-web-gpu)
+
 ## Installation
 For the most up-to-date and reliable installation process, we recommend following the official documentation provided by Unity. The steps outlined in the official documentation ensure a smooth integration and compatibility with your Unity project as they incorporate the latest updates and best practices.
 
