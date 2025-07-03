@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.7.1] - 2025-07-03
+###Changed
+- Fixed issue that not asking user to install the AppUI package when importing samples
+
 ## [1.7.0] - 2025-06-26
 ###Changed
 - Updated new Ski Loader Sample

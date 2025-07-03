@@ -15,6 +15,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.dt.app-ui",
+            "expression": "1.2.1",
+            "define": "HAS_APPUI"
+        }
+    ],
     "noEngineReferences": false
 }
