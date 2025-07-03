@@ -406,41 +406,45 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             foreach (var variantSet in combinationVariantSet.VariantSets)
             {
                 var defaultVariant = ReturnDefaultValueOfDropDown(variantSet);
-                
-                DropdownField dropdownField = new DropdownField(variantSet.VariantSetAsset.VariantSetName)
+
+
+                if (defaultVariant != null)
                 {
-                    choices = variantSet.VariantBase.Select(x => x.variantAsset.VariantName).ToList(),
-                    value = defaultVariant.VariantName
-                };
-                if (combinationList.ContainsKey(variantSet.VariantSetAsset.UniqueIdString))
-                {
-                    continue;
+                    DropdownField dropdownField = new DropdownField(variantSet.VariantSetAsset.VariantSetName)
+                    {
+                        choices = variantSet.VariantBase.Select(x => x.variantAsset.VariantName).ToList(),
+                        value = defaultVariant.VariantName
+                    };
+                    if (combinationList.ContainsKey(variantSet.VariantSetAsset.UniqueIdString))
+                    {
+                        continue;
+                    }
+                    combinationList.Add(variantSet.VariantSetAsset.UniqueIdString, defaultVariant.UniqueIdString);
+                    dropdownField.RegisterValueChangedCallback(evt =>
+                    {
+                        var variantBase = variantSet.VariantBase.FirstOrDefault(x =>
+                            string.Equals(x.variantAsset.VariantName, evt.newValue));
+                    
+                        combinationList[variantSet.VariantSetAsset.UniqueIdString] = variantBase.variantAsset.UniqueIdString;
+                    
+                        while(listProperty.arraySize > 0)
+                        {
+                            listProperty.DeleteArrayElementAtIndex(0);
+                        }
+                    
+                        // Update the listProperty with the new values from combinationList
+                        foreach (KeyValuePair<string, string> pair in combinationList)
+                        {
+                            listProperty.arraySize++;
+                            SerializedProperty entry = listProperty.GetArrayElementAtIndex(listProperty.arraySize - 1);
+                            entry.FindPropertyRelative("Key").stringValue = pair.Key;
+                            entry.FindPropertyRelative("Value").stringValue = pair.Value;
+                        }
+                    
+                        property.serializedObject.ApplyModifiedProperties();
+                    });
+                    Foldout.Add(dropdownField);
                 }
-                combinationList.Add(variantSet.VariantSetAsset.UniqueIdString, defaultVariant.UniqueIdString);
-                dropdownField.RegisterValueChangedCallback(evt =>
-                {
-                    var variantBase = variantSet.VariantBase.FirstOrDefault(x =>
-                        string.Equals(x.variantAsset.VariantName, evt.newValue));
-                    
-                    combinationList[variantSet.VariantSetAsset.UniqueIdString] = variantBase.variantAsset.UniqueIdString;
-                    
-                    while(listProperty.arraySize > 0)
-                    {
-                        listProperty.DeleteArrayElementAtIndex(0);
-                    }
-                    
-                    // Update the listProperty with the new values from combinationList
-                    foreach (KeyValuePair<string, string> pair in combinationList)
-                    {
-                        listProperty.arraySize++;
-                        SerializedProperty entry = listProperty.GetArrayElementAtIndex(listProperty.arraySize - 1);
-                        entry.FindPropertyRelative("Key").stringValue = pair.Key;
-                        entry.FindPropertyRelative("Value").stringValue = pair.Value;
-                    }
-                    
-                    property.serializedObject.ApplyModifiedProperties();
-                });
-                Foldout.Add(dropdownField);
             }
             
             while(listProperty.arraySize > 0)
@@ -469,6 +473,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                     var entry = listProperty.GetArrayElementAtIndex(i);
                     if (entry.FindPropertyRelative("Key").stringValue == variantSet.VariantSetAsset.UniqueIdString)
                     {
+                        if(variantSet.VariantBase.Count == 0) return null;
                         foreach (var variantBase in variantSet.VariantBase)
                         {
                             if(string.Equals(variantBase.variantAsset.UniqueIdString, entry.FindPropertyRelative("Value").stringValue))
@@ -478,6 +483,8 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                         }
                     }
                 }
+                
+                if(variantSet.VariantBase.Count == 0) return null;
                 return variantSet.VariantBase.FirstOrDefault().variantAsset;
             }
         }

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.7.2] - 2025-07-03
+###Changed
+- Fixed issue Transform Variant Set might return error when missing variable
+- Fixed issue that "+" appear under Variant Set even not in advance mode
+- Fixed issue that Combination Variant will not trigger animation from Transform Variant Set
+
 ## [1.7.1] - 2025-07-03
 ###Changed
 - Fixed issue that not asking user to install the AppUI package when importing samples
