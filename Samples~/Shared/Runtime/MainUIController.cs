@@ -101,6 +101,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
             m_closeMenuButton = m_document.rootVisualElement.Q<IconButton>(k_CloseMenuButtonName);
             m_productNameLabel = m_document.rootVisualElement.Q<Text>(k_ProductNameLabelName);
             m_totalCostLabel = m_document.rootVisualElement.Q<Text>(k_TotalCostLabelName);
+            m_priceContainer = m_document.rootVisualElement.Q<VisualElement>(k_CostContainerName);
 
             m_environmentDropdown = m_document.rootVisualElement.Q<Dropdown>(k_EnvironmentDropdownName);
             m_environmentDropdown.bindItem = EnvironmentDropdownBindItem;
