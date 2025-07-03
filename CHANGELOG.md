@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.7.4] - 2025-07-03
+- A small improvement on Transform Variant Set Component
+
 ## [1.7.3] - 2025-07-03
 - Fixed issue the free look camera prefab has missing Input references from the sample
 - Fixed issue missing reference on the MiainUIController from the sample
