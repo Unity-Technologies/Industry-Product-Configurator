@@ -54,7 +54,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 
         private void TransformVariant(TransformVariant targetTransform)
         {
-            if (targetTransform.InstantChange)
+            if (!Application.isPlaying || targetTransform.InstantChange)
             {
                 gameObjectToMove.transform.SetPositionAndRotation(targetTransform.VariantTransform.position, targetTransform.VariantTransform.rotation);
                 gameObjectToMove.transform.localScale = targetTransform.VariantTransform.localScale;
