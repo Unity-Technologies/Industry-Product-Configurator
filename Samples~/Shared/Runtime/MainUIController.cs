@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+#if HAS_APPUI
 using Unity.AppUI.UI;
+#endif
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
@@ -29,6 +31,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
     [RequireComponent(typeof(UIDocument))]
     public class MainUIController : MonoBehaviour
     {
+#if HAS_APPUI
         private string k_CloseMenuButtonName = "Close-Menu-Button";
         private string k_ProductNameLabelName = "Product-Name";
         private string k_TotalCostLabelName = "Total-Cost";
@@ -44,12 +47,15 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
         private string k_ArrowOpenClassName = "Opened";
         
         private UIDocument m_document;
+
         private IconButton m_closeMenuButton;
         private IconButton m_openMenuButton;
         private Text m_productNameLabel;
         private Text m_totalCostLabel;
         private Dropdown m_environmentDropdown;
         private Dropdown m_cameraDropdown;
+
+        
         private Coroutine m_costUpdateCoroutine;
         private VisualElement m_priceContainer;
         private ScrollView m_scrollView;
@@ -91,11 +97,11 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
         {
             m_document = GetComponent<UIDocument>();
             m_menuPanel = m_document.rootVisualElement.Q<VisualElement>(k_MenuPanelName);
+            
             m_closeMenuButton = m_document.rootVisualElement.Q<IconButton>(k_CloseMenuButtonName);
             m_productNameLabel = m_document.rootVisualElement.Q<Text>(k_ProductNameLabelName);
             m_totalCostLabel = m_document.rootVisualElement.Q<Text>(k_TotalCostLabelName);
-            m_priceContainer = m_document.rootVisualElement.Q<VisualElement>(k_CostContainerName);
-            
+
             m_environmentDropdown = m_document.rootVisualElement.Q<Dropdown>(k_EnvironmentDropdownName);
             m_environmentDropdown.bindItem = EnvironmentDropdownBindItem;
             m_environmentDropdown.bindTitle = EnvironmentDropdownBindTitle;
@@ -103,10 +109,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
             m_cameraDropdown = m_document.rootVisualElement.Q<Dropdown>(k_CameraDropdownName);
             m_cameraDropdown.bindItem = CameraDropdownBindItem;
             m_cameraDropdown.bindTitle = CameraDropdownBindTitle;
+            m_openMenuButton = m_document.rootVisualElement.Q<IconButton>(k_OpenMenuPanelButtonName);
             
             m_scrollView = m_document.rootVisualElement.Q<ScrollView>(k_ScrollViewName);
-            
-            m_openMenuButton = m_document.rootVisualElement.Q<IconButton>(k_OpenMenuPanelButtonName);
             
             _defaultSceneName = SceneManager.GetActiveScene().name;
             
@@ -508,5 +513,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
         }
 
 #endregion
+
+#endif
     }
 }
