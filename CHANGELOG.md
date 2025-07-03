@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.7.3] - 2025-07-03
+- Fixed issue the free look camera prefab has missing Input references from the sample
+- Fixed issue missing reference on the MiainUIController from the sample
+
 ## [1.7.2] - 2025-07-03
 ###Changed
 - Fixed issue Transform Variant Set might return error when missing variable
