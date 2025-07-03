@@ -23,7 +23,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         [SerializeField]
         protected List<TransformVariant> variants = new ();
         
-        public override int CurrentSelectionIndex => Variants.All(x => x.VariantTransform != null) ? Variants.FindIndex(x => x.VariantTransform.position==gameObjectToMove.transform.position && x.VariantTransform.rotation == gameObjectToMove.transform.rotation) : -1;
+        public override int CurrentSelectionIndex => gameObjectToMove != null && Variants.All(x => x.VariantTransform != null) ? Variants.FindIndex(x => x.VariantTransform.position==gameObjectToMove.transform.position && x.VariantTransform.rotation == gameObjectToMove.transform.rotation) : -1;
 
         public override string CurrentSelectionGuid => Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
     
@@ -36,6 +36,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         protected override void OnVariantChanged(VariantBase variantBase, bool triggerConditionalVariants)
         {
             if (variantBase is not TransformVariant featureDetails) return;
+            
             TransformVariant(featureDetails);
             base.OnVariantChanged(variantBase, triggerConditionalVariants);
         }
@@ -43,9 +44,11 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         public override void SetVariant(int value, bool triggerConditionalVariants)
         {
             if(value < 0 || value >= Variants.Count) return;
+
+            TransformVariant variant = Variants[value];
+
+            TransformVariant(variant);
             
-            gameObjectToMove.transform.SetPositionAndRotation(variants[value].VariantTransform.position, variants[value].VariantTransform.rotation);
-            gameObjectToMove.transform.localScale = variants[value].VariantTransform.localScale;
             base.SetVariant(value, triggerConditionalVariants);
         }
 
