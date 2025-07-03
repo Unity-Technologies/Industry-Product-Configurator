@@ -288,6 +288,12 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                 {
                     variantSetAssetObjectField.style.display = DisplayStyle.None;
                 }
+                
+                var variantsObjectField = configurationEditorBase.DefaultInspectorContainer.Q<PropertyField>("PropertyField:variants");
+                if (variantsObjectField != null)
+                {
+                    variantsObjectField.name = "VariantsList";
+                }
             }
 
             #endregion
