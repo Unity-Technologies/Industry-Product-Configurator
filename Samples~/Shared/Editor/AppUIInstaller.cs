@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
+using System.IO;
 
 namespace Unity.IndustryCSE.ProductConfigurator.Shared.Editor
 {
@@ -39,6 +40,10 @@ namespace Unity.IndustryCSE.ProductConfigurator.Shared.Editor
                         EditorApplication.update += InstallPackage;
                     }
                 }
+                else
+                {
+                    EnsureExampleThemeTss();
+                }
             }
             EditorApplication.update -= CheckForAppUIInstallation;
         }
@@ -49,11 +54,41 @@ namespace Unity.IndustryCSE.ProductConfigurator.Shared.Editor
                 return;
 
             if (addRequest.Status == StatusCode.Success)
+            {
                 Debug.Log($"Successfully installed {addRequest.Result.packageId}");
+                EnsureExampleThemeTss();
+            }
             else
                 Debug.LogError($"Failed to install package: {addRequest.Error.message}");
 
             EditorApplication.update -= InstallPackage;
+        }
+        
+        private static void EnsureExampleThemeTss()
+        {
+            // Adjust the relative path as needed
+            string[] guids = AssetDatabase.FindAssets("AppUIInstaller t:Script");
+            if (guids.Length == 0)
+            {
+                Debug.LogError("AppUIInstaller.cs not found.");
+                return;
+            }
+
+            string scriptPath = AssetDatabase.GUIDToAssetPath(guids[0]);
+            string scriptDir = Path.GetDirectoryName(scriptPath);
+
+            // Go up one directory and into UI/ExampleTheme.tss
+            string tssRelativePath = Path.Combine(scriptDir, "../UI/ExampleTheme.tss");
+            string tssPath = Path.GetFullPath(tssRelativePath);
+            string content = @"@import url(""/Packages/com.unity.dt.app-ui/PackageResources/Styles/Themes/App UI.tss"");
+
+@import url(""/Packages/com.unity.dt.app-ui/PackageResources/Icons/Icons.uss"");
+
+
+VisualElement {}";
+
+            File.WriteAllText(tssPath, content);
+            AssetDatabase.Refresh();
         }
     }
 }

@@ -3,5 +3,4 @@
 @import url("/Packages/com.unity.dt.app-ui/PackageResources/Icons/Icons.uss");
 
 
-
 VisualElement {}
