@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
 using System.IO;
+using System.Text;
 
 namespace Unity.IndustryCSE.ProductConfigurator.Shared.Editor
 {
@@ -80,14 +81,23 @@ namespace Unity.IndustryCSE.ProductConfigurator.Shared.Editor
             // Go up one directory and into UI/ExampleTheme.tss
             string tssRelativePath = Path.Combine(scriptDir, "../UI/ExampleTheme.tss");
             string tssPath = Path.GetFullPath(tssRelativePath);
-            string content = @"@import url(""/Packages/com.unity.dt.app-ui/PackageResources/Styles/Themes/App UI.tss"");
+            
+            string appUiTssPath = "Packages/com.unity.dt.app-ui/PackageResources/Styles/Themes/App UI.tss";
+            if (!File.Exists(appUiTssPath))
+            {
+                // Try again after a short delay
+                EditorApplication.delayCall += EnsureExampleThemeTss;
+                return;
+            }
 
-@import url(""/Packages/com.unity.dt.app-ui/PackageResources/Icons/Icons.uss"");
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(@"@import url(""/Packages/com.unity.dt.app-ui/PackageResources/Styles/Themes/App UI.tss"");");
+            sb.AppendLine(@"@import url(""/Packages/com.unity.dt.app-ui/PackageResources/Icons/Icons.uss"");");
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.AppendLine("VisualElement {}");
 
-
-VisualElement {}";
-
-            File.WriteAllText(tssPath, content);
+            File.WriteAllText(tssPath, sb.ToString());
             AssetDatabase.Refresh();
         }
     }
