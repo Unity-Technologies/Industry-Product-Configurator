@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.7.6] - 2025-08-14
+- Fixing App UI Style for sample scenes
+
 ## [1.7.5] - 2025-07-16
 - A small improvement App UI installer
 
