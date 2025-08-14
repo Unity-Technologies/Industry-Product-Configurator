@@ -332,6 +332,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
         {
             for(var i = 0; i < scenes.Length; i++)
             {
+                if(scenes[i].Scene == null) continue;
                 scenes[i].Scene.SceneName = scenes[i].Scene.ScentAsset.name;
             }
         }
