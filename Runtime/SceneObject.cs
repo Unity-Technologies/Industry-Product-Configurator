@@ -11,6 +11,7 @@ namespace IndustryCSE.Tool.ProductConfigurator
         [SerializeField]
         private Object sceneAsset;
         
+        [SerializeField]
         public string SceneName;
     }
 }

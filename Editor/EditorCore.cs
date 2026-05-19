@@ -123,7 +123,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                 var option = options[i];
                 string path = Path.Combine(VariantSetIconPath, $"{option.variantAsset.UniqueIdString}.png");
                 //Debug.Log(path);
-                if (!File.Exists(Path.GetDirectoryName(path)))
+                if (!Directory.Exists(Path.GetDirectoryName(path)))
                 {
                     // Create the directory it does not exist
                     Directory.CreateDirectory(Path.GetDirectoryName(path));

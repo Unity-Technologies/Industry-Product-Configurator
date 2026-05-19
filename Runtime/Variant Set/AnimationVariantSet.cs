@@ -49,6 +49,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 
         private void ApplyVariant(AnimationVariant variant)
         {
+            if (animator == null) return;
             animator.Play(variant.Hash, animatorLayerIndex);
         }
 
