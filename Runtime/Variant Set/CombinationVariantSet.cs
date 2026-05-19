@@ -63,22 +63,20 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 
         protected override void OnVariantChanged(VariantBase variantBase, bool triggerConditionalVariants)
         {
-            if(!Variants.Contains(variantBase)) return;
+            if (variantBase is not CombinationVariant combinationVariant) return;
+            if (!Variants.Contains(combinationVariant)) return;
             foreach (var variantSet in VariantSets)
             {
-                var combinationVariant = (variantBase as CombinationVariant);
                 if (!combinationVariant.CombinationList.KeyValuePairs.Any(x =>
                         string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)))
                 {
                     Debug.Log("Variant Set not found in Combination List");
                     continue;
                 }
-                {
-                    var variantID = combinationVariant.CombinationList.KeyValuePairs.Find(x =>
-                        string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)).Value;
-                    var index = variantSet.VariantBase.FindIndex(x => string.Equals(x.variantAsset.UniqueIdString, variantID));
-                    variantSet.SetVariant(index, triggerConditionalVariants);
-                }
+                var variantID = combinationVariant.CombinationList.KeyValuePairs.Find(x =>
+                    string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)).Value;
+                var index = variantSet.VariantBase.FindIndex(x => string.Equals(x.variantAsset.UniqueIdString, variantID));
+                variantSet.SetVariant(index, triggerConditionalVariants);
             }
             base.OnVariantChanged(variantBase, triggerConditionalVariants);
         }
@@ -86,21 +84,19 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         public override void SetVariant(int value, bool triggerConditionalVariants)
         {
             if(value < 0 || value >= Variants.Count) return;
+            if (VariantBase[value] is not CombinationVariant combinationVariant) return;
             foreach (var variantSet in VariantSets)
             {
-                var combinationVariant = (VariantBase[value] as CombinationVariant);
                 if (!combinationVariant.CombinationList.KeyValuePairs.Any(x =>
                         string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)))
                 {
                     Debug.Log("Variant Set not found in Combination List");
                     continue;
                 }
-                {
-                    var variantID = combinationVariant.CombinationList.KeyValuePairs.Find(x =>
-                        string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)).Value;
-                    var index = variantSet.VariantBase.FindIndex(x => string.Equals(x.variantAsset.UniqueIdString, variantID));
-                    variantSet.SetVariant(index, triggerConditionalVariants);
-                }
+                var variantID = combinationVariant.CombinationList.KeyValuePairs.Find(x =>
+                    string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)).Value;
+                var index = variantSet.VariantBase.FindIndex(x => string.Equals(x.variantAsset.UniqueIdString, variantID));
+                variantSet.SetVariant(index, triggerConditionalVariants);
             }
             base.SetVariant(value, triggerConditionalVariants);
         }
@@ -119,6 +115,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
             AddVariant(variantAsset);
         }
         
-        public override void AssignVariantObject<T>(string variantGuid, T variantObject) {}
+        public override void AssignVariantObject<T>(string variantGuid, T variantObject)
+        {
+            throw new NotSupportedException($"{nameof(CombinationVariantSet)} does not support direct object assignment. Configure combinations via the inspector.");
+        }
     }
 }

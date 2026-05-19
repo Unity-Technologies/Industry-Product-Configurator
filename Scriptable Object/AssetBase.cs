@@ -16,7 +16,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.ScriptableObjects
         
         private void OnValidate()
         {
-            NewID();
+            if (string.IsNullOrEmpty(uniqueIdString)) NewID();
         }
         
         public void NewID()

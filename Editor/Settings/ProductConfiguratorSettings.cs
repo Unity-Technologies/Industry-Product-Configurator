@@ -15,15 +15,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Settings.Editor
     {
         public bool UseAdvancedSettings { get; private set; } = false;
         
-#if UNITY_EDITOR_OSX
         public string VariantSetAssetPath { get; private set; } = "Assets/Product Configurator/Variant Set Asset";
         public string VariantAssetPath { get; private set; } = "Assets/Product Configurator/Variant Asset";
         public string VariantIconPath { get; private set; } = "Assets/Product Configurator/Icons";
-#elif UNITY_EDITOR_WIN
-        public string VariantSetAssetPath { get; private set; } = "Assets\\Product Configurator\\Variant Set Asset";
-        public string VariantAssetPath { get; private set; } = "Assets\\Product Configurator\\Variant Asset";
-        public string VariantIconPath { get; private set; } = "Assets\\Product Configurator\\Icons";
-#endif
 
         
         public RemoveBehaviour RemoveBehaviour { get; private set; } = RemoveBehaviour.AskEveryTime;

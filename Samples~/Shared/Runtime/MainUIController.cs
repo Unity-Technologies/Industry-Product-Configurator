@@ -231,7 +231,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
             {
                 totalCost += variantSetBase.CurrentSelectionCost;
             }
-            m_totalCostLabel.text = $"{costCurrency} {totalCost.ToString("C0".Substring(1))}";
+            m_totalCostLabel.text = $"{costCurrency} {totalCost.ToString("C0").Substring(1)}";
         }
         
         private void CloseMenuButtonOnClicked()
@@ -333,7 +333,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
             for(var i = 0; i < scenes.Length; i++)
             {
                 if(scenes[i].Scene == null) continue;
-                scenes[i].Scene.SceneName = scenes[i].Scene.ScentAsset.name;
+                scenes[i].Scene.SceneName = scenes[i].Scene.SceneAsset.name;
             }
         }
         

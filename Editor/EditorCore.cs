@@ -33,15 +33,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         public const float TopMargin = 10f;
         public const float BottomMargin = 10f;
         
-        #if UNITY_EDITOR_OSX
-        public static string  VariantSetIconPath => PackageSettingsController.Settings.VariantIconPath.Replace("\\", "/");
-        private static string VariantSetAssetsFolderPath => PackageSettingsController.Settings.VariantSetAssetPath.Replace("\\", "/");
-        private static string VariantAssetsFolderPath => PackageSettingsController.Settings.VariantAssetPath.Replace("\\", "/");
-        #elif UNITY_EDITOR_WIN
-        public static string  VariantSetIconPath => PackageSettingsController.Settings.VariantIconPath.Replace("/", "\\");
-        private static string VariantSetAssetsFolderPath => PackageSettingsController.Settings.VariantSetAssetPath.Replace("/", "\\");
-        private static string VariantAssetsFolderPath => PackageSettingsController.Settings.VariantAssetPath.Replace("/", "\\");
-        #endif
+        public static string  VariantSetIconPath => PackageSettingsController.Settings.VariantIconPath.Replace('\\', '/');
+        private static string VariantSetAssetsFolderPath => PackageSettingsController.Settings.VariantSetAssetPath.Replace('\\', '/');
+        private static string VariantAssetsFolderPath => PackageSettingsController.Settings.VariantAssetPath.Replace('\\', '/');
         
         public static AssetBase CreateReturnAsset<T>(string setName)
         {
@@ -149,6 +143,8 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
                 byte[] bytes = screenShot.EncodeToPNG();
                 File.WriteAllBytes(path, bytes);
                 cam.targetTexture = null;
+                rt.Release();
+                Object.DestroyImmediate(screenShot);
                 
                 variantSet.VariantSetAsset.storeCameraPosition = view.camera.transform.position;
                 variantSet.VariantSetAsset.storeCameraRotation = view.camera.transform.rotation;

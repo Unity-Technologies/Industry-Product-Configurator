@@ -11,37 +11,58 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
     public class AnimationVariant : VariantBase
     {
         public string VariantState;
-        
-        public int Hash => Animator.StringToHash(VariantState);
+
+        [NonSerialized] private bool _hashCached;
+        [NonSerialized] private int _cachedHash;
+
+        public int Hash
+        {
+            get
+            {
+                if (!_hashCached)
+                {
+                    _cachedHash = Animator.StringToHash(VariantState);
+                    _hashCached = true;
+                }
+                return _cachedHash;
+            }
+        }
     }
-    
+
     public class AnimationVariantSet : VariantSetBase
     {
         public List<AnimationVariant> Variants => variants;
         public Animator animator;
-        
+
+        [SerializeField] private int animatorLayerIndex = 0;
+
         [SerializeField]
         protected List<AnimationVariant> variants = new ();
-        
-        public override int CurrentSelectionIndex => animator != null? Variants.FindIndex(x => x.Hash == animator.GetCurrentAnimatorStateInfo(0).fullPathHash) : -1;
-        
-        public override string CurrentSelectionGuid => Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
-    
-        public override int CurrentSelectionCost => Variants[CurrentSelectionIndex].variantAsset.additionalCost;
-        
+
+        public override int CurrentSelectionIndex => animator != null ? Variants.FindIndex(x => x.Hash == animator.GetCurrentAnimatorStateInfo(animatorLayerIndex).fullPathHash) : -1;
+
+        public override string CurrentSelectionGuid => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.UniqueIdString : string.Empty;
+
+        public override int CurrentSelectionCost => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.additionalCost : 0;
+
         public override List<VariantBase> VariantBase => Variants.Cast<VariantBase>().ToList();
-    
+
+        private void ApplyVariant(AnimationVariant variant)
+        {
+            animator.Play(variant.Hash, animatorLayerIndex);
+        }
+
         protected override void OnVariantChanged(VariantBase variantBase, bool triggerConditionalVariants)
         {
             if (variantBase is not AnimationVariant featureDetails) return;
-            animator.Play(featureDetails.Hash);
+            ApplyVariant(featureDetails);
             base.OnVariantChanged(variantBase, triggerConditionalVariants);
         }
-    
+
         public override void SetVariant(int value, bool triggerConditionalVariants)
         {
             if(value < 0 || value >= Variants.Count) return;
-            animator.Play(variants[value].Hash);
+            ApplyVariant(variants[value]);
             base.SetVariant(value, triggerConditionalVariants);
         }
 
