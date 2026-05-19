@@ -573,7 +573,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
 
         private void OnVariantDropdownValueChanged(ChangeEvent<string> evt)
         {
-            _variantAssetProperty.objectReferenceValue = _allVariantSets[_variantSetAssetDropdown.index].VariantBase[_variantAssetDropdown.index].variantAsset;
+            var currentSet = _allVariantSets[_variantSetAssetDropdown.index];
+            if (_variantAssetDropdown.index < 0 || _variantAssetDropdown.index >= currentSet.VariantBase.Count) return;
+            _variantAssetProperty.objectReferenceValue = currentSet.VariantBase[_variantAssetDropdown.index].variantAsset;
             _variantAssetProperty.serializedObject.ApplyModifiedProperties();
         }
 
@@ -584,6 +586,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             var currentSelectedVariantSet = _allVariantSets[_variantSetAssetDropdown.index];
             var choices = currentSelectedVariantSet.VariantBase.Select(x => x.variantAsset.VariantName).ToList();
             _variantAssetDropdown.choices = choices;
+            if (choices.Count == 0) return;
             _variantAssetDropdown.index = 0;
             _variantAssetProperty.objectReferenceValue = currentSelectedVariantSet.VariantBase[0].variantAsset;
             _variantAssetProperty.serializedObject.ApplyModifiedProperties();

@@ -17,7 +17,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
     {
         public VariantAsset variantAsset;
 
-        public List<ConditionalVariantData> conditionalVariants;
+        public List<ConditionalVariantData> conditionalVariants = new();
         
         #if UNITY_EDITOR
         [HideInInspector]

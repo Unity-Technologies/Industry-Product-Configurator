@@ -59,6 +59,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 
         private void TransformVariant(TransformVariant targetTransform)
         {
+            if (gameObjectToMove == null) return;
             if (!Application.isPlaying || targetTransform.InstantChange)
             {
                 gameObjectToMove.transform.SetPositionAndRotation(targetTransform.VariantTransform.position, targetTransform.VariantTransform.rotation);

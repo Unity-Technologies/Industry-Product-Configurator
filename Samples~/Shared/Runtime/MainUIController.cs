@@ -194,7 +194,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
                 var icon = variantSetButton.Q<VisualElement>("VariantIcon");
                 if (icon != null)
                 {
-                    icon.style.backgroundImage = new StyleBackground(variantSet.VariantBase[variantSet.CurrentSelectionIndex].variantAsset.icon);
+                    var selectionIndex = variantSet.CurrentSelectionIndex;
+                    if (selectionIndex >= 0)
+                        icon.style.backgroundImage = new StyleBackground(variantSet.VariantBase[selectionIndex].variantAsset.icon);
                 }
                 variantSetButton.RegisterCallback<ClickEvent>(OnVariantSetClick);
             }
@@ -225,13 +227,13 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
             }
             m_priceContainer.style.display = DisplayStyle.Flex;
             yield return null;
-            m_totalCostLabel.text = $"{costCurrency} {defaultCost.ToString("C0").Substring(1)}";
+            m_totalCostLabel.text = $"{costCurrency} {defaultCost.ToString("N0")}";
             int totalCost = defaultCost;
             foreach (var variantSetBase in _variantSets)
             {
                 totalCost += variantSetBase.CurrentSelectionCost;
             }
-            m_totalCostLabel.text = $"{costCurrency} {totalCost.ToString("C0").Substring(1)}";
+            m_totalCostLabel.text = $"{costCurrency} {totalCost.ToString("N0")}";
         }
         
         private void CloseMenuButtonOnClicked()
@@ -332,7 +334,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
         {
             for(var i = 0; i < scenes.Length; i++)
             {
-                if(scenes[i].Scene == null) continue;
+                if(scenes[i].Scene == null || scenes[i].Scene.SceneAsset == null) continue;
                 scenes[i].Scene.SceneName = scenes[i].Scene.SceneAsset.name;
             }
         }
