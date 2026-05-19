@@ -43,34 +43,32 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
             Count: > 0
         } && renderersDetails.All(x => x != null) ? Variants.FindIndex(x => x.VariantMaterial == renderersDetails[0].renderer.sharedMaterials[renderersDetails[0].materialsSlotIndex]) : -1;
 
-        public override string CurrentSelectionGuid => Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
-    
-        public override int CurrentSelectionCost => Variants[CurrentSelectionIndex].variantAsset.additionalCost;
+        public override string CurrentSelectionGuid => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.UniqueIdString : string.Empty;
+
+        public override int CurrentSelectionCost => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.additionalCost : 0;
         
+        private void ApplyVariant(Material material)
+        {
+            foreach (var detail in renderersDetails)
+            {
+                var mats = detail.renderer.sharedMaterials;
+                mats[detail.materialsSlotIndex] = material;
+                detail.renderer.sharedMaterials = mats;
+            }
+        }
+
         protected override void OnVariantChanged(VariantBase variantBase, bool triggerConditionalVariants)
         {
             if (variantBase is not MaterialVariant materialFeatureDetails) return;
             if (!Variants.Contains(materialFeatureDetails)) return;
-            foreach (var renderer in renderersDetails)
-            {
-                var newMaterials = new Material[renderer.renderer.sharedMaterials.Length];
-                Array.Copy(renderer.renderer.sharedMaterials, newMaterials, renderer.renderer.sharedMaterials.Length);
-                newMaterials[renderer.materialsSlotIndex] = materialFeatureDetails.VariantMaterial;
-                renderer.renderer.sharedMaterials = newMaterials;
-            }
+            ApplyVariant(materialFeatureDetails.VariantMaterial);
             base.OnVariantChanged(variantBase, triggerConditionalVariants);
         }
-    
+
         public override void SetVariant(int value, bool triggerConditionalVariants)
         {
             if(value < 0 || value >= Variants.Count) return;
-            foreach (var renderer in renderersDetails)
-            {
-                var newMaterials = new Material[renderer.renderer.sharedMaterials.Length];
-                Array.Copy(renderer.renderer.sharedMaterials, newMaterials, renderer.renderer.sharedMaterials.Length);
-                newMaterials[renderer.materialsSlotIndex] = variants[value].VariantMaterial;
-                renderer.renderer.sharedMaterials = newMaterials;
-            }
+            ApplyVariant(variants[value].VariantMaterial);
             base.SetVariant(value, triggerConditionalVariants);
         }
 

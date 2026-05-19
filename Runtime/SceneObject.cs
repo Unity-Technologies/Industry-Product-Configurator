@@ -6,7 +6,7 @@ namespace IndustryCSE.Tool.ProductConfigurator
     [System.Serializable]
     public class SceneObject
     {
-        public Object ScentAsset => sceneAsset;
+        public Object SceneAsset => sceneAsset;
         
         [SerializeField]
         private Object sceneAsset;
