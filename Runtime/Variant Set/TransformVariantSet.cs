@@ -12,7 +12,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
     {
         public Transform VariantTransform;
         public bool InstantChange = true;
-        public float LerpTime = 1f;
+        [Min(0.001f)] public float LerpTime = 1f;
     }
 
     public class TransformVariantSet : VariantSetBase
@@ -25,13 +25,18 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         
         public override int CurrentSelectionIndex => gameObjectToMove != null && Variants.All(x => x.VariantTransform != null) ? Variants.FindIndex(x => x.VariantTransform.position==gameObjectToMove.transform.position && x.VariantTransform.rotation == gameObjectToMove.transform.rotation) : -1;
 
-        public override string CurrentSelectionGuid => Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
-    
-        public override int CurrentSelectionCost => Variants[CurrentSelectionIndex].variantAsset.additionalCost;
+        public override string CurrentSelectionGuid => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.UniqueIdString : string.Empty;
+
+        public override int CurrentSelectionCost => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.additionalCost : 0;
 
         public override List<VariantBase> VariantBase => Variants.Cast<VariantBase>().ToList();
         
         Coroutine lerpCoroutine;
+
+        private void OnDestroy()
+        {
+            if (lerpCoroutine != null) StopCoroutine(lerpCoroutine);
+        }
 
         protected override void OnVariantChanged(VariantBase variantBase, bool triggerConditionalVariants)
         {
@@ -54,6 +59,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 
         private void TransformVariant(TransformVariant targetTransform)
         {
+            if (gameObjectToMove == null) return;
             if (!Application.isPlaying || targetTransform.InstantChange)
             {
                 gameObjectToMove.transform.SetPositionAndRotation(targetTransform.VariantTransform.position, targetTransform.VariantTransform.rotation);
@@ -74,6 +80,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 
         private IEnumerator LerpTransform(Vector3 variantTransformPosition, Quaternion variantTransformRotation, Vector3 variantTransformLocalScale, float lerpTime)
         {
+            lerpTime = Mathf.Max(lerpTime, 0.001f);
             float timeElapsed = 0;
             Vector3 startPosition = gameObjectToMove.transform.position;
             Quaternion startRotation = gameObjectToMove.transform.rotation;

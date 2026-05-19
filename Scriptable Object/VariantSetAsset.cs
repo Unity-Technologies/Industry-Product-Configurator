@@ -9,17 +9,17 @@ namespace IndustryCSE.Tool.ProductConfigurator.ScriptableObjects
         private string variantSetName;
 
         #if UNITY_EDITOR
-        
-        [HideInInspector]
+
+        [HideInInspector, SerializeField]
         public bool hasStoreCameraPositionAndRotation;
-        [HideInInspector]
+        [HideInInspector, SerializeField]
         public Vector3 storeCameraPosition;
-        [HideInInspector]
+        [HideInInspector, SerializeField]
         public Quaternion storeCameraRotation;
 
-        [HideInInspector]
+        [HideInInspector, SerializeField]
         public float storeCameraDistance;
-        
+
         #endif
         
 #if UNITY_EDITOR

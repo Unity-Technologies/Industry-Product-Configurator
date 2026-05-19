@@ -10,7 +10,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
     public abstract class VariantSetBase : MonoBehaviour
     {
         public static Action<VariantSetAsset, VariantAsset, bool> VariantTriggered;
-        private static int _triggerChangeCounter = 0;
+        private static bool _isApplyingVariant = false;
         
         public Action<VariantBase> VariantChanged;
         
@@ -51,24 +51,23 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void Init()
         {
-            _triggerChangeCounter = 0;   
+            _isApplyingVariant = false;
         }
-        
-        protected void Awake()
+
+        protected virtual void OnEnable()
         {
-            _triggerChangeCounter = 0;
+            VariantTriggered += OnVariantTriggered;
         }
 
         protected virtual void Start()
         {
-            VariantTriggered += OnVariantTriggered;
             if (useDefaultVariantIndex)
             {
                 SetVariant(defaultVariantIndex, false);
             }
         }
 
-        protected virtual void OnDestroy()
+        protected virtual void OnDisable()
         {
             VariantTriggered -= OnVariantTriggered;
         }
@@ -78,19 +77,17 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
             if(variantSet != variantSetAsset) return;
             var variant = VariantBase.Find(x => x.variantAsset == variantAsset);
             if(variant == null) return;
-            if (triggerConditionalVariants)
-            {
-                if (_triggerChangeCounter != 0)
-                {
-                    triggerConditionalVariants = false;
-                    _triggerChangeCounter = 0;
-                }
-                else
-                {
-                    _triggerChangeCounter++;
-                }
-            }
+            if (triggerConditionalVariants && _isApplyingVariant)
+                triggerConditionalVariants = false;
+
+            var wasApplying = _isApplyingVariant;
+            if (!wasApplying)
+                _isApplyingVariant = true;
+
             OnVariantChanged(variant, triggerConditionalVariants);
+
+            if (!wasApplying)
+                _isApplyingVariant = false;
         }
 
         protected virtual void OnVariantChanged(VariantBase obj, bool triggerConditionalVariants)

@@ -11,6 +11,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
     {
         private ScrollView _variantSetScrollView;
         private Button _refreshButton;
+        private bool _hierarchyRefreshPending = false;
 
         private static void NewVariantSetBase<T>() where T : VariantSetBase
         {
@@ -59,7 +60,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
         
         private void OnEnable()
         {
-            EditorApplication.hierarchyChanged += RefreshVariantSetScrollView;
+            EditorApplication.hierarchyChanged += OnHierarchyChanged;
         }
 
         public void CreateGUI()
@@ -126,11 +127,22 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
 
         private void OnDisable()
         {
-            EditorApplication.hierarchyChanged -= RefreshVariantSetScrollView;
+            EditorApplication.hierarchyChanged -= OnHierarchyChanged;
             if (_refreshButton != null)
             {
                 _refreshButton.clicked -= RefreshButtonClicked;
             }
+        }
+
+        private void OnHierarchyChanged()
+        {
+            if (_hierarchyRefreshPending) return;
+            _hierarchyRefreshPending = true;
+            EditorApplication.delayCall += () =>
+            {
+                _hierarchyRefreshPending = false;
+                RefreshVariantSetScrollView();
+            };
         }
 
         private void RefreshButtonClicked()
