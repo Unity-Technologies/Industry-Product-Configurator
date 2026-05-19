@@ -22,27 +22,29 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 
         public override int CurrentSelectionIndex => Variants.All(x => x.VariantGameObject != null)? Variants.FindIndex(x => x.VariantGameObject.activeSelf) : -1;
         
-        public override string CurrentSelectionGuid => Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
-    
-        public override int CurrentSelectionCost => Variants[CurrentSelectionIndex].variantAsset.additionalCost;
+        public override string CurrentSelectionGuid => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.UniqueIdString : string.Empty;
+
+        public override int CurrentSelectionCost => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.additionalCost : 0;
 
         public override List<VariantBase> VariantBase => Variants.Cast<VariantBase>().ToList();
+
+        private void ApplyVariant(GameObjectVariant target)
+        {
+            Variants.ForEach(x => x.VariantGameObject.SetActive(x == target));
+        }
 
         protected override void OnVariantChanged(VariantBase variantBase, bool triggerConditionalVariants)
         {
             if (variantBase is not GameObjectVariant featureDetails) return;
-            if(Variants.Contains(featureDetails))
-            {
-                Variants.ForEach(x => x.VariantGameObject.SetActive(featureDetails.VariantGameObject == x.VariantGameObject));
-            }
+            if (!Variants.Contains(featureDetails)) return;
+            ApplyVariant(featureDetails);
             base.OnVariantChanged(variantBase, triggerConditionalVariants);
         }
-    
+
         public override void SetVariant(int value, bool triggerConditionalVariants)
         {
             if(value < 0 || value >= Variants.Count) return;
-            Variants.ForEach(x => x.VariantGameObject.SetActive(false));
-            variants[value].VariantGameObject.SetActive(true);
+            ApplyVariant(Variants[value]);
             base.SetVariant(value, triggerConditionalVariants);
         }
 

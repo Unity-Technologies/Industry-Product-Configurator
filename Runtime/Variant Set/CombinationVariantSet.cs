@@ -61,47 +61,37 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         
         public override int CurrentSelectionCost => CurrentSelectionIndex == -1 ? 0 : Variants[CurrentSelectionIndex].variantAsset.additionalCost;
 
-        protected override void OnVariantChanged(VariantBase variantBase, bool triggerConditionalVariants)
+        private void ApplyCombination(CombinationVariant combo, bool triggerConditionalVariants)
         {
-            if(!Variants.Contains(variantBase)) return;
             foreach (var variantSet in VariantSets)
             {
-                var combinationVariant = (variantBase as CombinationVariant);
-                if (!combinationVariant.CombinationList.KeyValuePairs.Any(x =>
+                if (!combo.CombinationList.KeyValuePairs.Any(x =>
                         string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)))
                 {
                     Debug.Log("Variant Set not found in Combination List");
                     continue;
                 }
-                {
-                    var variantID = combinationVariant.CombinationList.KeyValuePairs.Find(x =>
-                        string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)).Value;
-                    var index = variantSet.VariantBase.FindIndex(x => string.Equals(x.variantAsset.UniqueIdString, variantID));
-                    variantSet.SetVariant(index, triggerConditionalVariants);
-                }
+                var variantID = combo.CombinationList.KeyValuePairs.Find(x =>
+                    string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)).Value;
+                var index = variantSet.VariantBase.FindIndex(x =>
+                    string.Equals(x.variantAsset.UniqueIdString, variantID));
+                variantSet.SetVariant(index, triggerConditionalVariants);
             }
+        }
+
+        protected override void OnVariantChanged(VariantBase variantBase, bool triggerConditionalVariants)
+        {
+            if (variantBase is not CombinationVariant combinationVariant) return;
+            if (!Variants.Contains(combinationVariant)) return;
+            ApplyCombination(combinationVariant, triggerConditionalVariants);
             base.OnVariantChanged(variantBase, triggerConditionalVariants);
         }
 
         public override void SetVariant(int value, bool triggerConditionalVariants)
         {
-            if(value < 0 || value >= Variants.Count) return;
-            foreach (var variantSet in VariantSets)
-            {
-                var combinationVariant = (VariantBase[value] as CombinationVariant);
-                if (!combinationVariant.CombinationList.KeyValuePairs.Any(x =>
-                        string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)))
-                {
-                    Debug.Log("Variant Set not found in Combination List");
-                    continue;
-                }
-                {
-                    var variantID = combinationVariant.CombinationList.KeyValuePairs.Find(x =>
-                        string.Equals(x.Key, variantSet.VariantSetAsset.UniqueIdString)).Value;
-                    var index = variantSet.VariantBase.FindIndex(x => string.Equals(x.variantAsset.UniqueIdString, variantID));
-                    variantSet.SetVariant(index, triggerConditionalVariants);
-                }
-            }
+            if (value < 0 || value >= Variants.Count) return;
+            if (VariantBase[value] is not CombinationVariant combinationVariant) return;
+            ApplyCombination(combinationVariant, triggerConditionalVariants);
             base.SetVariant(value, triggerConditionalVariants);
         }
 
@@ -119,6 +109,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
             AddVariant(variantAsset);
         }
         
-        public override void AssignVariantObject<T>(string variantGuid, T variantObject) {}
+        public override void AssignVariantObject<T>(string variantGuid, T variantObject)
+        {
+            throw new NotSupportedException($"{nameof(CombinationVariantSet)} does not support direct object assignment. Configure combinations via the inspector.");
+        }
     }
 }

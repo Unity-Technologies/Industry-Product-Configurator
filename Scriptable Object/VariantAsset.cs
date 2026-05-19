@@ -9,6 +9,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.ScriptableObjects
         private string variantName;
         
         public Texture2D icon;
+        [Min(0)]
         public int additionalCost;
         public string description;
 

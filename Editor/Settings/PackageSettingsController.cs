@@ -1,53 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using System.IO;
 using System;
-using IndustryCSE.Tool.ProductConfigurator.ScriptableObjects;
 
 namespace IndustryCSE.Tool.ProductConfigurator.Settings.Editor
 {
-    public static class AssetRemoveConfirmation
-    {
-        private static Action DelayAction;
-        
-        private static void RemoveAssets(List<string> paths, List<string> outFailPaths)
-        {
-            AssetDatabase.MoveAssetsToTrash(paths.ToArray(), outFailPaths);
-            AssetDatabase.Refresh();
-        }
-
-        private static (List<string> assets, List<string> failPath) ReturnVariantAssetsPath(List<VariantAsset> assets)
-        {
-            var paths = new List<string>();
-            var outFailPaths = new List<string>();
-            foreach (var variantAsset in assets)
-            {
-                if (variantAsset == null) continue;
-                var path = AssetDatabase.GetAssetPath(variantAsset);
-                if(string.IsNullOrEmpty(path)) continue;
-                if (!outFailPaths.Contains(Directory.GetParent(path).FullName))
-                {
-                    outFailPaths.Add(Directory.GetParent(path).FullName);
-                }
-                paths.Add(path);
-                    
-                if (variantAsset.icon == null) continue;
-                path = AssetDatabase.GetAssetPath(variantAsset.icon);
-                if(string.IsNullOrEmpty(path)) continue;
-                if (!outFailPaths.Contains(Directory.GetParent(path).FullName))
-                {
-                    outFailPaths.Add(Directory.GetParent(path).FullName);
-                }
-                paths.Add(path);
-            }
-
-            return (paths, outFailPaths);
-        }
-    }
-    
     [InitializeOnLoad]
     public static class PackageSettingsController
     {
@@ -146,13 +105,8 @@ namespace IndustryCSE.Tool.ProductConfigurator.Settings.Editor
                     
                     #region Variant Set Asset Path
 
-                    var settingVariantSetPathPerPlatform = settings.VariantSetAssetPath;
-                    
-                    #if UNITY_EDITOR_OSX
-                    settingVariantSetPathPerPlatform = settingVariantSetPathPerPlatform.Replace("\\", "/");
-                    #elif UNITY_EDITOR_WIN
-                    settingVariantSetPathPerPlatform = settingVariantSetPathPerPlatform.Replace("/", "\\");
-                    #endif
+                    var settingVariantSetPathPerPlatform = settings.VariantSetAssetPath
+                        .Replace('/', Path.DirectorySeparatorChar).Replace('\\', Path.DirectorySeparatorChar);
                     
                     var variantSetAssetPathField = ReturnPathField("Variant Set Asset Path",
                         out variantSetAssetPathLabel,
@@ -164,13 +118,8 @@ namespace IndustryCSE.Tool.ProductConfigurator.Settings.Editor
                     
                     #region Variant Asset Path
                     
-                    var settingVariantPathPerPlatform = settings.VariantAssetPath;
-                    
-                    #if UNITY_EDITOR_OSX
-                    settingVariantPathPerPlatform = settingVariantPathPerPlatform.Replace("\\", "/");
-                    #elif UNITY_EDITOR_WIN
-                    settingVariantPathPerPlatform = settingVariantPathPerPlatform.Replace("/", "\\");
-                    #endif
+                    var settingVariantPathPerPlatform = settings.VariantAssetPath
+                        .Replace('/', Path.DirectorySeparatorChar).Replace('\\', Path.DirectorySeparatorChar);
                     
                     var variantAssetPathField = ReturnPathField("Variant Asset Path",
                         out variantAssetPathLabel,
@@ -182,13 +131,8 @@ namespace IndustryCSE.Tool.ProductConfigurator.Settings.Editor
                     
                     #region Variant Icon Path
                     
-                    var settingIconPathPerPlatform = settings.VariantIconPath;
-                    
-                    #if UNITY_EDITOR_OSX
-                    settingIconPathPerPlatform = settingIconPathPerPlatform.Replace("\\", "/");
-                    #elif UNITY_EDITOR_WIN
-                    settingIconPathPerPlatform = settingIconPathPerPlatform.Replace("/", "\\");
-                    #endif
+                    var settingIconPathPerPlatform = settings.VariantIconPath
+                        .Replace('/', Path.DirectorySeparatorChar).Replace('\\', Path.DirectorySeparatorChar);
                     
                     var variantIconPathField = ReturnPathField("Variant Icon Path",
                         out variantIconPathLabel, settingIconPathPerPlatform,
@@ -273,75 +217,35 @@ namespace IndustryCSE.Tool.ProductConfigurator.Settings.Editor
             return visualElement;
         }
 
-        private static void PickAssetSetPath()
+        private static void PickPath(string title, Action<ProductConfiguratorSettings, string> setter, Label label)
         {
-            //Open File Panel
-            var path = EditorUtility.OpenFolderPanel("Select Variant Set Asset Path", "Assets", "");
-            if(string.IsNullOrEmpty(path)) return;
+            var path = EditorUtility.OpenFolderPanel(title, "Assets", "");
+            if (string.IsNullOrEmpty(path)) return;
             var assetFolder = Directory.GetParent(Application.dataPath).FullName;
-            
-            path = path.Remove(0, assetFolder.Length + 1);
-            
-            #if UNITY_EDITOR_OSX
-            path = path.Replace("\\", "/");
-            #elif UNITY_EDITOR_WIN
-            path = path.Replace("/", "\\");
-            #endif
-            
-            variantSetAssetPathLabel.text = path;
+            path = path.Remove(0, assetFolder.Length + 1).Replace('\\', '/');
+            label.text = path;
             var settings = PackageSettingsController.GetSettings();
-            settings.SetVariantSetAssetPath(path);
+            setter(settings, path);
             EditorUtility.SetDirty(settings);
+            AssetDatabase.SaveAssets();
         }
-        
-        private static void PickAssetPath()
-        {
-            //Open File Panel
-            var path = EditorUtility.OpenFolderPanel("Select Variant Asset Path", "Assets", "");
-            if(string.IsNullOrEmpty(path)) return;
-            var assetFolder = Directory.GetParent(Application.dataPath).FullName;
-            
-            path = path.Remove(0, assetFolder.Length + 1);
-            
-            #if UNITY_EDITOR_OSX
-            path = path.Replace("\\", "/");
-            #elif UNITY_EDITOR_WIN
-            path = path.Replace("/", "\\");
-            #endif
-            
-            variantAssetPathLabel.text = path;
-            var settings = PackageSettingsController.GetSettings();
-            settings.SetVariantAssetPath(path);
-            EditorUtility.SetDirty(settings);
-        }
-        
-        private static void PickIconPath()
-        {
-            //Open File Panel
-            var path = EditorUtility.OpenFolderPanel("Select Variant Icon Path", "Assets", "");
-            if(string.IsNullOrEmpty(path)) return;
 
-            var assetFolder = Directory.GetParent(Application.dataPath).FullName;
-            
-            path = path.Remove(0, assetFolder.Length + 1);
-            
-            #if UNITY_EDITOR_OSX
-            path = path.Replace("\\", "/");
-            #elif UNITY_EDITOR_WIN
-            path = path.Replace("/", "\\");
-            #endif
-            
-            variantIconPathLabel.text = path;
-            var settings = PackageSettingsController.GetSettings();
-            settings.SetVariantIconPath(path);
-            EditorUtility.SetDirty(settings);
-        }
+        private static void PickAssetSetPath() =>
+            PickPath("Select Variant Set Asset Path", (s, p) => s.SetVariantSetAssetPath(p), variantSetAssetPathLabel);
+
+        private static void PickAssetPath() =>
+            PickPath("Select Variant Asset Path", (s, p) => s.SetVariantAssetPath(p), variantAssetPathLabel);
+
+        private static void PickIconPath() =>
+            PickPath("Select Variant Icon Path", (s, p) => s.SetVariantIconPath(p), variantIconPathLabel);
 
         private static void RemoveBehaviourDropdownCallback(ChangeEvent<string> arg)
         {
             var index = RemoveBehaviourOptions.IndexOf(arg.newValue);
             var settings = PackageSettingsController.GetSettings();
             settings.SetRemoveBehaviour(index);
+            EditorUtility.SetDirty(settings);
+            AssetDatabase.SaveAssets();
         }
         
         private static void OnAdvancedSettingsToggleChange(ChangeEvent<bool> evt)
@@ -349,8 +253,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Settings.Editor
             var settings = PackageSettingsController.GetSettings();
             settings.SetAdvancedSettings(evt.newValue);
             EditorUtility.SetDirty(settings);
+            AssetDatabase.SaveAssets();
             var selectedObject = Selection.activeGameObject;
-            EditorUtility.SetDirty(selectedObject);
+            if (selectedObject != null) EditorUtility.SetDirty(selectedObject);
             Selection.activeGameObject = null;
             EditorApplication.delayCall += () => Selection.activeGameObject = selectedObject;
         }

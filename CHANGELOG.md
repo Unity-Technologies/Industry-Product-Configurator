@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.8.0] - 2026-05-19
+###Changed
+- Various bug fixes across runtime and editor
+- Improved event subscription lifecycle to prevent stale listeners on scene unload
+- Added configurable animator layer index to Animation Variant Set
+- Added configurable camera priority fields to Variant Select
+- Various code improvements and dead code removal
+
 ## [1.7.6] - 2025-08-14
 - Fixing App UI Style for sample scenes
 
