@@ -25,7 +25,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
         
         public override int CurrentSelectionIndex => gameObjectToMove != null && Variants.All(x => x.VariantTransform != null) ? Variants.FindIndex(x => x.VariantTransform.position==gameObjectToMove.transform.position && x.VariantTransform.rotation == gameObjectToMove.transform.rotation) : -1;
 
-        public override string CurrentSelectionGuid => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.UniqueIdString : string.Empty;
+        public override string CurrentSelectionGuid => CurrentSelectionIndex >= 0 && Variants[CurrentSelectionIndex].variantAsset != null ? Variants[CurrentSelectionIndex].variantAsset.UniqueIdString : string.Empty;
 
         public override int CurrentSelectionCost => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.additionalCost : 0;
 

@@ -57,7 +57,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
             }
         }
 
-        public override string CurrentSelectionGuid => CurrentSelectionIndex == -1 ? string.Empty : Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
+        public override string CurrentSelectionGuid => CurrentSelectionIndex == -1 || Variants[CurrentSelectionIndex].variantAsset == null ? string.Empty : Variants[CurrentSelectionIndex].variantAsset.UniqueIdString;
         
         public override int CurrentSelectionCost => CurrentSelectionIndex == -1 ? 0 : Variants[CurrentSelectionIndex].variantAsset.additionalCost;
 

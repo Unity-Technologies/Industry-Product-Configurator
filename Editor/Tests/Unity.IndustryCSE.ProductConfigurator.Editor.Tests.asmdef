@@ -1,0 +1,26 @@
+{
+    "name": "Unity.IndustryCSE.ProductConfigurator.Editor.Tests",
+    "rootNamespace": "IndustryCSE.Tool.ProductConfigurator.Editor.Tests",
+    "references": [
+        "Unity.IndustryCSE.ProductConfigurator.Editor",
+        "Unity.IndustryCSE.ProductConfigurator.ScriptableObject",
+        "Unity.IndustryCSE.ProductConfigurator.Runtime",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

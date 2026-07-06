@@ -41,7 +41,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 
         public override int CurrentSelectionIndex => animator != null ? Variants.FindIndex(x => x.Hash == animator.GetCurrentAnimatorStateInfo(animatorLayerIndex).fullPathHash) : -1;
 
-        public override string CurrentSelectionGuid => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.UniqueIdString : string.Empty;
+        public override string CurrentSelectionGuid => CurrentSelectionIndex >= 0 && Variants[CurrentSelectionIndex].variantAsset != null ? Variants[CurrentSelectionIndex].variantAsset.UniqueIdString : string.Empty;
 
         public override int CurrentSelectionCost => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.additionalCost : 0;
 
