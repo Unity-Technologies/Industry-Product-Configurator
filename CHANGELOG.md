@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.9.0] - TBC
+###Changed
+- Raised the minimum supported Unity version to 6.3 (LTS).
+- Dependencies Cleaner now recognises variants and variant sets referenced through Combination Variant Set maps, so combination-only references are no longer reported as unused (and cannot be deleted by accident).
+- Dependencies Cleaner selection is preserved while scrolling, and deleting a variant only removes that variant's own icon.
+
+###Added
+- Dependencies Cleaner: an "Orphan Icons" tab to find and remove icon files whose variant no longer exists.
+- Dependencies Cleaner: warnings for dangling combination references that point at a deleted set or variant.
+- Dependencies Cleaner: a prompt to remove variants that became unused after deleting their variant set.
+
+###Removed
+- Removed unused variant and variant set assets from the SkidLoader Configurator sample.
+
 ## [1.8.0] - 2026-05-19
 ###Changed
 - Various bug fixes across runtime and editor
