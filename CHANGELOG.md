@@ -7,6 +7,7 @@
 - Dependencies Cleaner selection is preserved while scrolling, and deleting a variant only removes that variant's own icon.
 
 ###Added
+- Compatibility rules: a `CompatibilityRuleSet` asset + `CompatibilityController` to declare cross-set restriction ("A makes B unselectable") and requirement ("A needs B") rules. Exposes a query API (`IsRestricted` / `IsRequired` / `IsConfigurationValid` / restricted & required variant lists) so a developer's own UI can reflect availability, and auto-switches a set whose selection becomes restricted. No UI is imposed.
 - Dependencies Cleaner: an "Orphan Icons" tab to find and remove icon files whose variant no longer exists.
 - Dependencies Cleaner: warnings for dangling combination references that point at a deleted set or variant.
 - Dependencies Cleaner: a prompt to remove variants that became unused after deleting their variant set.
