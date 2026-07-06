@@ -9,3 +9,10 @@
 #Default-Inspector-Container .unity-list-view__reorderable-item .unity-toggle{
     margin-left: -12px;
 }
+
+/* The reorderable-item margin hack above uses a descendant selector, so it also
+   pulls the arrow of the nested "Conditional Variants" foldout header left.
+   Restore the default margin for that nested list only (higher specificity wins). */
+#Default-Inspector-Container #ConditionalVariantsList .unity-toggle {
+    margin-left: 0;
+}
