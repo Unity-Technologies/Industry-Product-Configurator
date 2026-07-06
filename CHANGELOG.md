@@ -8,6 +8,7 @@
 
 ###Added
 - Compatibility rules: a `CompatibilityRuleSet` asset + `CompatibilityController` to declare cross-set restriction ("A makes B unselectable") and requirement ("A needs B") rules. Exposes a query API (`IsRestricted` / `IsRequired` / `IsConfigurationValid` / restricted & required variant lists) so a developer's own UI can reflect availability, and auto-switches a set whose selection becomes restricted. No UI is imposed.
+- The Talia Configurator sample now shows how to use `CompatibilityController`: it ships a `CompatibilityRuleSet` with example restriction rules, and the sample UI greys out (disables) restricted variant options.
 - Dependencies Cleaner: an "Orphan Icons" tab to find and remove icon files whose variant no longer exists.
 - Dependencies Cleaner: warnings for dangling combination references that point at a deleted set or variant.
 - Dependencies Cleaner: a prompt to remove variants that became unused after deleting their variant set.

@@ -22,7 +22,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
 
         public override int CurrentSelectionIndex => Variants.All(x => x.VariantGameObject != null)? Variants.FindIndex(x => x.VariantGameObject.activeSelf) : -1;
         
-        public override string CurrentSelectionGuid => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.UniqueIdString : string.Empty;
+        public override string CurrentSelectionGuid => CurrentSelectionIndex >= 0 && Variants[CurrentSelectionIndex].variantAsset != null ? Variants[CurrentSelectionIndex].variantAsset.UniqueIdString : string.Empty;
 
         public override int CurrentSelectionCost => CurrentSelectionIndex >= 0 ? Variants[CurrentSelectionIndex].variantAsset.additionalCost : 0;
 

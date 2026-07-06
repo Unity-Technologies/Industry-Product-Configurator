@@ -89,12 +89,14 @@ namespace IndustryCSE.Tool.ProductConfigurator.Runtime
                         if (string.IsNullOrEmpty(t)) continue;
                         result.RequiredVariantIds.Add(t);
 
-                        // Unmet if the required variant's set currently shows a different variant (or none).
-                        if (variantToSet != null && variantToSet.TryGetValue(t, out var setId))
+                        // Met iff the required variant is currently selected somewhere; otherwise it is
+                        // unmet — including when its owning set can't be found (e.g. the variant isn't
+                        // present in the scene), which must still count as unsatisfiable rather than
+                        // silently valid.
+                        if (!selectedVariantIds.Contains(t))
                         {
-                            var current = currentSelectionBySet != null && currentSelectionBySet.TryGetValue(setId, out var c) ? c : null;
-                            if (!string.Equals(current, t))
-                                result.UnmetRequirements.Add(new UnmetRequirement { SetId = setId, RequiredVariantId = t });
+                            var setId = variantToSet != null && variantToSet.TryGetValue(t, out var s) ? s : string.Empty;
+                            result.UnmetRequirements.Add(new UnmetRequirement { SetId = setId, RequiredVariantId = t });
                         }
                     }
                 }

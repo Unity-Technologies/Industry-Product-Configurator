@@ -126,5 +126,19 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor.Tests
             CollectionAssert.IsEmpty(result.InvalidSelectedVariantIds);
             CollectionAssert.IsEmpty(result.UnmetRequirements);
         }
+
+        [Test]
+        public void Requirement_whose_target_is_absent_from_all_sets_is_reported_unmet()
+        {
+            // A1 requires "ghost", a variant present in no known set -> the requirement is unsatisfiable
+            // and must be reported unmet (an earlier bug left it silently valid because the set lookup failed).
+            var result = Evaluate(
+                new[] { Rule(A1, CompatibilityRuleType.Requires, false, "ghost") },
+                new Dictionary<string, string> { { SetA, A1 } });
+
+            Assert.IsTrue(result.RequiredVariantIds.Contains("ghost"));
+            Assert.AreEqual(1, result.UnmetRequirements.Count, "An unsatisfiable requirement must be reported unmet.");
+            Assert.AreEqual("ghost", result.UnmetRequirements[0].RequiredVariantId);
+        }
     }
 }

@@ -16,7 +16,7 @@
     },
     {
       "displayName": "Talia Configurator",
-      "description": "Shows how to implement a product configurator in the simplest form in URP with our Talia Chair asset.",
+      "description": "A URP product configurator built with our Talia Chair asset. Also demonstrates cross-set compatibility rules: a CompatibilityRuleSet + CompatibilityController that disable restricted options in the UI.",
       "path": "Samples~/Talia Configurator"
     }
   ],
