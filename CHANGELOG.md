@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.9.0] - TBC
+## [1.9.0] - 2026-07-06
 ###Changed
 - Raised the minimum supported Unity version to 6.3 (LTS).
 - Dependencies Cleaner now recognises variants and variant sets referenced through Combination Variant Set maps, so combination-only references are no longer reported as unused (and cannot be deleted by accident).
