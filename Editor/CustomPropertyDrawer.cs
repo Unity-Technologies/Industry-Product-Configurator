@@ -290,7 +290,11 @@ namespace IndustryCSE.Tool.ProductConfigurator.Editor
             };
             
             boxContainer.Add(toolTip);
-            boxContainer.Add(new PropertyField(property.FindPropertyRelative("conditionalVariants")));
+            var conditionalVariantsField = new PropertyField(property.FindPropertyRelative("conditionalVariants"))
+            {
+                name = "ConditionalVariantsList"
+            };
+            boxContainer.Add(conditionalVariantsField);
 
             if (!PackageSettingsController.Settings.UseAdvancedSettings)
             {
