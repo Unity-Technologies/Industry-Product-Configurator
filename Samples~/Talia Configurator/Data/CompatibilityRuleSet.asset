@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a8da08347f044e198b3092e236c68ce, type: 3}
+  m_Name: CompatibilityRuleSet
+  m_EditorClassIdentifier: Unity.IndustryCSE.ProductConfigurator.ScriptableObject::IndustryCSE.Tool.ProductConfigurator.ScriptableObjects.CompatibilityRuleSet
+  rules:
+  - whenSelected: {fileID: 11400000, guid: 930ff45bfbe50f04b83013d09e6083c2, type: 2}
+    ruleType: 0
+    targets:
+    - {fileID: 11400000, guid: 8ecc5254b71bf3e46a0765a89bd43cc3, type: 2}
+    mutual: 1
+  - whenSelected: {fileID: 11400000, guid: d450282adeb836c49b13020f811dad44, type: 2}
+    ruleType: 0
+    targets:
+    - {fileID: 11400000, guid: 1bf6cc725d3539440a140b9e6bbee3cb, type: 2}
+    mutual: 0

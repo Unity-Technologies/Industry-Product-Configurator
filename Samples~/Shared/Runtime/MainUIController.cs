@@ -65,6 +65,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
         private VariantSetBase _currentVariantSet;
         private VariantSetBase[] _variantSets;
 
+        // Optional: present only when the scene has a CompatibilityController (see the Talia sample).
+        private CompatibilityController m_compatibility;
+
         [Header("Product Information")]
         [SerializeField] private string productName;
         [SerializeField] private string costCurrency;
@@ -124,6 +127,9 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
             }
             
             VariantSetBase.VariantTriggered += OnVariantTriggered;
+
+            m_compatibility = FindFirstObjectByType<CompatibilityController>();
+            if (m_compatibility != null) m_compatibility.Changed += OnCompatibilityChanged;
         }
 
         private void Start()
@@ -214,6 +220,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
             SceneManager.activeSceneChanged -= OnActiveSceneChanged;
             VariantSetBase.VariantTriggered -= OnVariantTriggered;
+            if (m_compatibility != null) m_compatibility.Changed -= OnCompatibilityChanged;
         }
 
 #region Header
@@ -480,6 +487,7 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
                 variantButton.AddToClassList("variant--button");
                 variantButton.AddToClassList(k_ArrowCloseClassName);
                 variantButton.RegisterCallback<ClickEvent>(OnVariantClick);
+                ApplyRestriction(variantButton, variantBase.variantAsset);
                 m_variantsContainer.Add(variantButton);
             }
             m_variantsContainer.style.display = DisplayStyle.Flex;
@@ -514,6 +522,31 @@ namespace IndustryCSE.Tool.ProductConfigurator.Shared.Runtime
             var variantSetBase = m_variantsContainer.userData as VariantSetBase;
             var variantSet = ve.userData as VariantBase;
             VariantSetBase.VariantTriggered?.Invoke(variantSetBase.VariantSetAsset, variantSet.variantAsset, true);
+        }
+
+        // Example of consuming the CompatibilityController query API: disable (grey out, do not hide) a
+        // variant button whose variant is currently restricted. No-op when no controller is in the scene,
+        // so samples without a CompatibilityController (e.g. SkidLoader) are unaffected.
+        private void ApplyRestriction(VisualElement button, VariantAsset variantAsset)
+        {
+            if (m_compatibility == null || variantAsset == null) return;
+            bool restricted = m_compatibility.IsRestricted(variantAsset);
+            button.SetEnabled(!restricted); // a disabled element is greyed and stops receiving the ClickEvent
+            button.tooltip = restricted ? "Restricted by the active Compatibility Rule Set" : null;
+            if (restricted) button.AddToClassList("variant--restricted");
+            else button.RemoveFromClassList("variant--restricted");
+        }
+
+        private void OnCompatibilityChanged()
+        {
+            if (m_compatibility == null || m_variantsContainer == null) return;
+            // Re-apply availability to the currently-open set's buttons so picking a variant in another set
+            // greys the conflicting option immediately.
+            foreach (var button in m_variantsContainer.Query<VisualElement>(className: "variant--button").ToList())
+            {
+                if (button.userData is VariantBase variantBase)
+                    ApplyRestriction(button, variantBase.variantAsset);
+            }
         }
 
 #endregion

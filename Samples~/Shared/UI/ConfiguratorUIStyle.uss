@@ -22,6 +22,10 @@
     display: none;
 }
 
+.variant--restricted {
+    opacity: 0.4;
+}
+
 .variant-set--button {
     padding: 8px;
 }

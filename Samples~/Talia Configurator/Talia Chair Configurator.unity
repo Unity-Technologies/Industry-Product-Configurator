@@ -1174,6 +1174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1223775028}
+  - component: {fileID: 23896500}
   m_Layer: 0
   m_Name: Variant Set Manager
   m_TagString: Untagged
@@ -1877,3 +1878,17 @@ SceneRoots:
   - {fileID: 1223775028}
   - {fileID: 1110180941}
   - {fileID: 216967280}
+--- !u!114 &23896500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223775027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 540ea8c3973c4308a8bfec79917d681a, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  ruleSet: {fileID: 11400000, guid: 02ceb2eadfd34a56933ad97d8c203fbd, type: 2}
+  autoSwitchOnConflict: 1
